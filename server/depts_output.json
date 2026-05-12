@@ -1,0 +1,119 @@
+[
+  {
+    "_id": "69d5ddf074cc32fc1da5e84f",
+    "name": "Computer Science",
+    "code": "CS",
+    "status": "active",
+    "__v": 0,
+    "createdAt": "2026-04-08T04:47:44.437Z",
+    "updatedAt": "2026-04-08T04:47:44.437Z"
+  },
+  {
+    "_id": "69d5ddf074cc32fc1da5e850",
+    "name": "Information Technology",
+    "code": "IT",
+    "status": "active",
+    "__v": 0,
+    "createdAt": "2026-04-08T04:47:44.444Z",
+    "updatedAt": "2026-04-08T04:47:44.444Z"
+  },
+  {
+    "_id": "69d5ddf074cc32fc1da5e851",
+    "name": "Electronics and Communication",
+    "code": "ECE",
+    "status": "active",
+    "__v": 0,
+    "createdAt": "2026-04-08T04:47:44.444Z",
+    "updatedAt": "2026-04-08T04:47:44.444Z"
+  },
+  {
+    "_id": "69d5ddf074cc32fc1da5e852",
+    "name": "Mechanical Engineering",
+    "code": "ME",
+    "status": "active",
+    "__v": 0,
+    "createdAt": "2026-04-08T04:47:44.444Z",
+    "updatedAt": "2026-04-08T04:47:44.444Z"
+  },
+  {
+    "_id": "69d5ddf074cc32fc1da5e853",
+    "name": "Civil Engineering",
+    "code": "CE",
+    "status": "active",
+    "__v": 0,
+    "createdAt": "2026-04-08T04:47:44.445Z",
+    "updatedAt": "2026-04-08T04:47:44.445Z"
+  },
+  {
+    "_id": "69d5ddf074cc32fc1da5e854",
+    "name": "Electrical Engineering",
+    "code": "EE",
+    "status": "active",
+    "__v": 0,
+    "createdAt": "2026-04-08T04:47:44.445Z",
+    "updatedAt": "2026-04-08T04:47:44.445Z"
+  },
+  {
+    "_id": "69d5ee42e141d76f22f20644",
+    "name": "Common Engineering",
+    "code": "FE",
+    "status": "active",
+    "createdAt": "2026-04-08T05:57:22.244Z",
+    "updatedAt": "2026-04-08T05:57:22.244Z",
+    "__v": 0
+  },
+  {
+    "_id": "69d5fbb725befd89abaaa4c2",
+    "name": "Artificial Intelligence & Data Science",
+    "code": "AIDS",
+    "status": "active",
+    "createdAt": "2026-04-08T06:54:47.595Z",
+    "updatedAt": "2026-04-08T06:54:47.595Z",
+    "__v": 0
+  },
+  {
+    "_id": "69d5fbb725befd89abaaa4c5",
+    "name": "MBA",
+    "code": "MBA",
+    "status": "active",
+    "createdAt": "2026-04-08T06:54:47.635Z",
+    "updatedAt": "2026-04-08T06:54:47.635Z",
+    "__v": 0
+  },
+  {
+    "_id": "69d5fbb725befd89abaaa4c8",
+    "name": "MCA",
+    "code": "MCA",
+    "status": "active",
+    "createdAt": "2026-04-08T06:54:47.664Z",
+    "updatedAt": "2026-04-08T06:54:47.664Z",
+    "__v": 0
+  },
+  {
+    "_id": "69d5fbb725befd89abaaa4cb",
+    "name": "BSc",
+    "code": "BSC",
+    "status": "active",
+    "createdAt": "2026-04-08T06:54:47.693Z",
+    "updatedAt": "2026-04-08T06:54:47.693Z",
+    "__v": 0
+  },
+  {
+    "_id": "69d5fbb725befd89abaaa4ce",
+    "name": "BCom",
+    "code": "BCOM",
+    "status": "active",
+    "createdAt": "2026-04-08T06:54:47.718Z",
+    "updatedAt": "2026-04-08T06:54:47.718Z",
+    "__v": 0
+  },
+  {
+    "_id": "69d5fbb725befd89abaaa4d1",
+    "name": "BA",
+    "code": "BA",
+    "status": "active",
+    "createdAt": "2026-04-08T06:54:47.741Z",
+    "updatedAt": "2026-04-08T06:54:47.741Z",
+    "__v": 0
+  }
+]

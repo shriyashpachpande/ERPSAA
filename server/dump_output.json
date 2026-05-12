@@ -1,0 +1,26 @@
+{
+  "mapping": {
+    "_id": "69d61d5f02349ac469f57255",
+    "academicYearId": "69d50ea9505461375251b8b6",
+    "department": "FE",
+    "semesterId": "69d5da3c89d209f25bcc51bd",
+    "subjectId": "69d5eea65fd14249b2217f2e",
+    "status": "active",
+    "__v": 0,
+    "createdAt": "2026-04-08T09:18:23.154Z",
+    "updatedAt": "2026-04-08T09:18:23.154Z"
+  },
+  "section": {
+    "_id": "69d6207902349ac469f5746a",
+    "name": "FY - 02",
+    "academicYearId": "69d50ea9505461375251b8b6",
+    "semesterId": "69d5da3c89d209f25bcc51bd",
+    "department": "Common Engineering",
+    "course": "B.Tech - First Year",
+    "capacity": 80,
+    "status": "active",
+    "createdAt": "2026-04-08T09:31:37.660Z",
+    "updatedAt": "2026-04-08T09:35:50.928Z",
+    "__v": 0
+  }
+}

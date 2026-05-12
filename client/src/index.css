@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-brand-light text-brand-dark antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 100px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.1);
+  background-clip: content-box;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes hue-rotate-anim {
+  0% {
+    filter: hue-rotate(0deg) saturate(1.2) brightness(1);
+  }
+
+  50% {
+    filter: hue-rotate(180deg) saturate(1.5) brightness(1.1);
+  }
+
+  100% {
+    filter: hue-rotate(360deg) saturate(1.2) brightness(1);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl rounded-2xl;
+  }
+
+  .glass-card {
+    @apply bg-white/40 backdrop-blur-lg border border-white/40 shadow-lg rounded-xl transition-all duration-300 hover:shadow-xl hover:bg-white/60;
+  }
+
+  .dark-glass-panel {
+    @apply bg-brand-dark/80 backdrop-blur-md border border-white/10 shadow-2xl rounded-2xl text-white;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-brand-accent;
+  }
+
+  .dark-gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-blue-300;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: background 0.3s;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .custom-scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .animate-gradient-slow {
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  .animate-spectral-gradient {
+    /* ... keeping this class if needed elsewhere but we'll use hue-smooth mostly now */
+    background: linear-gradient(135deg,
+        rgb(16, 185, 129), rgb(6, 182, 212), rgb(59, 130, 246),
+        rgb(99, 102, 241), rgb(139, 92, 246), rgb(236, 72, 153),
+        rgb(244, 63, 94));
+    background-size: 200% 200%;
+    animation: hue-rotate-anim 10s linear infinite;
+  }
+
+  .animate-hue-smooth {
+    animation: hue-rotate-anim 15s ease-in-out infinite;
+  }
+
+  /* Cinematic Entry Animations */
+  .animate-in {
+    animation-duration: 700ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    --tw-enter-opacity: 0;
+    animation-name: enter;
+  }
+
+  .zoom-in-95 {
+    --tw-enter-scale: 0.95;
+    animation-name: enter;
+  }
+
+  .slide-in-from-top-4 {
+    --tw-enter-translate-y: -1rem;
+    animation-name: enter;
+  }
+
+  .slide-in-from-bottom-4 {
+    --tw-enter-translate-y: 1rem;
+    animation-name: enter;
+  }
+
+  .slide-in-from-bottom-2 {
+    --tw-enter-translate-y: 0.5rem;
+    animation-name: enter;
+  }
+
+  @keyframes enter {
+    from {
+      opacity: var(--tw-enter-opacity, 1);
+      transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotate(0);
+    }
+  }
+
+  .fill-mode-both {
+    animation-fill-mode: both;
+  }
+}
+@keyframes heroLight {
+  0% {
+    transform: translateX(-35%) translateY(-20%);
+  }
+  100% {
+    transform: translateX(35%) translateY(20%);
+  }
+}
+/* ── LENIS SMOOTH SCROLL ── */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}

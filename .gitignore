@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Build outputs
+dist/
+client/dist/
+server/dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+server/.env
+client/.env
+
+# Logs
+*.log
+logs/
+server/server_error.log
+client/client_output.log
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Testing
+coverage/
+
+# Local data / Temp files
+client.zip
+server.zip
+*.txt
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!jsconfig.json
+!server/depts_output.json
+!server/dump_output.json
+seeders/
+server/seeders/
+server/uploads/
+server/diagnostic_output.txt
+server/test_output.txt
+server/traceback.txt
+server/db_check_output.txt
+server/seeder_output.txt
+server/allocation_debug.txt
