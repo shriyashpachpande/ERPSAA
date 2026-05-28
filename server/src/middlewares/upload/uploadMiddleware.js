@@ -7,7 +7,11 @@ const admissionDocsDir = path.join(__dirname, '../../../uploads/admission-docume
 const profilePhotosDir = path.join(__dirname, '../../../uploads/profile-photos');
 
 [admissionDocsDir, profilePhotosDir].forEach(dir => {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  try {
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  } catch (err) {
+    console.warn(`Warning: Could not create directory ${dir} (read-only environment):`, err.message);
+  }
 });
 
 // ─── Disk storage for admission documents ─────────────────────────────────────

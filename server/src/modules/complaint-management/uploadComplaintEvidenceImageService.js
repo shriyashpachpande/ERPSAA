@@ -22,8 +22,12 @@ const uploadEvidenceImage = (file) => {
 
 // Ensure directory exists
 const uploadDir = path.join(__dirname, '../../../uploads/complaint-evidence');
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true });
+try {
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+    }
+} catch (err) {
+    console.warn(`Warning: Could not create directory ${uploadDir} (read-only environment):`, err.message);
 }
 
 module.exports = uploadEvidenceImage;
