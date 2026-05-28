@@ -1,0 +1,12 @@
+﻿[dotenv@17.3.1] injecting env (5) from .env -- tip: ΓÜÖ∩╕Å  write to custom object with { processEnv: myObject }
+Connected to MongoDB
+--- DATABASE DIAGNOSTIC ---
+Hostels: 2
+Blocks: 4
+Floors: 8
+Rooms: 40
+Beds: 104
+
+Hostel List:
+- Gargi Girls Hostel (_id: 69b819bfc4eeead6964bf7a9, isActive: true)
+- Aryabhatta Boys Hostel (_id: 69b819bfc4eeead6964bf7a8, isActive: true)

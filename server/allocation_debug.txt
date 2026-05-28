@@ -1,0 +1,25 @@
+Connected to DB
+
+Departments in AcademicSubject: ["FE"]
+Departments in AcademicSection: ["Common Engineering"]
+Departments in SemesterSubjectMapping: ["FE"]
+Departments in FacultyProfile: ["CE","CS","ECE","ECT","FE","IT","ME"]
+
+Sample mapping 10 subjects:
+- BTBS101: Engineering Mathematics- I (FE)
+- BTBS102: Engineering Physics (FE)
+- BTES103: Engineering Graphics (FE)
+- BTHM104: Communication Skills (FE)
+- BTES105: Energy and Environment  Engineering (FE)
+- BTES106: Basic Civil and Mechanical  Engineering (FE)
+- BTBS107L: Engineering Physics Lab (FE)
+- BTES108L: Engineering Graphics Lab (FE)
+- BTHM109L: Communication Skills Lab. (FE)
+- BTBS201: Engineering Mathematics-II (FE)
+
+Sample 5 sections:
+- FY - 02: Common Engineering
+- FY - 03: Common Engineering
+- FY - 04: Common Engineering
+- FY - 05: Common Engineering
+- FY - 06: Common Engineering
