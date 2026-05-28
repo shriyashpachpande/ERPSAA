@@ -1,9 +1,9 @@
 const BookRequest = require('../../models/library-management/bookRequests.model');
 const auditService = require('./audit.service');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 const createRequest = async (studentId, data) => {
-    const requestId = `REQ-${uuidv4().substring(0, 8).toUpperCase()}`;
+    const requestId = `REQ-${crypto.randomUUID().substring(0, 8).toUpperCase()}`;
     const request = new BookRequest({
         ...data,
         requestId,

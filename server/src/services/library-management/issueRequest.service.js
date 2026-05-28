@@ -1,10 +1,10 @@
 const IssueRequest = require('../../models/library-management/issueRequests.model');
 const auditService = require('./audit.service');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 const createRequest = async (studentId, data) => {
     // Generate a unique ID for the request
-    const requestId = `BORROW-${uuidv4().substring(0, 8).toUpperCase()}`;
+    const requestId = `BORROW-${crypto.randomUUID().substring(0, 8).toUpperCase()}`;
     
     const request = new IssueRequest({
         ...data,

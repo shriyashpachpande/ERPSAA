@@ -1,7 +1,7 @@
 const Fine = require('../../models/library-management/fines.model');
 const policyService = require('./policy.service');
 const auditService = require('./audit.service');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 const calculateOverdueFine = async (transaction) => {
     const policy = await policyService.getActivePolicy();
@@ -19,7 +19,7 @@ const calculateOverdueFine = async (transaction) => {
 };
 
 const createFine = async (data) => {
-    const fineId = `FINE-${uuidv4().substring(0, 8).toUpperCase()}`;
+    const fineId = `FINE-${crypto.randomUUID().substring(0, 8).toUpperCase()}`;
     const fine = new Fine({
         ...data,
         fineId,

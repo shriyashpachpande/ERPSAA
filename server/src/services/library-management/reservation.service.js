@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const policyService = require('./policy.service');
 const notificationService = require('./notification.service');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 const Reservation = require('../../models/library-management/reservations.model');
 const BookCopy = require('../../models/library-management/bookCopies.model');
 const Book = require('../../models/library-management/books.model');
@@ -58,7 +58,7 @@ const createReservation = async (studentId, bookId) => {
     const latestReservation = await Reservation.findOne({ bookId: { $in: bookIds }, status: 'ACTIVE' }).sort({ queuePosition: -1 });
     const queuePosition = latestReservation ? latestReservation.queuePosition + 1 : 1;
 
-    const reservationId = `RES-${uuidv4().substring(0, 8).toUpperCase()}`;
+    const reservationId = `RES-${crypto.randomUUID().substring(0, 8).toUpperCase()}`;
     const reservation = new Reservation({
         reservationId,
         studentId,

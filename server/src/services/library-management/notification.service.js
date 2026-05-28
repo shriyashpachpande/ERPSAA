@@ -1,9 +1,9 @@
 const LibraryNotification = require('../../models/library-management/notifications.model');
 const IssueTransaction = require('../../models/library-management/issueTransactions.model');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 const createNotification = async (data) => {
-    const notificationId = `NOTIF-${uuidv4().substring(0, 8).toUpperCase()}`;
+    const notificationId = `NOTIF-${crypto.randomUUID().substring(0, 8).toUpperCase()}`;
     const notification = new LibraryNotification({
         ...data,
         notificationId,
