@@ -2,7 +2,7 @@ import { Edit, Users, Power } from 'lucide-react';
 import AcademicStatusBadge from '../shared/AcademicStatusBadge';
 import { useDepartments } from '../../hooks/useDepartments';
 
-const SectionTable = ({ data, loading, onEdit, onToggleStatus }) => {
+const SectionTable = ({ data, loading, onEdit, onToggleStatus, highlightMentor }) => {
   const { departments } = useDepartments();
 
   const getDeptName = (code) => {
@@ -22,6 +22,7 @@ const SectionTable = ({ data, loading, onEdit, onToggleStatus }) => {
             <th className="px-8 py-6">Section Info</th>
             <th className="px-8 py-6">Year / Sem</th>
             <th className="px-8 py-6">Dept / Course</th>
+            <th className="px-8 py-6 transition-all duration-300" style={highlightMentor ? { backgroundColor: 'rgb(240, 244, 255)', color: 'rgb(79, 70, 229)', fontWeight: '900' } : {}}>Mentor</th>
             <th className="px-8 py-6 text-center">Capacity</th>
             <th className="px-8 py-6">Status</th>
             <th className="px-8 py-6 text-right">Actions</th>
@@ -52,6 +53,16 @@ const SectionTable = ({ data, loading, onEdit, onToggleStatus }) => {
                   <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">{getDeptName(sec.department)}</p>
                   <p className="text-xs font-bold text-gray-900">{sec.course}</p>
                 </div>
+              </td>
+              <td className="px-8 py-5 text-xs font-bold transition-all duration-300" style={highlightMentor ? { backgroundColor: 'rgba(240, 244, 255, 0.4)' } : {}}>
+                {sec.mentorFacultyId?.user?.fullName ? (
+                  <div className="space-y-0.5">
+                    <p className="text-gray-900">{sec.mentorFacultyId.user.fullName}</p>
+                    <p className="text-[9px] text-primary-600 font-black uppercase tracking-widest">{sec.mentorFacultyId.designation}</p>
+                  </div>
+                ) : (
+                  <span className="text-gray-300 italic font-medium">Unassigned</span>
+                )}
               </td>
               <td className="px-8 py-5 text-center">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-50 rounded-full border border-gray-100">

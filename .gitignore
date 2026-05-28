@@ -38,8 +38,11 @@ client/client_output.log
 coverage/
 
 # Local data / Temp files
+*.zip
 client.zip
 server.zip
+client/client.zip
+server/server.zip
 *.txt
 *.json
 !package.json
@@ -57,3 +60,15 @@ server/traceback.txt
 server/db_check_output.txt
 server/seeder_output.txt
 server/allocation_debug.txt
+
+# Scratch scripts and sensitive files
+passwords.md
+server/passwords.md
+server/scratch/
+server/scratch_*.js
+server/bulk_onboard_students.js
+server/update_student_photos.js
+server/remove_placeholder_photos.js
+client/public/collegeprofile/students/
+client/public/director_signature.jpeg
+

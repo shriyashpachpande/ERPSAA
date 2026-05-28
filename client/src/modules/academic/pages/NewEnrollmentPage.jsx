@@ -39,12 +39,47 @@ const NewEnrollmentPage = () => {
     try {
       if (id) {
         await updateEnrollment(id, data);
+      } else if (data.students && Array.isArray(data.students)) {
+        // Sequentially enroll all selected students
+        const skippedNames = [];
+        for (let student of data.students) {
+          try {
+            await enrollStudent({
+              studentMasterId: student.id,
+              academicYearId: data.academicYearId,
+              semesterId: data.semesterId,
+              sectionId: data.sectionId,
+              enrollmentStatus: data.enrollmentStatus,
+              remarks: data.remarks
+            });
+          } catch (err) {
+            console.error('Detailed enrollment error:', err.response?.data || err.message || err);
+            const errMsg = (err.message || err.response?.data?.error || '').toLowerCase();
+            const status = err.status || err.response?.status;
+            if (
+              errMsg.includes('already') || 
+              errMsg.includes('enrolled') || 
+              errMsg.includes('exist') || 
+              status === 400
+            ) {
+              skippedNames.push(student.name);
+            } else {
+              throw err; // Rethrow other unexpected network or validation errors
+            }
+          }
+        }
+        if (skippedNames.length > 0) {
+          setTimeout(() => {
+            alert(`Enrollment processing complete!\n\nThe following students were already enrolled for this semester and were skipped:\n• ${skippedNames.join('\n• ')}`);
+          }, 100);
+        }
       } else {
         await enrollStudent(data);
       }
       navigate('/app/academic/enrollments');
     } catch (err) {
       console.error('Submission failed', err);
+      throw err;
     }
   };
 

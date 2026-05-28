@@ -1,13 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../../../../utils/axiosInstance';
 import { 
     ArrowLeft, CreditCard, Receipt, FileText, CheckCircle, 
-    AlertCircle, Download, Printer, Plus, Trash2, Home, Clock
+    AlertCircle, Download, Printer, Plus, Trash2, Home, Clock, ShieldCheck
 } from 'lucide-react';
 import gsap from 'gsap';
-
-const API_BASE = 'http://localhost:5000/api/fees/staff';
 
 const FeeStudentAccountDetailPage = () => {
     const { id } = useParams();
@@ -23,16 +21,29 @@ const FeeStudentAccountDetailPage = () => {
     const [remarks, setRemarks] = useState('');
     const [saving, setSaving] = useState(false);
 
+    // Pending student claims state
+    const [pendingClaims, setPendingClaims] = useState([]);
+    const [activeClaimId, setActiveClaimId] = useState(null);
+
     useEffect(() => {
         fetchAccountDetail();
+        fetchPendingClaims();
     }, [id]);
+
+    const fetchPendingClaims = async () => {
+        try {
+            const res = await axiosInstance.get(`/fees/staff/students/${id}/payment-requests`);
+            if (res.data.success) {
+                setPendingClaims(res.data.data.filter(c => c.status === 'pending'));
+            }
+        } catch (err) {
+            console.error('Failed to load pending claims', err);
+        }
+    };
 
     const fetchAccountDetail = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get(`${API_BASE}/students/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const res = await axiosInstance.get(`/fees/staff/students/${id}`);
             setData(res.data.data);
             
             setTimeout(() => {
@@ -51,22 +62,47 @@ const FeeStudentAccountDetailPage = () => {
         e.preventDefault();
         setSaving(true);
         try {
-            const token = localStorage.getItem('token');
-            await axios.post(`${API_BASE}/payments`, {
-                feeAccountId: id,
-                amount: Number(amount),
-                paymentMode: method,
-                transactionId: txId,
-                remarks
-            }, { headers: { Authorization: `Bearer ${token}` } });
+            if (activeClaimId) {
+                // Post to approve payment request endpoint!
+                await axiosInstance.post(`/fees/staff/payment-requests/${activeClaimId}/approve`, {
+                    remarks
+                });
+            } else {
+                // Normal manual payment post
+                await axiosInstance.post('/fees/staff/payments', {
+                    feeAccountId: id,
+                    amount: Number(amount),
+                    paymentMode: method,
+                    transactionId: txId,
+                    remarks
+                });
+            }
             
             setShowModal(false);
             setAmount(''); setTxId(''); setRemarks('');
+            setActiveClaimId(null);
             fetchAccountDetail();
+            fetchPendingClaims();
         } catch (err) {
-            alert(err.response?.data?.error || 'Failed to add payment');
+            alert(err.response?.data?.error || 'Failed to process payment');
         } finally {
             setSaving(false);
+        }
+    };
+
+    const handleRejectClaim = async (claimId) => {
+        const reason = prompt("Enter rejection reason for this claim:");
+        if (!reason) return;
+        
+        try {
+            await axiosInstance.post(`/fees/staff/payment-requests/${claimId}/reject`, {
+                rejectionReason: reason
+            });
+            
+            fetchAccountDetail();
+            fetchPendingClaims();
+        } catch (err) {
+            alert(err.response?.data?.error || 'Failed to reject claim');
         }
     };
 
@@ -126,7 +162,14 @@ const FeeStudentAccountDetailPage = () => {
                         </div>
 
                         <button 
-                            onClick={() => setShowModal(true)}
+                            onClick={() => {
+                                setActiveClaimId(null);
+                                setAmount('');
+                                setTxId('');
+                                setRemarks('');
+                                setMethod('online');
+                                setShowModal(true);
+                            }}
                             className="w-full py-5 bg-primary-600 rounded-3xl font-black uppercase tracking-widest text-xs hover:bg-primary-500 transition-all shadow-2xl shadow-primary-900 group"
                         >
                             <Plus className="w-5 h-5 mx-auto mb-1 group-hover:rotate-90 transition-transform" />
@@ -135,6 +178,62 @@ const FeeStudentAccountDetailPage = () => {
                    </div>
 
                    <div className="lg:col-span-2 space-y-8">
+                        {/* Pending Verification Claims Queue */}
+                        {pendingClaims.length > 0 && (
+                            <div className="bg-brand-dark/95 backdrop-blur-md p-10 rounded-[3rem] border border-white/10 shadow-2xl space-y-6 animate-in fade-in duration-500">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-ping"></span>
+                                            <h3 className="text-2xl font-black text-white tracking-tight">Pending Fee Verification</h3>
+                                        </div>
+                                        <p className="text-sm font-medium text-white/50">Verify student submitted online transaction clearances.</p>
+                                    </div>
+                                    <ShieldCheck className="w-10 h-10 text-emerald-400" />
+                                </div>
+
+                                <div className="space-y-4">
+                                    {pendingClaims.map((claim) => (
+                                        <div key={claim._id} className="p-6 bg-white/5 rounded-[2rem] border border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:bg-white/10 transition-all">
+                                            <div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-xs font-black text-white/40 uppercase tracking-wider">UTN/Ref:</span>
+                                                    <span className="font-mono text-xs font-bold text-white tracking-wider">{claim.transactionId}</span>
+                                                </div>
+                                                <p className="text-2xl font-black text-white mt-1">₹{claim.amount.toLocaleString()}</p>
+                                                <div className="flex items-center gap-2 mt-2">
+                                                    <span className="px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/30 rounded-md text-[8px] font-black uppercase text-emerald-400 tracking-widest flex items-center gap-1">
+                                                        <ShieldCheck className="w-2.5 h-2.5" /> Gateway Verified Match
+                                                    </span>
+                                                    <span className="text-[10px] text-white/40 font-bold">Submitted {new Date(claim.createdAt).toLocaleDateString()}</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2 w-full md:w-auto">
+                                                <button
+                                                    onClick={() => {
+                                                        setActiveClaimId(claim._id);
+                                                        setAmount(claim.amount.toString());
+                                                        setTxId(claim.transactionId);
+                                                        setMethod('online');
+                                                        setRemarks('Gateway secure match verified. Clear and post.');
+                                                        setShowModal(true);
+                                                    }}
+                                                    className="flex-1 md:flex-none px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-wider transition-all shadow-md"
+                                                >
+                                                    Verify & Clear
+                                                </button>
+                                                <button
+                                                    onClick={() => handleRejectClaim(claim._id)}
+                                                    className="flex-1 md:flex-none px-5 py-3 bg-white/5 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 rounded-xl border border-white/5 hover:border-rose-500/30 text-[10px] font-black uppercase tracking-wider transition-all"
+                                                >
+                                                    Reject
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                         {/* Installment Schedule */}
                         <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm space-y-6">
                             <div className="flex items-center justify-between">
@@ -288,11 +387,8 @@ const FeeStudentAccountDetailPage = () => {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-2">Payment Mode</label>
-                                    <select value={method} onChange={(e)=>setMethod(e.target.value)} className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-4 focus:ring-primary-500/10 font-bold text-gray-900">
+                                    <select disabled={!!activeClaimId} value={method} onChange={(e)=>setMethod(e.target.value)} className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-4 focus:ring-primary-500/10 font-bold text-gray-900">
                                         <option value="online">Online Transfer</option>
-                                        <option value="cash">Cash Payment</option>
-                                        <option value="cheque">Cheque</option>
-                                        <option value="bank_transfer">Bank Transfer</option>
                                     </select>
                                 </div>
                                 <div className="space-y-2 md:col-span-2">

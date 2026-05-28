@@ -36,6 +36,7 @@ const TopNavbar = () => {
     { name: 'Courses Offered', path: '/about/courses' },
     { name: 'History', path: '/about/history' },
     { name: 'Governing Council', path: '/about/governing-council' },
+    { name: 'Campus Gallery', path: '/about/gallery' },
     { name: 'Press Coverage', path: '/about/press' },
     { name: 'Location', path: '/about/location' },
     { name: 'Service Rules', path: '/about/service-rules' }

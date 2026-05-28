@@ -10,18 +10,17 @@
 
 export const getFileUrl = (pathOrUrl) => {
     if (!pathOrUrl) return null;
-    
+
     // If it's already a full URL, return as is
     if (pathOrUrl.startsWith('http')) {
         return pathOrUrl;
     }
-    
+
     // Ensure path starts with a slash
     const cleanPath = pathOrUrl.startsWith('/') ? pathOrUrl : `/${pathOrUrl}`;
-    
-    // Since we've added a Vite proxy for /uploads, we can return the relative path
-    // and Vite will proxy it to the backend (http://localhost:5000/uploads/...)
-    return cleanPath;
+
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
+    return `${backendUrl}${cleanPath}`;
 };
 
 export const getDownloadUrl = (pathOrUrl) => {

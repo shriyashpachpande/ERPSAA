@@ -75,6 +75,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         { name: 'My Attendance', path: '/app/student/my-attendance', icon: ClipboardList },
         { name: 'Internal Marks', path: '/app/student/my-marks', icon: FileText },
         { name: 'Semester Results', path: '/app/student/my-results', icon: Receipt },
+        { name: 'Bonafide Certificate', path: '/app/student/bonafide', icon: FileText },
       ]
     },
     { name: 'Master Profile', path: '/app/student/master-profile', icon: Users },
@@ -145,6 +146,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     { name: 'Admissions', path: '/app/staff/admissions', icon: Users },
     { name: 'Review Queue', path: '/app/staff/review-queue', icon: Book },
     { name: 'Student Master', path: '/app/staff/student-directory', icon: Users },
+    { name: 'Bonafide Requests', path: '/app/staff/bonafide', icon: FileText },
     { name: 'Fee Dashboard', path: '/app/staff/fees/dashboard', icon: CreditCard },
     { name: 'Fee Structures', path: '/app/staff/fees/structures', icon: Book },
     { name: 'Student Fees', path: '/app/staff/fees/directory', icon: Users },
@@ -341,6 +343,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     { name: 'Teaching Subjects', path: '/app/academic/teaching-subjects', icon: BookOpen },
     { name: 'Syllabus Manage', path: '/app/academic/syllabus-management', icon: CheckCircle2 },
     { name: 'Mark Attendance', path: '/app/academic/attendance/mark', icon: ClipboardList },
+    { name: 'My Mentees', path: '/app/academic/my-mentees', icon: Users },
   ];
 
   let menuItems;
@@ -378,7 +381,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     ];
   } else if (role === 'hod') {
     const hodMenuNames = [
-      'Academic Dashboard', 'Student Details', 'Faculty Details', 'Subjects', 'Teaching Subjects', 'Syllabus Manage', 'Sections', 'My Timetable', 'Mark Attendance', 'Internal Marks', 'Result Processing'
+      'Academic Dashboard', 'My Mentees', 'Student Details', 'Faculty Details', 'Subjects', 'Teaching Subjects', 'Syllabus Manage', 'Sections', 'My Timetable', 'Mark Attendance', 'Internal Marks', 'Result Processing'
     ];
 
     menuItems = hodMenuNames.map(name => {
@@ -405,19 +408,35 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
 
       return transformedItem;
     }).filter(Boolean);
+
+    // Insert Mentor Allocation for HOD
+    const sectionsIdx = menuItems.findIndex(m => m.name === 'My Sections');
+    if (sectionsIdx !== -1) {
+      menuItems.splice(sectionsIdx + 1, 0, {
+        name: 'Mentor Allocation',
+        path: '/app/academic/sections?focus=mentor',
+        icon: UserPlus
+      });
+    } else {
+      menuItems.push({
+        name: 'Mentor Allocation',
+        path: '/app/academic/sections?focus=mentor',
+        icon: UserPlus
+      });
+    }
+
     menuItems.push(getComplaintMenu());
     menuItems.push(getLeaveMenu());
   } else if (role === 'faculty') {
     const dashboardItem = staffMenu.find(m => m.name === 'Dashboard') || { name: 'Dashboard', path: '/app', icon: Home };
     const allowedFacultyNames = [
-      'Academic Dashboard', 'Subjects', 'Teaching Subjects', 'Syllabus Manage', 'Sections', 'My Timetable', 'Mark Attendance', 'Internal Marks', 'Result Processing'
+      'Academic Dashboard', 'My Mentees', 'Subjects', 'Teaching Subjects', 'Syllabus Manage', 'My Timetable', 'Mark Attendance', 'Internal Marks', 'Result Processing'
     ];
     let orderedFacultyItems = allowedFacultyNames.map(
       name => academicMenu.find(m => m.name === name)
     ).filter(Boolean);
     orderedFacultyItems = orderedFacultyItems.map(item => {
       if (item.name === 'Subjects') return { ...item, name: 'My Subjects' };
-      if (item.name === 'Sections') return { ...item, name: 'My Sections' };
       if (item.name === 'Result Processing') return { ...item, name: 'Results' };
       return item;
     });
@@ -539,7 +558,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               {filteredMenuItems.map((item) => {
                 const hasChildren = item.children && item.children.length > 0;
                 const hasActiveChild = hasChildren && item.children.some(child => location.pathname === child.path);
-                const isActive = location.pathname === item.path || hasActiveChild;
+                const isActive = (item.path && item.path.includes('?') 
+                  ? (location.pathname + location.search) === item.path 
+                  : location.pathname === item.path && !location.search) || hasActiveChild;
                 const isExpanded = expandedItem === item.name;
                 const Icon = item.icon;
 

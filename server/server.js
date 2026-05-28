@@ -56,6 +56,7 @@ const internalMarksRoutes = require('./src/routes/academic/internalMarksRoutes')
 const resultProcessingRoutes = require('./src/routes/academic/resultProcessingRoutes');
 const attendanceRoutes = require('./src/modules/academic/attendance/routes/attendanceRoutes');
 const dashboardRoutes = require('./src/routes/dashboard/dashboardRoutes');
+const bonafideRoutes = require('./src/routes/academic/bonafideRoutes');
 
 // Mount routers
 app.use('/api/auth', authRoutes);
@@ -88,6 +89,7 @@ app.use('/api/academic/timetable', timetableRoutes);
 app.use('/api/academic/internal-marks', internalMarksRoutes);
 app.use('/api/academic/results', resultProcessingRoutes);
 app.use('/api/academic/attendance', attendanceRoutes);
+app.use('/api/academic/bonafide', bonafideRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
 // Basic route for testing

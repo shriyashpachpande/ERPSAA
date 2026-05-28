@@ -4,6 +4,7 @@ const FeePaymentEntry = require('../../models/fees-management/FeePaymentEntry');
 const DigitalReceipt = require('../../models/fees-management/DigitalReceipt');
 const FeeStructure = require('../../models/fees-management/FeeStructure');
 const StudentMaster = require('../../models/student-master/StudentMaster');
+const FeePaymentRequest = require('../../models/fees-management/FeePaymentRequest');
 
 // @desc    Get logged-in student's fee summary
 // @route   GET /api/fees/my-fees
@@ -788,6 +789,238 @@ exports.getAccountsReportsSummary = async (req, res) => {
 
   } catch (error) {
     console.error('Error in getAccountsReportsSummary:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Submit payment request (Student completes mock payment and submits verification request)
+// @route   POST /api/fees/my-fees/payment-request
+// @access  Private (Student)
+exports.submitPaymentRequest = async (req, res) => {
+  try {
+    const { feeAccountId, installmentId, amount, paymentMode, transactionId } = req.body;
+
+    const student = await StudentMaster.findOne({ userId: req.user._id });
+    if (!student) {
+      return res.status(404).json({ success: false, error: 'Student profile not found' });
+    }
+
+    const account = await StudentFeeAccount.findById(feeAccountId);
+    if (!account) {
+      return res.status(404).json({ success: false, error: 'Fee account not found' });
+    }
+
+    // Find the installment in the account and change its status to 'verification_pending'
+    const installment = account.installments.id(installmentId);
+    if (!installment) {
+      return res.status(404).json({ success: false, error: 'Installment not found' });
+    }
+
+    if (installment.status === 'paid') {
+      return res.status(400).json({ success: false, error: 'Installment is already paid' });
+    }
+
+    // Generate dynamic secure mock audit hash
+    const crypto = require('crypto');
+    const auditSource = `${student._id}-${installmentId}-${amount}-${transactionId}-2026`;
+    const auditHash = crypto.createHash('sha256').update(auditSource).digest('hex');
+
+    // Create payment request
+    const paymentRequest = await FeePaymentRequest.create({
+      feeAccountId,
+      studentId: student._id,
+      installmentId,
+      amount,
+      paymentMode: 'online', // Keep online only as requested
+      transactionId,
+      auditHash,
+      status: 'pending'
+    });
+
+    // Update the installment status to verification_pending
+    installment.status = 'verification_pending';
+    await account.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Payment verification claim submitted successfully to accounts department',
+      data: paymentRequest
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Get all payment requests or filtered by student ledger
+// @route   GET /api/fees/staff/payment-requests
+// @access  Private (Staff/Admin)
+exports.getPaymentRequests = async (req, res) => {
+  try {
+    const { status, studentId, feeAccountId } = req.query;
+    const query = {};
+    if (status) query.status = status;
+    if (studentId) query.studentId = studentId;
+    if (feeAccountId) query.feeAccountId = feeAccountId;
+
+    const requests = await FeePaymentRequest.find(query)
+      .populate('studentId', 'personalDetails.fullName studentId academicProfile.course')
+      .populate('feeAccountId', 'academicYear')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, count: requests.length, data: requests });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Get payment requests for specific student ledger
+// @route   GET /api/fees/staff/students/:id/payment-requests
+// @access  Private (Staff/Admin)
+exports.getStudentPaymentRequests = async (req, res) => {
+  try {
+    const requests = await FeePaymentRequest.find({ feeAccountId: req.params.id })
+      .populate('studentId', 'personalDetails.fullName studentId')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, data: requests });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Approve payment verification request (Verify & Post Ledger transaction)
+// @route   POST /api/fees/staff/payment-requests/:id/approve
+// @access  Private (Staff/Admin)
+exports.approvePaymentRequest = async (req, res) => {
+  try {
+    const { remarks } = req.body;
+
+    const request = await FeePaymentRequest.findById(req.params.id);
+    if (!request) {
+      return res.status(404).json({ success: false, error: 'Payment request not found' });
+    }
+
+    if (request.status !== 'pending') {
+      return res.status(400).json({ success: false, error: `Request has already been ${request.status}` });
+    }
+
+    const account = await StudentFeeAccount.findById(request.feeAccountId);
+    if (!account) {
+      return res.status(404).json({ success: false, error: 'Student fee account not found' });
+    }
+
+    // 1. Create a finalized FeePaymentEntry
+    const payment = await FeePaymentEntry.create({
+      feeAccountId: request.feeAccountId,
+      amount: request.amount,
+      paymentMode: 'online',
+      transactionId: request.transactionId,
+      remarks: remarks || request.remarks || 'Approved and posted via Clearance Queue',
+      receivedBy: req.user._id,
+      receiptGenerated: true
+    });
+
+    // 2. Update StudentFeeAccount
+    account.totalPaid += Number(request.amount);
+
+    // Reconcile and set status of the matched installment to paid
+    const installment = account.installments.id(request.installmentId);
+    if (installment) {
+      installment.status = 'paid';
+    }
+
+    // Secondary safety: Auto-reconcile all other installments
+    let runningPaid = account.totalPaid;
+    account.installments.forEach(inst => {
+      if (runningPaid >= inst.amount) {
+        inst.status = 'paid';
+        runningPaid -= inst.amount;
+      }
+    });
+
+    await account.save();
+
+    // 3. Update student master profile module status
+    const student = await StudentMaster.findById(request.studentId);
+    if (student) {
+      student.modules = student.modules || {};
+      student.modules.fees = {
+        status: account.balance <= 0 ? 'paid' : 'partial',
+        lastUpdated: new Date(),
+        notes: `Received payment ₹${request.amount.toLocaleString()}. Current balance: ₹${account.balance.toLocaleString()}`
+      };
+      student.markModified('modules');
+      await student.save();
+    }
+
+    // 4. Generate Receipt Record
+    const receiptCount = await DigitalReceipt.countDocuments();
+    const receiptNumber = `RCPT-${new Date().getFullYear()}-${(receiptCount + 1).toString().padStart(5, '0')}`;
+
+    const receipt = await DigitalReceipt.create({
+      receiptNumber,
+      paymentEntryId: payment._id,
+      studentId: request.studentId
+    });
+
+    // 5. Transition Request state to approved
+    request.status = 'approved';
+    request.remarks = remarks || 'Clearance Approved';
+    request.approvedBy = req.user._id;
+    await request.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Payment request approved and posted to student ledger successfully',
+      data: { payment, receiptNumber, receipt }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+// @desc    Reject payment verification request
+// @route   POST /api/fees/staff/payment-requests/:id/reject
+// @access  Private (Staff/Admin)
+exports.rejectPaymentRequest = async (req, res) => {
+  try {
+    const { rejectionReason } = req.body;
+    if (!rejectionReason) {
+      return res.status(400).json({ success: false, error: 'Rejection reason is required' });
+    }
+
+    const request = await FeePaymentRequest.findById(req.params.id);
+    if (!request) {
+      return res.status(404).json({ success: false, error: 'Payment request not found' });
+    }
+
+    if (request.status !== 'pending') {
+      return res.status(400).json({ success: false, error: `Request has already been ${request.status}` });
+    }
+
+    const account = await StudentFeeAccount.findById(request.feeAccountId);
+    if (!account) {
+      return res.status(404).json({ success: false, error: 'Student fee account not found' });
+    }
+
+    // Reset installment status back to pending
+    const installment = account.installments.id(request.installmentId);
+    if (installment) {
+      installment.status = 'pending';
+      await account.save();
+    }
+
+    // Update request state
+    request.status = 'rejected';
+    request.rejectionReason = rejectionReason;
+    await request.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Payment request rejected and installment status reverted to pending',
+      data: request
+    });
+  } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };

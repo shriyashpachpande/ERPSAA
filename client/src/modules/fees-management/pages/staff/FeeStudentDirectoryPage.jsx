@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { createPortal } from 'react-dom';
+import axiosInstance from '../../../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { Search, Filter, Users, ChevronRight, AlertCircle, CreditCard, Download, Loader2 } from 'lucide-react';
 import gsap from 'gsap';
-
-const API_BASE = 'http://localhost:5000/api/fees/staff';
 
 const FeeStudentDirectoryPage = () => {
     const navigate = useNavigate();
@@ -24,19 +23,26 @@ const FeeStudentDirectoryPage = () => {
         fetchAccounts();
     }, [searchTerm, filterDept, filterStatus]);
 
+    useEffect(() => {
+        if (!loading) {
+            const timer = setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 150);
+            return () => clearTimeout(timer);
+        }
+    }, [loading]);
+
     const fetchAccounts = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get(`${API_BASE}/students`, {
-                params: { search: searchTerm, department: filterDept, status: filterStatus },
-                headers: { Authorization: `Bearer ${token}` }
+            const res = await axiosInstance.get('/fees/staff/students', {
+                params: { search: searchTerm, department: filterDept, status: filterStatus }
             });
             setAccounts(res.data.data); // data is now a list of students with .feeAccount property
-            
+
             if (tableRef.current) {
                 gsap.fromTo(tableRef.current.querySelectorAll('tr'),
                     { opacity: 0, x: -10 },
-                    { opacity: 1, x: 0, duration: 0.3, stagger: 0.05, ease: 'power2.out' }
+                    { opacity: 1, x: 0, duration: 0.3, stagger: 0.05, ease: 'power2.out', clearProps: 'all' }
                 );
             }
         } catch (err) {
@@ -48,10 +54,8 @@ const FeeStudentDirectoryPage = () => {
 
     const fetchStructures = async (course) => {
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get(`${API_BASE}/fee-structures`, {
-                params: { course },
-                headers: { Authorization: `Bearer ${token}` }
+            const res = await axiosInstance.get('/fees/staff/fee-structures', {
+                params: { course }
             });
             setAvailableStructures(res.data.data);
         } catch (err) {
@@ -63,10 +67,8 @@ const FeeStudentDirectoryPage = () => {
         if (!selectedStructureId) return;
         try {
             setAssigningLoading(true);
-            const token = localStorage.getItem('token');
-            await axios.post(`${API_BASE}/students/${selectedStudent._id}/init-account`, 
-                { feeStructureId: selectedStructureId },
-                { headers: { Authorization: `Bearer ${token}` } }
+            await axiosInstance.post(`/fees/staff/students/${selectedStudent._id}/init-account`,
+                { feeStructureId: selectedStructureId }
             );
             setShowAssignModal(false);
             setSelectedStudent(null);
@@ -95,7 +97,7 @@ const FeeStudentDirectoryPage = () => {
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500">
+        <div className="space-y-8">
             {/* Header */}
             <div>
                 <h1 className="text-4xl font-black tracking-tight text-gray-900">Student Fee Records</h1>
@@ -106,16 +108,16 @@ const FeeStudentDirectoryPage = () => {
             <div className="flex flex-col lg:flex-row gap-4">
                 <div className="relative flex-1 group">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
-                    <input 
-                        type="text" 
-                        placeholder="Search student name or ID..." 
+                    <input
+                        type="text"
+                        placeholder="Search student name or ID..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-[1.5rem] outline-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 transition-all font-medium text-sm shadow-sm"
                     />
                 </div>
                 <div className="flex gap-4">
-                    <select 
+                    <select
                         value={filterDept}
                         onChange={(e) => setFilterDept(e.target.value)}
                         className="px-6 py-4 bg-white border border-gray-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary-500/10 font-bold text-xs uppercase tracking-widest text-gray-600"
@@ -125,7 +127,7 @@ const FeeStudentDirectoryPage = () => {
                         <option value="Information Technology">IT</option>
                         <option value="Mechanical Engineering">Mechanical</option>
                     </select>
-                    <select 
+                    <select
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
                         className="px-6 py-4 bg-white border border-gray-200 rounded-2xl outline-none focus:ring-4 focus:ring-primary-500/10 font-bold text-xs uppercase tracking-widest text-gray-600"
@@ -158,11 +160,15 @@ const FeeStudentDirectoryPage = () => {
                             </thead>
                             <tbody ref={tableRef} className="divide-y divide-gray-50">
                                 {accounts.length > 0 ? accounts.map((acc) => (
-                                    <tr key={acc._id} className="group hover:bg-gray-50 transition-all duration-300">
+                                    <tr key={acc._id} className="group hover:bg-primary-50/20 hover:translate-x-1.5 transition-all duration-300 ease-out transform-gpu">
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-full bg-primary-600 flex items-center justify-center text-white font-black text-sm shadow-lg group-hover:scale-110 transition-transform">
-                                                    {acc.personalDetails?.fullName?.charAt(0)}
+                                                <div className="w-12 h-12 rounded-full bg-primary-600 border-2 border-primary-200 flex items-center justify-center text-white font-black text-sm shadow-lg group-hover:scale-115 group-hover:border-primary-400 group-hover:shadow-primary-500/20 transition-all duration-300 relative overflow-hidden flex-shrink-0">
+                                                    {acc.personalDetails?.profilePhotoUrl ? (
+                                                        <img src={acc.personalDetails.profilePhotoUrl} alt="" className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        acc.personalDetails?.fullName?.charAt(0)
+                                                    )}
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-black text-gray-900 leading-tight mb-0.5">{acc.personalDetails?.fullName}</p>
@@ -192,14 +198,14 @@ const FeeStudentDirectoryPage = () => {
                                         </td>
                                         <td className="px-8 py-6 text-right">
                                             {acc.feeAccount ? (
-                                                <button 
+                                                <button
                                                     onClick={() => navigate(`/app/staff/fees/students/${acc.feeAccount._id}`)}
                                                     className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-900 rounded-xl font-bold text-xs hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all shadow-sm"
                                                 >
                                                     View Account <ChevronRight className="w-3 h-3" />
                                                 </button>
                                             ) : (
-                                                <button 
+                                                <button
                                                     onClick={() => openAssignModal(acc)}
                                                     className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 border border-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-500/20"
                                                 >
@@ -227,7 +233,7 @@ const FeeStudentDirectoryPage = () => {
             </div>
 
             {/* Assign Fee Modal */}
-            {showAssignModal && (
+            {showAssignModal && createPortal(
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
                     <div className="bg-white w-full max-w-xl rounded-[3rem] p-10 space-y-8 shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-300">
                         <div className="absolute top-0 right-0 p-12 opacity-[0.05] pointer-events-none">
@@ -249,11 +255,10 @@ const FeeStudentDirectoryPage = () => {
                                         <button
                                             key={s._id}
                                             onClick={() => setSelectedStructureId(s._id)}
-                                            className={`p-6 rounded-3xl border-2 text-left transition-all ${
-                                                selectedStructureId === s._id 
-                                                ? 'border-primary-600 bg-primary-50/50 shadow-lg' 
-                                                : 'border-gray-100 hover:border-primary-200 bg-gray-50'
-                                            }`}
+                                            className={`p-6 rounded-3xl border-2 text-left transition-all ${selectedStructureId === s._id
+                                                    ? 'border-primary-600 bg-primary-50/50 shadow-lg'
+                                                    : 'border-gray-100 hover:border-primary-200 bg-gray-50'
+                                                }`}
                                         >
                                             <div className="flex justify-between items-center">
                                                 <div>
@@ -275,13 +280,13 @@ const FeeStudentDirectoryPage = () => {
                         </div>
 
                         <div className="flex gap-4 pt-4">
-                            <button 
+                            <button
                                 onClick={() => setShowAssignModal(false)}
                                 className="flex-1 py-4 bg-gray-100 text-gray-500 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-all"
                             >
                                 Cancel
                             </button>
-                            <button 
+                            <button
                                 disabled={!selectedStructureId || assigningLoading}
                                 onClick={handleAssignFee}
                                 className="flex-1 py-4 bg-primary-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-primary-700 disabled:opacity-50 disabled:grayscale transition-all shadow-xl shadow-primary-500/20"
@@ -290,7 +295,8 @@ const FeeStudentDirectoryPage = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

@@ -31,25 +31,29 @@ const InternalMarksRecordSchema = new mongoose.Schema({
     ref: 'FacultyProfile',
     required: [true, 'Faculty reference is required']
   },
-  assignmentMarks: {
+  pt1Marks: {
     type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    max: 20
   },
-  unitTestMarks: {
+  mseMarks: {
     type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    max: 20
   },
-  practicalMarks: {
+  pt2Marks: {
     type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    max: 20
   },
-  vivaMarks: {
+  semMarks: {
     type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    max: 60
   },
   totalInternalMarks: {
     type: Number,
@@ -57,7 +61,7 @@ const InternalMarksRecordSchema = new mongoose.Schema({
   },
   maxInternalMarks: {
     type: Number,
-    default: 100
+    default: 120
   },
   marksStatus: {
     type: String,
@@ -82,10 +86,10 @@ InternalMarksRecordSchema.index({ studentMasterId: 1, academicYearId: 1, semeste
 
 // Pre-save hook to calculate total
 InternalMarksRecordSchema.pre('save', function(next) {
-  this.totalInternalMarks = (this.assignmentMarks || 0) + 
-                            (this.unitTestMarks || 0) + 
-                            (this.practicalMarks || 0) + 
-                            (this.vivaMarks || 0);
+  this.totalInternalMarks = (this.pt1Marks || 0) + 
+                            (this.mseMarks || 0) + 
+                            (this.pt2Marks || 0) + 
+                            (this.semMarks || 0);
   next();
 });
 

@@ -18,3 +18,23 @@ exports.publishResults = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+exports.getResults = async (req, res) => {
+  try {
+    const query = { ...req.query };
+    if (req.user.role === 'student') {
+      const StudentMaster = require('../../models/student-master/StudentMaster');
+      const studentProfile = await StudentMaster.findOne({ userId: req.user.id });
+      if (!studentProfile) {
+        return res.status(404).json({ success: false, error: 'Student profile not found' });
+      }
+      query.studentId = studentProfile._id;
+      query.resultStatus = 'Published';
+    }
+
+    const records = await resultProcessingService.getStudentResults(query);
+    res.status(200).json({ success: true, data: records });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};

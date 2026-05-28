@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock, User, Loader2, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import axiosInstance from '../../../utils/axiosInstance';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -17,7 +17,7 @@ const LoginPage = () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+            const res = await axiosInstance.post('/auth/login', { email, password });
             if (res.data.success) {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -63,7 +63,7 @@ const LoginPage = () => {
         }}>
 
             {/* Main Card */}
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -93,7 +93,7 @@ const LoginPage = () => {
                 }} />
 
                 {/* Left Side: Form Content */}
-                <motion.div 
+                <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -112,7 +112,7 @@ const LoginPage = () => {
                 >
                     <motion.div variants={itemVariants} style={{ marginBottom: '40px' }}>
                         <Link to="/" style={{ textDecoration: 'none', display: 'inline-block' }}>
-                            <motion.h1 
+                            <motion.h1
                                 whileHover={{ scale: 1.05 }}
                                 style={{
                                     fontSize: '48px',
@@ -126,11 +126,11 @@ const LoginPage = () => {
                                 ERPSAA
                             </motion.h1>
                         </Link>
-                        <motion.div 
+                        <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: '50px' }}
                             transition={{ delay: 0.8, duration: 0.8 }}
-                            style={{ height: '6px', background: '#000000', marginTop: '4px' }} 
+                            style={{ height: '6px', background: '#000000', marginTop: '4px' }}
                         />
                     </motion.div>
 
@@ -191,7 +191,7 @@ const LoginPage = () => {
                         </motion.div>
 
                         {error && (
-                            <motion.p 
+                            <motion.p
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 style={{ color: '#EF4444', fontSize: '12px', fontWeight: '600', margin: '0' }}
@@ -252,7 +252,7 @@ const LoginPage = () => {
                 </motion.div>
 
                 {/* Right Side: Welcome Content */}
-                <motion.div 
+                <motion.div
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
@@ -296,7 +296,7 @@ const LoginPage = () => {
                         }}
                     />
 
-                    <motion.h2 
+                    <motion.h2
                         variants={itemVariants}
                         animate={{ y: [0, -10, 0] }}
                         transition={{ y: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
@@ -316,7 +316,7 @@ const LoginPage = () => {
                             {"WELCOME".split("").map((letter, i) => (
                                 <motion.span
                                     key={i}
-                                    animate={{ 
+                                    animate={{
                                         color: ['#FFFFFF', '#60A5FA', '#F472B6', '#8B5CF6', '#FFFFFF'],
                                         textShadow: [
                                             '0 0 20px rgba(255,255,255,0.2)',
@@ -326,9 +326,9 @@ const LoginPage = () => {
                                             '0 0 20px rgba(255,255,255,0.2)'
                                         ]
                                     }}
-                                    transition={{ 
-                                        duration: 4, 
-                                        repeat: Infinity, 
+                                    transition={{
+                                        duration: 4,
+                                        repeat: Infinity,
                                         delay: i * 0.1,
                                         ease: "linear"
                                     }}
@@ -341,7 +341,7 @@ const LoginPage = () => {
                             {"BACK!".split("").map((letter, i) => (
                                 <motion.span
                                     key={i}
-                                    animate={{ 
+                                    animate={{
                                         color: ['#FFFFFF', '#60A5FA', '#F472B6', '#8B5CF6', '#FFFFFF'],
                                         textShadow: [
                                             '0 0 20px rgba(255,255,255,0.2)',
@@ -351,9 +351,9 @@ const LoginPage = () => {
                                             '0 0 20px rgba(255,255,255,0.2)'
                                         ]
                                     }}
-                                    transition={{ 
-                                        duration: 4, 
-                                        repeat: Infinity, 
+                                    transition={{
+                                        duration: 4,
+                                        repeat: Infinity,
                                         delay: (i + 7) * 0.1,
                                         ease: "linear"
                                     }}
@@ -363,7 +363,7 @@ const LoginPage = () => {
                             ))}
                         </div>
                     </motion.h2>
-                    <motion.p 
+                    <motion.p
                         variants={itemVariants}
                         style={{
                             marginTop: '20px',
@@ -376,17 +376,17 @@ const LoginPage = () => {
                         Access the most advanced campus management ecosystem. Built for MGM's COEN.
                     </motion.p>
                     <motion.div variants={itemVariants} style={{ marginTop: '40px', display: 'flex', gap: '10px' }}>
-                        <motion.div 
+                        <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: '40px' }}
                             transition={{ delay: 1, duration: 0.8 }}
-                            style={{ height: '6px', background: 'rgba(228, 9, 9, 1)', borderRadius: '10px' }} 
+                            style={{ height: '6px', background: 'rgba(228, 9, 9, 1)', borderRadius: '10px' }}
                         />
-                        <motion.div 
+                        <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: '80px' }}
                             transition={{ delay: 1.2, duration: 0.8 }}
-                            style={{ height: '6px', background: '#FFFFFF', borderRadius: '10px' }} 
+                            style={{ height: '6px', background: '#FFFFFF', borderRadius: '10px' }}
                         />
                     </motion.div>
                 </motion.div>

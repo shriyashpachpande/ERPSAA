@@ -1,6 +1,68 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useStudentSemesterEnrollments } from '../../hooks/useStudentSemesterEnrollments';
 import { Check, AlertCircle } from 'lucide-react';
+
+const StudentRow = React.memo(({ enrollment, index, entry, handleInput }) => {
+  const s = enrollment.studentMasterId;
+  const total = (entry.pt1Marks || 0) + (entry.mseMarks || 0) + (entry.pt2Marks || 0) + (entry.semMarks || 0);
+
+  return (
+    <tr className="hover:bg-primary-50/20 transition-colors">
+      <td className="px-6 py-4 text-center text-xs font-bold text-gray-400">
+        {index + 1}
+      </td>
+      <td className="px-8 py-4">
+        <p className="text-sm font-bold text-gray-800">{s?.personalDetails?.fullName}</p>
+      </td>
+      <td className="px-4 py-4 text-[10px] font-black text-gray-400 font-mono tracking-tight">
+        {s?.studentId}
+      </td>
+      <td className="px-4 py-4">
+        <input 
+          type="number" min="0" max="20"
+          value={entry.pt1Marks === 0 ? '' : entry.pt1Marks}
+          onChange={(e) => handleInput(s._id, 'pt1Marks', e.target.value)}
+          placeholder="0"
+          className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
+        />
+      </td>
+      <td className="px-4 py-4">
+        <input 
+          type="number" min="0" max="20"
+          value={entry.mseMarks === 0 ? '' : entry.mseMarks}
+          onChange={(e) => handleInput(s._id, 'mseMarks', e.target.value)}
+          placeholder="0"
+          className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
+        />
+      </td>
+      <td className="px-4 py-4">
+        <input 
+          type="number" min="0" max="20"
+          value={entry.pt2Marks === 0 ? '' : entry.pt2Marks}
+          onChange={(e) => handleInput(s._id, 'pt2Marks', e.target.value)}
+          placeholder="0"
+          className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
+        />
+      </td>
+      <td className="px-4 py-4">
+        <input 
+          type="number" min="0" max="60"
+          value={entry.semMarks === 0 ? '' : entry.semMarks}
+          onChange={(e) => handleInput(s._id, 'semMarks', e.target.value)}
+          placeholder="0"
+          className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
+        />
+      </td>
+      <td className="px-4 py-4 text-center">
+         <span className="text-xs font-black text-primary-600 bg-primary-50 w-10 h-10 rounded-full flex items-center justify-center mx-auto border border-primary-100">
+           {total}
+         </span>
+      </td>
+    </tr>
+  );
+});
+
+StudentRow.displayName = 'StudentRow';
 
 const InternalMarksEntryForm = ({ filters, onSave, existingMarks }) => {
   const { fetchEnrollments } = useStudentSemesterEnrollments({ fetchOnMount: false });
@@ -18,20 +80,20 @@ const InternalMarksEntryForm = ({ filters, onSave, existingMarks }) => {
         // Initialize entries with existing values if available
         const initialEntries = {};
         response.data.forEach(s => {
-          const existing = existingMarks.find(m => m.studentId?._id === s.studentId?._id);
-          initialEntries[s.studentId?._id] = existing ? {
-            assignmentMarks: existing.assignmentMarks,
-            unitTestMarks: existing.unitTestMarks,
-            practicalMarks: existing.practicalMarks,
-            vivaMarks: existing.vivaMarks,
-            marksStatus: existing.marksStatus,
+          const existing = existingMarks.find(m => m.studentMasterId?._id === s.studentMasterId?._id);
+          initialEntries[s.studentMasterId?._id] = existing ? {
+            pt1Marks: existing.pt1Marks || 0,
+            mseMarks: existing.mseMarks || 0,
+            pt2Marks: existing.pt2Marks || 0,
+            semMarks: existing.semMarks || 0,
+            marksStatus: existing.marksStatus || 'Submitted',
             remarks: existing.remarks || ''
           } : {
-            assignmentMarks: 0,
-            unitTestMarks: 0,
-            practicalMarks: 0,
-            vivaMarks: 0,
-            marksStatus: 'Draft',
+            pt1Marks: 0,
+            mseMarks: 0,
+            pt2Marks: 0,
+            semMarks: 0,
+            marksStatus: 'Submitted',
             remarks: ''
           };
         });
@@ -45,22 +107,23 @@ const InternalMarksEntryForm = ({ filters, onSave, existingMarks }) => {
     if (filters.sectionId) loadStudents();
   }, [filters.sectionId, existingMarks, fetchEnrollments]);
 
-  const handleInput = (studentId, field, value) => {
-    setEntries({
-      ...entries,
+  const handleInput = useCallback((studentId, field, value) => {
+    setEntries(prev => ({
+      ...prev,
       [studentId]: {
-        ...entries[studentId],
+        ...prev[studentId],
         [field]: Number(value)
       }
-    });
-  };
+    }));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = Object.keys(entries).map(studentId => ({
       ...filters,
-      studentId,
-      ...entries[studentId]
+      studentMasterId: studentId,
+      ...entries[studentId],
+      marksStatus: 'Submitted'
     }));
     onSave(payload);
   };
@@ -72,67 +135,34 @@ const InternalMarksEntryForm = ({ filters, onSave, existingMarks }) => {
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="bg-gray-50/50 text-gray-400 text-[10px] font-black uppercase tracking-widest border-b border-gray-100">
+            <th className="px-6 py-5 text-center w-12">S.No.</th>
             <th className="px-8 py-5">Student Name</th>
             <th className="px-4 py-5 font-mono">RollNo</th>
-            <th className="px-4 py-5 text-center">Assign</th>
-            <th className="px-4 py-5 text-center">UTE (Unit Test)</th>
-            <th className="px-4 py-5 text-center">Practical</th>
-            <th className="px-4 py-5 text-center">Viva</th>
+            <th className="px-4 py-5 text-center">PT1 (20)</th>
+            <th className="px-4 py-5 text-center">MSE (20)</th>
+            <th className="px-4 py-5 text-center">PT2 (20)</th>
+            <th className="px-4 py-5 text-center">SEM (60)</th>
             <th className="px-4 py-5 text-center">Total</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-50">
-          {students.map((enrollment) => {
-            const s = enrollment.studentId;
-            const entry = entries[s?._id] || {};
-            const total = (entry.assignmentMarks || 0) + (entry.unitTestMarks || 0) + (entry.practicalMarks || 0) + (entry.vivaMarks || 0);
+          {students.map((enrollment, index) => {
+            const s = enrollment.studentMasterId;
+            const entry = entries[s?._id] || {
+              pt1Marks: 0,
+              mseMarks: 0,
+              pt2Marks: 0,
+              semMarks: 0
+            };
 
             return (
-              <tr key={enrollment._id} className="hover:bg-primary-50/20">
-                <td className="px-8 py-4">
-                  <p className="text-sm font-bold text-gray-800">{s?.fullName}</p>
-                </td>
-                <td className="px-4 py-4 text-[10px] font-black text-gray-400 font-mono tracking-tight">
-                  {s?.rollNumber}
-                </td>
-                <td className="px-4 py-4">
-                  <input 
-                    type="number" min="0" max="20"
-                    value={entry.assignmentMarks}
-                    onChange={(e) => handleInput(s._id, 'assignmentMarks', e.target.value)}
-                    className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </td>
-                <td className="px-4 py-4">
-                  <input 
-                    type="number" min="0" max="20"
-                    value={entry.unitTestMarks}
-                    onChange={(e) => handleInput(s._id, 'unitTestMarks', e.target.value)}
-                    className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </td>
-                <td className="px-4 py-4">
-                  <input 
-                    type="number" min="0" max="40"
-                    value={entry.practicalMarks}
-                    onChange={(e) => handleInput(s._id, 'practicalMarks', e.target.value)}
-                    className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </td>
-                <td className="px-4 py-4">
-                  <input 
-                    type="number" min="0" max="20"
-                    value={entry.vivaMarks}
-                    onChange={(e) => handleInput(s._id, 'vivaMarks', e.target.value)}
-                    className="w-16 mx-auto block bg-gray-50 border-none rounded-xl px-2 py-2 text-center text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </td>
-                <td className="px-4 py-4 text-center">
-                   <span className="text-xs font-black text-primary-600 bg-primary-50 w-10 h-10 rounded-full flex items-center justify-center mx-auto border border-primary-100">
-                     {total}
-                   </span>
-                </td>
-              </tr>
+              <StudentRow 
+                key={enrollment._id}
+                enrollment={enrollment}
+                index={index}
+                entry={entry}
+                handleInput={handleInput}
+              />
             );
           })}
         </tbody>

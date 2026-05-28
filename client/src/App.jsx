@@ -31,6 +31,7 @@ import GoverningCouncil from './modules/About/pages/GoverningCouncil';
 import PressCoverage from './modules/About/pages/PressCoverage';
 import ServiceRules from './modules/About/pages/ServiceRules';
 import CellsCommittees from './modules/About/pages/CellsCommittees';
+import CampusGallery from './modules/About/pages/CampusGallery';
 import DashboardHome from './pages/dashboard/DashboardHome';
 import Chatbot from './components/ui/Chatbot';
 import ScrollToTop from './components/navigation/ScrollToTop';
@@ -50,6 +51,7 @@ import ApplicationDetailPage from './modules/admission-management/pages/staff/Ap
 import ReviewPanelPage from './modules/admission-management/pages/staff/ReviewPanelPage';
 import CreateApplicantAccountPage from './modules/admission-management/pages/staff/CreateApplicantAccountPage';
 import ReviewQueuePage from './modules/admission-management/pages/staff/ReviewQueuePage';
+import StaffBonafideDashboardPage from './modules/admission-management/pages/staff/StaffBonafideDashboardPage';
 import ReportsPage from './modules/admission-management/pages/staff/ReportsPage';
 import StaffNotificationsPage from './modules/notifications/pages/StaffNotificationsPage';
 import ProfilePage from './pages/profile/ProfilePage';
@@ -141,6 +143,7 @@ import SemestersPage from './modules/academic/pages/SemestersPage';
 import SubjectsPage from './modules/academic/pages/SubjectsPage';
 import FacultyManagementPage from './modules/academic/pages/FacultyManagementPage';
 import AcademicSectionsPage from './modules/academic/pages/AcademicSectionsPage';
+import MyMenteesPage from './modules/academic/pages/MyMenteesPage';
 import SemesterSubjectMappingPage from './modules/academic/pages/SemesterSubjectMappingPage';
 import StudentSemesterEnrollmentsPage from './modules/academic/pages/StudentSemesterEnrollmentsPage';
 import StudentAcademicProfilePage from './modules/academic/pages/StudentAcademicProfilePage';
@@ -155,6 +158,7 @@ import ResultProcessingPage from './modules/academic/pages/ResultProcessingPage'
 import NewEnrollmentPage from './modules/academic/pages/NewEnrollmentPage';
 import MyInternalMarksPage from './modules/academic/pages/MyInternalMarksPage';
 import MyResultsPage from './modules/academic/pages/MyResultsPage';
+import StudentBonafidePage from './modules/academic/pages/StudentBonafidePage';
 import HODFacultyDetailsPage from './modules/academic/pages/HODFacultyDetailsPage';
 import TeachingSubjectsPage from './modules/academic/pages/TeachingSubjectsPage';
 import SyllabusManagementPage from './modules/academic/pages/SyllabusManagementPage';
@@ -269,7 +273,7 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<LandingPage />} />
             <Route path="/collegeprofile" element={<CollegeProfilePage />} />
-            
+
             {/* About Routes */}
             <Route path="/about/us" element={<AboutUs />} />
             <Route path="/about/vision-mission" element={<VisionMission />} />
@@ -282,6 +286,7 @@ function App() {
             <Route path="/about/governing-council" element={<GoverningCouncil />} />
             <Route path="/about/press" element={<PressCoverage />} />
             <Route path="/about/service-rules" element={<ServiceRules />} />
+            <Route path="/about/gallery" element={<CampusGallery />} />
             <Route path="/about/cells-committees/:id" element={<CellsCommittees />} />
             <Route path="/collegeprofile/applied-science" element={<AppliedSciencePage />} />
             <Route path="/collegeprofile/civil" element={<CivilEngineeringPage />} />
@@ -340,6 +345,11 @@ function App() {
               {/* MODULE 2: STAFF MASTER DIRECTORY */}
               <Route path="staff/student-directory" element={<StudentDirectoryPage />} />
               <Route path="staff/student-directory/:studentId" element={<StudentMasterDetailPanel />} />
+            </Route>
+
+            {/* EXCLUSIVE ADMISSION STAFF BONAFIDE CERTIFICATES */}
+            <Route element={<ProtectedRoute allowedRoles={['admission_staff']} />}>
+              <Route path="staff/bonafide" element={<StaffBonafideDashboardPage />} />
             </Route>
 
             {/* MODULE 3: STAFF FEE MANAGEMENT (Decoupled from Admission Staff) */}
@@ -411,13 +421,14 @@ function App() {
               <Route path="academic/faculty" element={<FacultyManagementPage />} />
               <Route path="academic/hod/faculty" element={<HODFacultyDetailsPage />} />
               <Route path="academic/timetable" element={<TimetableManagementPage />} />
+              <Route path="academic/sections" element={<AcademicSectionsPage />} />
             </Route>
 
             {/* Shared Across ALL Academic roles (Super, Admin, HOD, Faculty) */}
             <Route element={<ProtectedRoute allowedRoles={['super_admin', 'academic_admin', 'hod', 'faculty']} />}>
               <Route path="academic/dashboard" element={<AcademicDashboardPage />} />
               <Route path="academic/subjects" element={<SubjectsPage />} />
-              <Route path="academic/sections" element={<AcademicSectionsPage />} />
+              <Route path="academic/my-mentees" element={<MyMenteesPage />} />
               <Route path="academic/student-academic-profile/:studentId" element={<StudentAcademicProfilePage />} />
               <Route path="academic/my-faculty-timetable" element={<MyFacultyTimetablePage />} />
               <Route path="academic/teaching-subjects" element={<TeachingSubjectsPage />} />
@@ -475,6 +486,7 @@ function App() {
               <Route path="student/my-attendance" element={<StudentAttendancePage />} />
               <Route path="student/my-marks" element={<MyInternalMarksPage />} />
               <Route path="student/my-results" element={<MyResultsPage />} />
+              <Route path="student/bonafide" element={<StudentBonafidePage />} />
 
               {/* MODULE 4: STUDENT HOSTEL ROUTES */}
               <Route path="student/hostel" element={<MyHostelStatusPage />} />

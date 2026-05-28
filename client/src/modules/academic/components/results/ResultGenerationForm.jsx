@@ -1,21 +1,14 @@
-import { useState } from 'react';
 import { useSemesters } from '../../hooks/useSemesters';
 import { useSections } from '../../hooks/useSections';
 import { Settings, Play, ShieldAlert } from 'lucide-react';
 
-const ResultGenerationForm = ({ years, onGenerate, loading }) => {
-  const [formData, setFormData] = useState({
-    academicYearId: '',
-    semesterId: '',
-    sectionId: ''
-  });
-
-  const { semesters } = useSemesters(formData.academicYearId);
-  const { sections } = useSections({ academicYearId: formData.academicYearId, semesterId: formData.semesterId });
+const ResultGenerationForm = ({ years, filters, setFilters, onGenerate, loading }) => {
+  const { semesters } = useSemesters(filters.academicYearId);
+  const { sections } = useSections({ academicYearId: filters.academicYearId, semesterId: filters.semesterId });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onGenerate(formData);
+    onGenerate(filters);
   };
 
   return (
@@ -36,8 +29,8 @@ const ResultGenerationForm = ({ years, onGenerate, loading }) => {
             <select 
               required
               className="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500 transition-all"
-              value={formData.academicYearId}
-              onChange={(e) => setFormData({ ...formData, academicYearId: e.target.value, semesterId: '', sectionId: '' })}
+              value={filters.academicYearId}
+              onChange={(e) => setFilters({ ...filters, academicYearId: e.target.value, semesterId: '', sectionId: '' })}
             >
               <option value="">Select Year</option>
               {years.map(y => <option key={y._id} value={y._id}>{y.name}</option>)}
@@ -48,10 +41,10 @@ const ResultGenerationForm = ({ years, onGenerate, loading }) => {
             <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Semester</label>
             <select 
               required
-              disabled={!formData.academicYearId}
+              disabled={!filters.academicYearId}
               className="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500 transition-all disabled:opacity-50"
-              value={formData.semesterId}
-              onChange={(e) => setFormData({ ...formData, semesterId: e.target.value, sectionId: '' })}
+              value={filters.semesterId}
+              onChange={(e) => setFilters({ ...filters, semesterId: e.target.value, sectionId: '' })}
             >
               <option value="">Select Semester</option>
               {semesters.map(s => <option key={s._id} value={s._id}>{s.semesterName}</option>)}
@@ -62,10 +55,10 @@ const ResultGenerationForm = ({ years, onGenerate, loading }) => {
             <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Section</label>
             <select 
               required
-              disabled={!formData.semesterId}
+              disabled={!filters.semesterId}
               className="w-full bg-gray-50 border-none rounded-2xl px-5 py-4 text-xs font-bold outline-none focus:ring-2 focus:ring-primary-500 transition-all disabled:opacity-50"
-              value={formData.sectionId}
-              onChange={(e) => setFormData({ ...formData, sectionId: e.target.value })}
+              value={filters.sectionId}
+              onChange={(e) => setFilters({ ...filters, sectionId: e.target.value })}
             >
               <option value="">Select Section</option>
               {sections.map(sec => <option key={sec._id} value={sec._id}>{sec.name}</option>)}
@@ -81,7 +74,7 @@ const ResultGenerationForm = ({ years, onGenerate, loading }) => {
 
           <button 
             type="submit"
-            disabled={loading || !formData.sectionId}
+            disabled={loading || !filters.sectionId}
             className="w-full py-5 bg-brand-dark text-white text-[10px] font-black uppercase tracking-[0.25em] rounded-[1.5rem] shadow-xl shadow-brand-dark/20 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3"
           >
             {loading ? 'Processing...' : (

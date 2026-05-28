@@ -352,6 +352,45 @@ const MyMasterProfilePage = () => {
             </div>
          </SectionCard>
 
+         {/* PERSONAL MENTOR CARD */}
+         <SectionCard style={{ animationDelay: '850ms' }} icon={<User className="w-5 h-5" />} title="Personal Mentor Allocation" gradient="from-purple-500 to-indigo-600" className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both duration-700 lg:col-span-2">
+            {currentEnrollment?.sectionId?.mentorFacultyId ? (
+               <div className="flex flex-col md:flex-row items-center gap-8 text-left">
+                  <div className="w-24 h-24 rounded-[2rem] bg-indigo-50 border-4 border-white shadow-xl flex items-center justify-center text-indigo-600 text-3xl font-black shrink-0">
+                     {currentEnrollment.sectionId.mentorFacultyId.user?.fullName?.split(' ').map(n => n[0]).join('') || 'M'}
+                  </div>
+                  <div className="flex-1 space-y-2">
+                     <h3 className="text-xl font-black text-slate-800 tracking-tight">{currentEnrollment.sectionId.mentorFacultyId.user?.fullName}</h3>
+                     <p className="text-xs text-primary-600 font-black uppercase tracking-widest leading-none">
+                        {currentEnrollment.sectionId.mentorFacultyId.designation} &bull; {currentEnrollment.sectionId.department} Department
+                     </p>
+                     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="flex items-center gap-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+                           <Sparkles className="w-5 h-5 text-indigo-500 shrink-0" />
+                           <div>
+                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">ERP Mailbox</p>
+                              <p className="text-xs font-bold text-slate-800 break-all">{currentEnrollment.sectionId.mentorFacultyId.erpEmail || currentEnrollment.sectionId.mentorFacultyId.user?.email}</p>
+                           </div>
+                        </div>
+                        <div className="flex items-center gap-3 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+                           <Phone className="w-5 h-5 text-indigo-500 shrink-0" />
+                           <div>
+                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Secure Line</p>
+                              <p className="text-xs font-bold text-slate-800">{currentEnrollment.sectionId.mentorFacultyId.phone}</p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            ) : (
+               <div className="flex flex-col items-center justify-center py-6 text-center">
+                  <AlertCircle className="w-10 h-10 text-slate-300 mb-3" />
+                  <p className="text-sm font-black text-slate-400 uppercase tracking-widest">No Personal Mentor Allocated</p>
+                  <p className="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Your department HOD will allocate a class mentor shortly.</p>
+               </div>
+            )}
+         </SectionCard>
+
          <SectionCard style={{ animationDelay: '900ms' }} icon={<Sparkles className="w-5 h-5" />} title="Verified Documentation" gradient="from-blue-500 to-indigo-600" className="animate-in fade-in zoom-in-95 fill-mode-both duration-700 lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                {docList.map(({ label, doc }) => (

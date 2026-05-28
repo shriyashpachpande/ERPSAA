@@ -25,8 +25,8 @@ const ResultsTable = ({ data, loading }) => {
                     <User className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-black text-gray-900 line-clamp-1">{result.studentId?.fullName}</p>
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{result.studentId?.rollNumber}</p>
+                    <p className="text-sm font-black text-gray-900 line-clamp-1">{result.studentId?.personalDetails?.fullName}</p>
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{result.studentId?.studentId}</p>
                   </div>
                 </div>
               </td>

@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAcademicDashboard } from '../hooks/useAcademicDashboard';
 import { useAuth } from '../../../hooks/useAuth';
 import { useTeachingSubjects } from '../hooks/useTeachingSubjects';
+import { getMyMentoredSections } from '../services/sectionsApi';
 import AttendanceAnalyticsGraph from '../components/dashboard/AttendanceAnalyticsGraph';
 import SyllabusProgressChart from '../components/dashboard/SyllabusProgressChart';
 import AcademicAdminDashboard from '../components/dashboard/AcademicAdminDashboard';
@@ -17,6 +18,26 @@ const AcademicDashboardPage = () => {
   const { user } = useAuth();
   const { subjects: teachingSubjects, loading: subjectsLoading } = useTeachingSubjects();
   const { stats, actions, loading } = useAcademicDashboard();
+
+  const [mentoredSections, setMentoredSections] = useState([]);
+  const [mentoredLoading, setMentoredLoading] = useState(false);
+
+  useEffect(() => {
+    if (user?.role === 'faculty' || user?.role === 'hod') {
+      const fetchMentored = async () => {
+        setMentoredLoading(true);
+        try {
+          const res = await getMyMentoredSections();
+          setMentoredSections(res.data.data);
+        } catch (err) {
+          console.error('Failed to fetch mentored sections', err);
+        } finally {
+          setMentoredLoading(false);
+        }
+      };
+      fetchMentored();
+    }
+  }, [user]);
 
   const containerRef = useRef(null);
   const headerRef = useRef(null);
@@ -135,9 +156,68 @@ const AcademicDashboardPage = () => {
           {user?.role === 'academic_admin' ? (
             <AcademicAdminDashboard stats={stats} loading={loading} />
           ) : (
-            <div ref={statsRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-              <AttendanceAnalyticsGraph />
-              <SyllabusProgressChart data={teachingSubjects} />
+            <div className="space-y-10">
+              <div ref={statsRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+                <AttendanceAnalyticsGraph />
+                <SyllabusProgressChart data={teachingSubjects} />
+              </div>
+
+              {/* MY MENTORED CLASSES PANEL */}
+              {(user?.role === 'faculty' || user?.role === 'hod') && (
+                mentoredSections.length > 0 ? (
+                  <div className="glass-panel p-8 rounded-[2.5rem] border-white/40 shadow-xl shadow-slate-200/50 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                           My Mentee Class Assignments <Layers className="w-5 h-5 text-indigo-500 animate-pulse" />
+                        </h3>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">Sections allocated to you for student mentorship</p>
+                      </div>
+                      <span className="px-4 py-1.5 bg-indigo-50 border border-indigo-100 rounded-full text-indigo-600 text-xs font-black uppercase tracking-wider">
+                        {mentoredSections.length} {mentoredSections.length === 1 ? 'Class' : 'Classes'}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {mentoredSections.map((sec) => (
+                        <div key={sec._id} className="p-6 bg-white/70 hover:bg-white rounded-[2rem] border border-slate-100 hover:border-indigo-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group/class flex flex-col justify-between min-h-[160px] text-left">
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <span className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 font-black flex items-center justify-center border border-indigo-100/50">
+                                {sec.name.charAt(0)}
+                              </span>
+                              <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-full">
+                                {sec.academicYearId?.name}
+                              </span>
+                            </div>
+                            <div>
+                              <h4 className="text-lg font-black text-slate-800 uppercase tracking-tight">{sec.name}</h4>
+                              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">{sec.course}</p>
+                            </div>
+                          </div>
+                          <div className="mt-6 pt-4 border-t border-slate-50 flex items-center justify-between">
+                            <p className="text-[9px] font-black text-indigo-600 uppercase tracking-wider">{sec.semesterId?.semesterName}</p>
+                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider">Capacity: {sec.capacity} Std</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="glass-panel p-8 rounded-[2.5rem] border-white/40 shadow-xl shadow-slate-200/50 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700 text-left">
+                    <div>
+                      <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                         My Mentee Class Assignments <Layers className="w-5 h-5 text-slate-400" />
+                      </h3>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">Sections allocated to you for student mentorship</p>
+                    </div>
+                    <div className="p-6 bg-slate-50/50 rounded-[2rem] border border-dashed border-slate-200 text-center py-10 space-y-2">
+                      <p className="text-sm font-bold text-slate-500">No Mentee Class Allocated</p>
+                      <p className="text-xs text-slate-400 max-w-sm mx-auto">You are not currently assigned as a personal mentor for any academic class section this semester.</p>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           )}
 

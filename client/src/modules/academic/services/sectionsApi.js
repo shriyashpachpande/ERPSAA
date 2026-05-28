@@ -5,3 +5,4 @@ export const getSectionById = (id) => API.get(`/academic/sections/${id}`);
 export const createSection = (data) => API.post('/academic/sections', data);
 export const updateSection = (id, data) => API.put(`/academic/sections/${id}`, data);
 export const updateSectionStatus = (id, status) => API.patch(`/academic/sections/${id}/status`, { status });
+export const getMyMentoredSections = () => API.get('/academic/sections/me/mentored');

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../../utils/axiosInstance';
 import { Link } from 'react-router-dom';
-import { 
-    Bell, CheckCheck, Trash2, Clock, 
-    ChevronRight, Info, AlertCircle, CheckCircle2, 
+import {
+    Bell, CheckCheck, Trash2, Clock,
+    ChevronRight, Info, AlertCircle, CheckCircle2,
     XCircle, Mail, FileText, Loader2
 } from 'lucide-react';
 
@@ -12,9 +12,6 @@ const StaffNotificationsPage = () => {
     const [unreadCount, setUnreadCount] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    const API_BASE = 'http://localhost:5000/api/notifications';
-    const token = localStorage.getItem('token');
-
     useEffect(() => {
         fetchNotifications();
     }, []);
@@ -22,9 +19,7 @@ const StaffNotificationsPage = () => {
     const fetchNotifications = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(API_BASE, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const res = await axiosInstance.get('/notifications');
             if (res.data.success) {
                 setNotifications(res.data.data);
                 setUnreadCount(res.data.unreadCount);
@@ -38,9 +33,7 @@ const StaffNotificationsPage = () => {
 
     const markAsRead = async (id) => {
         try {
-            const res = await axios.patch(`${API_BASE}/${id}/read`, {}, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const res = await axiosInstance.patch(`/notifications/${id}/read`);
             if (res.data.success) {
                 setNotifications(notifications.map(n => n._id === id ? { ...n, isRead: true } : n));
                 setUnreadCount(prev => Math.max(0, prev - 1));
@@ -52,9 +45,7 @@ const StaffNotificationsPage = () => {
 
     const markAllRead = async () => {
         try {
-            const res = await axios.patch(`${API_BASE}/read-all`, {}, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const res = await axiosInstance.patch('/notifications/read-all');
             if (res.data.success) {
                 setNotifications(notifications.map(n => ({ ...n, isRead: true })));
                 setUnreadCount(0);
@@ -91,7 +82,7 @@ const StaffNotificationsPage = () => {
                     </div>
                 </div>
 
-                <button 
+                <button
                     onClick={markAllRead}
                     disabled={unreadCount === 0}
                     className="flex items-center px-6 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all font-bold text-sm shadow-sm text-gray-700 disabled:opacity-50"
@@ -120,15 +111,15 @@ const StaffNotificationsPage = () => {
                         {notifications.map((notif) => {
                             const { icon: Icon, color } = getIcon(notif.type);
                             return (
-                                <div 
-                                    key={notif._id} 
+                                <div
+                                    key={notif._id}
                                     onClick={() => !notif.isRead && markAsRead(notif._id)}
                                     className={`p-6 flex gap-5 transition-all hover:bg-gray-50/50 cursor-pointer relative group ${!notif.isRead ? 'bg-primary-50/20' : ''}`}
                                 >
                                     {!notif.isRead && (
                                         <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-600" />
                                     )}
-                                    
+
                                     <div className={`p-3 rounded-2xl h-fit ${color}`}>
                                         <Icon className="w-6 h-6" />
                                     </div>
@@ -146,10 +137,10 @@ const StaffNotificationsPage = () => {
                                         <p className={`text-sm leading-relaxed ${notif.isRead ? 'text-gray-400' : 'text-gray-600'}`}>
                                             {notif.message}
                                         </p>
-                                        
+
                                         {notif.relatedApplication && (
                                             <div className="pt-3">
-                                                <Link 
+                                                <Link
                                                     to={localStorage.getItem('userRole') === 'student' ? '/app/student/admission/status' : `/app/staff/admissions/${notif.relatedApplication}`}
                                                     className="inline-flex items-center text-xs font-black uppercase tracking-widest text-primary-600 hover:text-primary-700 transition-colors"
                                                 >

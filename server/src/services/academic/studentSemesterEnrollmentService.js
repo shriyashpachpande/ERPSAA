@@ -68,12 +68,29 @@ exports.getEligibleStudents = async (filters = {}, currentUser) => {
   return await StudentMaster.find(query)
     .populate('userId', 'fullName email')
     .select('studentId personalDetails academicProfile contactDetails')
-    .limit(50);
+    .limit(500000);
 };
 
 exports.enrollStudent = async (data, userId) => {
-  // Logic to potentially update StudentMaster's currentSemester/section if needed
-  const enrollment = await StudentSemesterEnrollment.create({ ...data, createdBy: userId });
+  // Check if an enrollment already exists for this student in this academic year and semester
+  const existingEnrollment = await StudentSemesterEnrollment.findOne({
+    studentMasterId: data.studentMasterId,
+    academicYearId: data.academicYearId,
+    semesterId: data.semesterId
+  });
+
+  let enrollment;
+  if (existingEnrollment) {
+    // Update existing enrollment details
+    existingEnrollment.sectionId = data.sectionId;
+    existingEnrollment.enrollmentStatus = data.enrollmentStatus || existingEnrollment.enrollmentStatus;
+    existingEnrollment.remarks = data.remarks || existingEnrollment.remarks;
+    existingEnrollment.updatedBy = userId;
+    enrollment = await existingEnrollment.save();
+  } else {
+    // Create new enrollment
+    enrollment = await StudentSemesterEnrollment.create({ ...data, createdBy: userId });
+  }
 
   // Soft update StudentMaster to reflect new academic state
   await StudentMaster.findByIdAndUpdate(data.studentMasterId, {
@@ -159,7 +176,7 @@ exports.getEnrollments = async (filters = {}, currentUser) => {
   if (filters.sectionId) query.sectionId = filters.sectionId;
   if (filters.status) query.enrollmentStatus = filters.status;
 
-  return await StudentSemesterEnrollment.find(query)
+  const enrollments = await StudentSemesterEnrollment.find(query)
     .populate({
       path: 'studentMasterId',
       select: 'studentId personalDetails academicProfile',
@@ -168,7 +185,9 @@ exports.getEnrollments = async (filters = {}, currentUser) => {
     .populate('academicYearId', 'name')
     .populate('semesterId', 'semesterName semesterNumber')
     .populate('sectionId', 'name')
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: 1 });
+
+  return enrollments;
 };
 
 exports.getEnrollmentById = async (id, currentUser) => {

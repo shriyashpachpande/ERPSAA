@@ -31,7 +31,8 @@ const Chatbot = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/chat', { query: input });
+      const chatbotUrl = import.meta.env.VITE_CHATBOT_URL || 'http://localhost:8000/chat';
+      const response = await axios.post(chatbotUrl, { query: input });
       
       if (response.data && response.data.length > 0) {
         const botResponse = {

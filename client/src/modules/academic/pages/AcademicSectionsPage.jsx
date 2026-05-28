@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import AcademicPageHeader from '../components/shared/AcademicPageHeader';
 import SectionTable from '../components/sections/SectionTable';
 import SectionForm from '../components/sections/SectionForm';
@@ -8,6 +9,10 @@ import { useSemesters } from '../hooks/useSemesters';
 import { Filter } from 'lucide-react';
 
 const AcademicSectionsPage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isMentorMode = queryParams.get('focus') === 'mentor';
+
   const { years } = useAcademicYears();
   const [selectedYearId, setSelectedYearId] = useState('');
   const [selectedSemesterId, setSelectedSemesterId] = useState('');
@@ -43,8 +48,8 @@ const AcademicSectionsPage = () => {
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <AcademicPageHeader 
-        title="Section Management" 
-        subtitle="Organize students into manageable class units" 
+        title={isMentorMode ? "Mentor Allocation" : "Section Management"} 
+        subtitle={isMentorMode ? "Assign class mentors and advisors to sections" : "Organize students into manageable class units"} 
         action={{ label: 'New Section', onClick: handleCreate }}
       />
 
@@ -80,6 +85,7 @@ const AcademicSectionsPage = () => {
           loading={loading} 
           onEdit={handleEdit}
           onToggleStatus={toggleSectionStatus}
+          highlightMentor={isMentorMode}
         />
       </div>
 

@@ -11,21 +11,21 @@ exports.generateSectionResults = async (context, operatorId) => {
     academicYearId,
     semesterId,
     sectionId,
-    enrollmentStatus: 'active'
+    enrollmentStatus: { $in: ['active', 'Active'] }
   });
 
   const generatedResults = [];
 
   for (const enrollment of enrollments) {
-    const studentId = enrollment.studentId;
+    const studentId = enrollment.studentMasterId;
 
     // 2. Fetch all marks for this student in this term
     const marks = await InternalMarksRecord.find({
-      studentId,
+      studentMasterId: studentId,
       academicYearId,
       semesterId,
       sectionId,
-      marksStatus: { $in: ['Submitted', 'Locked'] }
+      marksStatus: { $in: ['Draft', 'Submitted', 'Locked'] }
     });
 
     if (marks.length === 0) continue;
@@ -72,4 +72,24 @@ exports.publishResults = async (academicYearId, semesterId, sectionId) => {
     { academicYearId, semesterId, sectionId, resultStatus: 'Generated' },
     { resultStatus: 'Published', publishedAt: new Date() }
   );
+};
+
+exports.getStudentResults = async (query) => {
+  const { studentId, academicYearId, semesterId, sectionId, resultStatus } = query;
+  const filter = {};
+  if (studentId) filter.studentId = studentId;
+  if (academicYearId) filter.academicYearId = academicYearId;
+  if (semesterId) filter.semesterId = semesterId;
+  if (sectionId) filter.sectionId = sectionId;
+  if (resultStatus) filter.resultStatus = resultStatus;
+
+  return await SemesterResultRecord.find(filter)
+    .populate('studentId', 'personalDetails studentId')
+    .populate('academicYearId', 'name')
+    .populate('semesterId', 'semesterName')
+    .populate({
+      path: 'subjectResults.subjectId',
+      select: 'subjectName subjectCode'
+    })
+    .sort({ createdAt: -1 });
 };

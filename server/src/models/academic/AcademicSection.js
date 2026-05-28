@@ -39,6 +39,10 @@ const AcademicSectionSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'FacultyProfile'
   },
+  mentorFacultyId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'FacultyProfile'
+  },
   createdBy: {
     type: mongoose.Schema.ObjectId,
     ref: 'User'

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AcademicPageHeader from '../components/shared/AcademicPageHeader';
 import ResultGenerationForm from '../components/results/ResultGenerationForm';
 import ResultsTable from '../components/results/ResultsTable';
@@ -14,6 +14,12 @@ const ResultProcessingPage = () => {
     semesterId: '',
     sectionId: ''
   });
+
+  useEffect(() => {
+    if (filters.academicYearId && filters.semesterId && filters.sectionId) {
+      fetchResults(filters);
+    }
+  }, [filters.academicYearId, filters.semesterId, filters.sectionId, fetchResults]);
 
   const handleGenerate = async (data) => {
     await generate(data);
@@ -39,6 +45,8 @@ const ResultProcessingPage = () => {
         <div className="lg:col-span-1">
           <ResultGenerationForm 
             years={years} 
+            filters={filters}
+            setFilters={setFilters}
             onGenerate={handleGenerate} 
             loading={loading}
           />

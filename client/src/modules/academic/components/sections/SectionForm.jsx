@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Layers, Users, ShieldCheck, Tag } from 'lucide-react';
 import { useSemesters } from '../../hooks/useSemesters';
 import { useDepartments } from '../../hooks/useDepartments';
+import { useFacultyManagement } from '../../hooks/useFacultyManagement';
 
 const SectionForm = ({ initialData, onClose, onSubmit, academicYears }) => {
   const [formData, setFormData] = useState(initialData || {
@@ -11,11 +12,13 @@ const SectionForm = ({ initialData, onClose, onSubmit, academicYears }) => {
     department: 'IT',
     course: 'B.Tech - IT',
     capacity: 60,
-    status: 'active'
+    status: 'active',
+    mentorFacultyId: null
   });
   const [loading, setLoading] = useState(false);
   const { semesters } = useSemesters(formData.academicYearId);
   const { departments } = useDepartments();
+  const { faculty } = useFacultyManagement({ department: formData.department, status: 'active' });
 
   // Logic to handle auto-defaulting department based on semester
   useEffect(() => {
@@ -159,6 +162,24 @@ const SectionForm = ({ initialData, onClose, onSubmit, academicYears }) => {
               />
             </div>
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Mentor Faculty (Excludes HOD)</label>
+          <select
+            className="w-full px-4 py-4 bg-gray-50 border-2 border-transparent focus:border-primary-600 focus:bg-white rounded-2xl text-sm font-bold transition-all outline-none"
+            value={formData.mentorFacultyId?._id || formData.mentorFacultyId || ''}
+            onChange={(e) => setFormData({ ...formData, mentorFacultyId: e.target.value || null })}
+          >
+            <option value="">No Mentor Allocated</option>
+            {faculty
+              .filter(f => f.user && f.user.role !== 'hod')
+              .map(f => (
+                <option key={f._id} value={f._id}>
+                  {f.user?.fullName} ({f.designation})
+                </option>
+              ))}
+          </select>
         </div>
       </div>
 

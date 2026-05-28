@@ -24,6 +24,16 @@ exports.getMyMasterProfile = async (req, res) => {
     const currentEnrollment = await StudentSemesterEnrollment.findOne({ studentMasterId: profile._id })
       .populate('academicYearId', 'name')
       .populate('semesterId', 'semesterName semesterNumber')
+      .populate({
+        path: 'sectionId',
+        populate: {
+          path: 'mentorFacultyId',
+          populate: {
+            path: 'user',
+            select: 'fullName email'
+          }
+        }
+      })
       .sort({ createdAt: -1 });
 
     res.status(200).json({ 

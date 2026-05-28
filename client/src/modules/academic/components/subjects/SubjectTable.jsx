@@ -132,8 +132,8 @@ const SubjectTable = ({ data, loading, onEdit }) => {
                 <td className="px-8 py-6 bg-white/90 rounded-l-[2rem] border-y border-l border-transparent silent-glow-row transition-all">
                   <div className="flex items-center gap-6">
                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center font-black text-xs shadow-inner transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 ${sub.subjectType === 'Theory' ? 'bg-primary-600 text-white shadow-primary-200' :
-                        sub.subjectType === 'Practical' ? 'bg-indigo-600 text-white shadow-indigo-200' :
-                          'bg-emerald-600 text-white shadow-emerald-200'
+                      sub.subjectType === 'Practical' ? 'bg-indigo-600 text-white shadow-indigo-200' :
+                        'bg-emerald-600 text-white shadow-emerald-200'
                       }`}>
                       {sub.subjectCode.substring(0, 2)}
                     </div>

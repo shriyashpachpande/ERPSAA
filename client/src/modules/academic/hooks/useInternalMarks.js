@@ -19,6 +19,19 @@ export const useInternalMarks = () => {
     }
   }, []);
 
+  const fetchMyMarks = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await marksApi.getMyMarks();
+      setMarks(response.data.data);
+      setError(null);
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to fetch student marks');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const saveMarks = async (data) => {
     setLoading(true);
     try {
@@ -31,5 +44,5 @@ export const useInternalMarks = () => {
     }
   };
 
-  return { marks, loading, error, fetchMarks, saveMarks };
+  return { marks, loading, error, fetchMarks, fetchMyMarks, saveMarks };
 };

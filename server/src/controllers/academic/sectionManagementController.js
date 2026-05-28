@@ -48,3 +48,19 @@ exports.updateStatus = async (req, res) => {
     res.status(400).json({ success: false, error: error.message });
   }
 };
+
+const FacultyProfile = require('../../models/academic/FacultyProfile');
+
+exports.getMyMentoredSections = async (req, res) => {
+  try {
+    const facultyProfile = await FacultyProfile.findOne({ user: req.user.id });
+    if (!facultyProfile) {
+      return res.status(404).json({ success: false, error: 'Faculty profile not found' });
+    }
+
+    const sections = await sectionService.getSections({ mentorFacultyId: facultyProfile._id });
+    res.status(200).json({ success: true, count: sections.length, data: sections });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};

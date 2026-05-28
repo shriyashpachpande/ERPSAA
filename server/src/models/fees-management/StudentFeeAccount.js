@@ -73,7 +73,7 @@ const StudentFeeAccountSchema = new mongoose.Schema({
   installments: [{
     dueDate: Date,
     amount: Number,
-    status: { type: String, enum: ['pending', 'paid'], default: 'pending' }
+    status: { type: String, enum: ['pending', 'verification_pending', 'paid'], default: 'pending' }
   }],
   hostelCharges: [{
     amount: { type: Number, required: true },

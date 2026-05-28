@@ -19,12 +19,25 @@ const StudentSemesterEnrollmentForm = ({ initialData, academicYearId, semesterId
   const { years } = useAcademicYears();
   const { semesters } = useSemesters(formData.academicYearId);
 
-  const [selectedStudent, setSelectedStudent] = useState(initialData?.studentMasterId || null);
+  // Maintain selected students as an array to support bulk selection
+  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [isBulkSubmitting, setIsBulkSubmitting] = useState(false);
+
   const { students, loading: studentsLoading, fetchEligibleStudents } = useEligibleStudents();
-  const { sections, loading: sectionsLoading } = useSections({ 
-    academicYearId: formData.academicYearId, 
-    semesterId: formData.semesterId 
+  const { sections, loading: sectionsLoading } = useSections({
+    academicYearId: formData.academicYearId,
+    semesterId: formData.semesterId
   });
+
+  // Load initial data if editing a single enrollment
+  useEffect(() => {
+    if (initialData && students.length > 0) {
+      const match = students.find(s => s._id === initialData.studentMasterId);
+      if (match) {
+        setSelectedStudents([match]);
+      }
+    }
+  }, [initialData, students]);
 
   useEffect(() => {
     if (!initialData) {
@@ -34,51 +47,123 @@ const StudentSemesterEnrollmentForm = ({ initialData, academicYearId, semesterId
     }
   }, [initialData, fetchEligibleStudents]);
 
-  const handleStudentSelect = (student) => {
-    setSelectedStudent(student);
-    setFormData({ ...formData, studentMasterId: student._id });
+  const handleStudentToggleSelect = (student) => {
+    if (initialData) {
+      // If editing, only single select is allowed
+      setSelectedStudents([student]);
+      setFormData(prev => ({ ...prev, studentMasterId: student._id }));
+      return;
+    }
+
+    setSelectedStudents(prev => {
+      const exists = prev.find(s => s._id === student._id);
+      if (exists) {
+        return prev.filter(s => s._id !== student._id);
+      } else {
+        return [...prev, student];
+      }
+    });
+  };
+
+  const handleSelectAll = (studentsToSelect) => {
+    setSelectedStudents(prev => {
+      const unique = [...prev];
+      studentsToSelect.forEach(s => {
+        if (!unique.some(u => u._id === s._id)) {
+          unique.push(s);
+        }
+      });
+      return unique;
+    });
+  };
+
+  const handleClearAll = (idsToClear) => {
+    setSelectedStudents(prev => prev.filter(s => !idsToClear.includes(s._id)));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.academicYearId || !formData.semesterId || !formData.studentMasterId || !formData.sectionId) {
-      alert('Please select academic cycle, semester, student and section');
+    if (!formData.academicYearId || !formData.semesterId || !formData.sectionId) {
+      alert('Please select academic cycle, semester and section');
       return;
     }
+    if (selectedStudents.length === 0) {
+      alert('Please select at least one student');
+      return;
+    }
+
     try {
-      await onSubmit(formData);
+      setIsBulkSubmitting(true);
+      
+      const payload = {
+        students: selectedStudents.map(s => ({ id: s._id, name: s.personalDetails?.fullName })),
+        academicYearId: formData.academicYearId,
+        semesterId: formData.semesterId,
+        sectionId: formData.sectionId,
+        enrollmentStatus: formData.enrollmentStatus,
+        remarks: formData.remarks
+      };
+
+      await onSubmit(payload);
     } catch (err) {
-      alert(err.message);
+      // With skipped names handled gracefully in NewEnrollmentPage, critical errors will still be caught here.
+      console.error(err);
+    } finally {
+      setIsBulkSubmitting(false);
     }
   };
 
+  const hasSelected = selectedStudents.length > 0;
+
   return (
-    <div className="flex flex-col md:flex-row bg-white h-full overflow-hidden">
+    <div className="flex flex-col md:flex-row bg-white h-full overflow-hidden min-h-0 flex-1 relative">
+      
+      {/* BULK LOADING OVERLAY */}
+      {isBulkSubmitting && (
+        <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center space-y-4 animate-in fade-in duration-300">
+          <div className="p-6 bg-white rounded-2xl shadow-2xl flex flex-col items-center space-y-4 max-w-sm w-full mx-4 border border-slate-100 text-center animate-in zoom-in duration-300">
+            <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+            <div>
+              <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider">Initializing Boarding</h4>
+              <p className="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
+                Bulk enrolling {selectedStudents.length} candidates sequentially... Please do not close or refresh this tab.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Sidebar: Student Selection */}
-      <div className="w-full md:w-[350px] border-b md:border-b-0 md:border-r border-slate-100 flex flex-col bg-slate-50/30 overflow-hidden">
-        <div className="p-5 flex-1 flex flex-col overflow-hidden">
+      <div className="w-full md:w-[350px] border-b md:border-b-0 md:border-r border-slate-100 flex flex-col bg-slate-50/30 overflow-hidden min-h-0">
+        <div className="p-5 flex-1 flex flex-col overflow-hidden min-h-0">
           {!initialData ? (
-            <EligibleStudentSelector 
-              students={students} 
-              loading={studentsLoading} 
-              onSelect={handleStudentSelect}
-              selectedStudentId={selectedStudent?._id}
+            <EligibleStudentSelector
+              students={students}
+              loading={studentsLoading}
+              onToggleSelect={handleStudentToggleSelect}
+              selectedStudentIds={selectedStudents.map(s => s._id)}
+              onSelectAll={handleSelectAll}
+              onClearAll={handleClearAll}
             />
           ) : (
             <div className="flex flex-col h-full animate-in fade-in slide-in-from-left-2 duration-500">
-               <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-4 px-2">Active Context</h3>
-               <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
-                    <UserCheck className="w-8 h-8 text-indigo-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-900 leading-tight">{selectedStudent?.personalDetails?.fullName}</h3>
-                    <p className="text-[11px] font-bold text-slate-500 mt-1 uppercase tracking-wider">{selectedStudent?.studentId}</p>
-                  </div>
-               </div>
-               <div className="mt-auto px-4 py-3 bg-slate-100/50 rounded-xl border border-slate-100 text-[9px] font-bold text-slate-400 text-center uppercase tracking-widest">
-                 Index Verification OK
-               </div>
+              <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-4 px-2">Active Context</h3>
+              <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm text-center space-y-4">
+                <div className="w-16 h-16 mx-auto rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
+                  <UserCheck className="w-8 h-8 text-indigo-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 leading-tight">
+                    {selectedStudents[0]?.personalDetails?.fullName || 'Loading...'}
+                  </h3>
+                  <p className="text-[11px] font-bold text-slate-500 mt-1 uppercase tracking-wider">
+                    {selectedStudents[0]?.studentId}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-auto px-4 py-3 bg-slate-100/50 rounded-xl border border-slate-100 text-[9px] font-bold text-slate-400 text-center uppercase tracking-widest">
+                Index Verification OK
+              </div>
             </div>
           )}
         </div>
@@ -103,20 +188,40 @@ const StudentSemesterEnrollmentForm = ({ initialData, academicYearId, semesterId
         </div>
 
         {/* Scrollable Form Body */}
-        <div className="flex-1 overflow-y-auto p-8 md:px-12 space-y-10 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+        <div data-lenis-prevent className="flex-1 overflow-y-auto p-8 md:px-12 space-y-10 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
           {/* Status Message */}
-          {selectedStudent && (
-            <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-6 flex items-start gap-4">
-               <div className="p-2 bg-white rounded-lg border border-indigo-100 shadow-sm">
-                 <Info className="w-4 h-4 text-indigo-600" />
-               </div>
-               <div className="space-y-1">
-                 <p className="text-xs font-bold text-indigo-900 uppercase tracking-wide">Ready for Boarding</p>
-                 <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                   Student currently mapped to <span className="font-bold text-indigo-700">{selectedStudent.academicProfile?.department}</span>. 
-                   Proceed to select section for semester {selectedStudent.academicProfile?.currentSemester}.
-                 </p>
-               </div>
+          {hasSelected && (
+            <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-6 flex items-start gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="p-2 bg-white rounded-lg border border-indigo-100 shadow-sm shrink-0">
+                <Info className="w-4 h-4 text-indigo-600" />
+              </div>
+              <div className="space-y-1 w-full min-w-0">
+                <p className="text-xs font-bold text-indigo-900 uppercase tracking-wide">
+                  {initialData ? 'Ready for Boarding' : 'Ready for Bulk Boarding'}
+                </p>
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                  {initialData ? (
+                    <>
+                      Student currently mapped to <span className="font-bold text-indigo-700">{selectedStudents[0]?.academicProfile?.department}</span>.
+                      Proceed to select section for semester {selectedStudents[0]?.academicProfile?.currentSemester}.
+                    </>
+                  ) : (
+                    <>
+                      Selected <span className="font-bold text-indigo-700">{selectedStudents.length} candidates</span> for enrollment.
+                      Proceed to select target academic cycle, semester, and section to initialize boarding in bulk.
+                    </>
+                  )}
+                </p>
+                {!initialData && (
+                  <div className="flex flex-wrap gap-1.5 mt-3 max-h-24 overflow-y-auto p-1.5 border border-indigo-100/50 rounded-xl bg-white/80 scrollbar-thin">
+                    {selectedStudents.map(s => (
+                      <span key={s._id} className="inline-flex items-center gap-1 px-2 py-0.5 bg-indigo-50 border border-indigo-100 rounded text-[9px] font-bold text-indigo-700">
+                        {s.personalDetails?.fullName}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
@@ -200,7 +305,7 @@ const StudentSemesterEnrollmentForm = ({ initialData, academicYearId, semesterId
 
             <div className="space-y-3 col-span-1 md:col-span-2">
               <label className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Boarding Remarks</label>
-              <textarea 
+              <textarea
                 className="w-full px-5 py-4 bg-white border border-slate-200 focus:border-indigo-500 rounded-xl text-sm font-semibold text-slate-900 transition-all outline-none resize-none h-32 placeholder:text-slate-300 hover:border-slate-300"
                 placeholder="Enter any administrative notes for this enrollment cycle..."
                 value={formData.remarks}
@@ -213,7 +318,7 @@ const StudentSemesterEnrollmentForm = ({ initialData, academicYearId, semesterId
         {/* Footer */}
         <div className="px-8 py-6 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end gap-4 shrink-0 mt-auto">
           <p className="text-[10px] font-medium text-slate-400 italic hidden sm:block mr-auto">
-             Note: Action logged for audit compliance.
+            Note: Action logged for audit compliance.
           </p>
           <button
             type="button"
@@ -224,10 +329,10 @@ const StudentSemesterEnrollmentForm = ({ initialData, academicYearId, semesterId
           </button>
           <button
             type="submit"
-            disabled={!formData.studentMasterId || !formData.sectionId}
+            disabled={!hasSelected || !formData.sectionId}
             className="px-8 py-2.5 bg-indigo-600 text-white text-[11px] font-bold uppercase tracking-wider rounded-lg hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 active:scale-95 disabled:opacity-30 disabled:shadow-none disabled:cursor-not-allowed"
           >
-            {initialData ? 'Save Changes' : 'Initialize Boarding'}
+            {initialData ? 'Save Changes' : `Initialize Boarding (${selectedStudents.length})`}
           </button>
         </div>
       </form>

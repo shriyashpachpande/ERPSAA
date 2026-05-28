@@ -3,7 +3,7 @@ const internalMarksService = require('../../services/academic/internalMarksServi
 exports.saveMarks = async (req, res) => {
   try {
     const marksData = Array.isArray(req.body.marks) ? req.body.marks : [req.body];
-    const results = await internalMarksService.bulkUpsertMarks(marksData, req.user.id);
+    const results = await internalMarksService.bulkUpsertMarks(marksData, req.user.id, req.user.role);
     res.status(200).json({ success: true, data: results });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
@@ -21,10 +21,12 @@ exports.getMarks = async (req, res) => {
 
 exports.getMyMarks = async (req, res) => {
   try {
-    // Assuming student identity is linked to user
-    // We need a helper to find the studentId from req.user.id
-    // For now, assume it's passed or available in a context
-    const records = await internalMarksService.getStudentMarksSummary(req.query.studentId);
+    const StudentMaster = require('../../models/student-master/StudentMaster');
+    const studentProfile = await StudentMaster.findOne({ userId: req.user.id });
+    if (!studentProfile) {
+      return res.status(404).json({ success: false, error: 'Student profile not found' });
+    }
+    const records = await internalMarksService.getStudentMarksSummary(studentProfile._id);
     res.status(200).json({ success: true, data: records });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

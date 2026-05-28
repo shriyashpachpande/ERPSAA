@@ -1,17 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { 
-    Users, TrendingUp, AlertCircle, DollarSign, 
+import axiosInstance from '../../../../utils/axiosInstance';
+import {
+    Users, TrendingUp, AlertCircle, DollarSign,
     ArrowUpRight, ArrowDownRight, RefreshCw,
     Calendar, Search, Filter, Download, PieChart as PieIcon
 } from 'lucide-react';
-import { 
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, 
-    ResponsiveContainer, AreaChart, Area, Cell, PieChart, Pie 
+import {
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+    ResponsiveContainer, AreaChart, Area, Cell, PieChart, Pie
 } from 'recharts';
 import gsap from 'gsap';
 
-const API_BASE = 'http://localhost:5000/api/fees/staff';
 const COLORS = ['#4F46E5', '#F59E0B', '#EF4444', '#10B981'];
 
 const FeeManagementDashboardPage = () => {
@@ -26,12 +25,9 @@ const FeeManagementDashboardPage = () => {
 
     const fetchDashboardData = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get(`${API_BASE}/dashboard`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const res = await axiosInstance.get('/fees/staff/dashboard');
             setData(res.data.data);
-            
+
             // GSAP Animation
             setTimeout(() => {
                 if (statsRef.current) {
@@ -73,8 +69,8 @@ const FeeManagementDashboardPage = () => {
     if (!data) return null;
 
     const { stats, recentPayments } = data;
-    const efficiency = stats && stats.totalExpected > 0 
-        ? Math.round((stats.totalCollected / stats.totalExpected) * 100) 
+    const efficiency = stats && stats.totalExpected > 0
+        ? Math.round((stats.totalCollected / stats.totalExpected) * 100)
         : 0;
 
     // Prepare chart data
@@ -154,7 +150,7 @@ const FeeManagementDashboardPage = () => {
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
-                                <Tooltip 
+                                <Tooltip
                                     contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)' }}
                                 />
                             </PieChart>

@@ -7,7 +7,7 @@ router.use(protect);
 
 router.route('/')
   .get(authorize('super_admin', 'academic_admin', 'hod', 'faculty'), internalMarksController.getMarks)
-  .post(authorize('super_admin', 'academic_admin', 'faculty'), internalMarksController.saveMarks);
+  .post(authorize('super_admin', 'academic_admin', 'hod', 'faculty'), internalMarksController.saveMarks);
 
 router.get('/my-marks', authorize('student'), internalMarksController.getMyMarks);
 

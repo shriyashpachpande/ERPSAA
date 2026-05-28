@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../../../utils/axiosInstance';
 import { Receipt, Download, Search, FileText, AlertCircle, Printer, Filter, ExternalLink } from 'lucide-react';
 import gsap from 'gsap';
-
-const API_BASE = 'http://localhost:5000/api/fees';
 
 const StudentFeeReceiptHistoryPage = () => {
     const [receipts, setReceipts] = useState([]);
@@ -18,10 +16,7 @@ const StudentFeeReceiptHistoryPage = () => {
 
     const fetchReceipts = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const res = await axios.get(`${API_BASE}/my-receipts`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const res = await axiosInstance.get('/fees/my-receipts');
             setReceipts(res.data.data);
             
             // GSAP Animation
