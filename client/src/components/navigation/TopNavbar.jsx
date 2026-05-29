@@ -6,6 +6,8 @@ const TopNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
+  const [mobileCellsOpen, setMobileCellsOpen] = useState(false);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
@@ -166,29 +168,129 @@ const TopNavbar = () => {
         {/* Mobile Toggle */}
         <button
           className="md:hidden text-brand-dark p-2 -mr-2 rounded-lg hover:bg-gray-100/50 transition-colors"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          onClick={() => {
+            setMobileMenuOpen(!mobileMenuOpen);
+            if (mobileMenuOpen) {
+              setMobileAboutOpen(false);
+              setMobileCellsOpen(false);
+            }
+          }}
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
       {/* Mobile Menu */}
-      <div className={`fixed inset-0 bg-white/95 backdrop-blur-xl z-40 transition-transform duration-500 ${mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'} md:hidden flex flex-col pt-32 px-8`}>
-        <div className="flex flex-col space-y-6 text-2xl font-semibold tracking-tight">
-          {['Features', 'About', 'Workflow', 'Academics'].map((item) => (
-            <Link
-              key={item}
-              to={item === 'Academics' ? '/collegeprofile' : `/#${item.toLowerCase()}`}
-              className="text-gray-900 border-b border-gray-100 pb-4 flex items-center justify-between group"
-              onClick={() => setMobileMenuOpen(false)}
+      <div className={`fixed inset-0 bg-white/95 backdrop-blur-xl z-40 transition-transform duration-500 ${mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'} md:hidden flex flex-col pt-24 pb-8 px-6 overflow-y-auto`}>
+        <div className="flex flex-col space-y-4 text-xl font-semibold tracking-tight mt-8">
+          
+          {/* Features Link */}
+          <Link
+            to="/#features"
+            className="text-gray-900 border-b border-gray-100 pb-3 flex items-center justify-between group"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <span>Features</span>
+            <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 group-hover:translate-x-1 transition-all" />
+          </Link>
+
+          {/* About Accordion */}
+          <div className="border-b border-gray-100 pb-3">
+            <button
+              onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
+              className="w-full text-left text-gray-900 flex items-center justify-between group focus:outline-none"
             >
-              {item}
-              <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary-500 group-hover:translate-x-2 transition-all" />
-            </Link>
-          ))}
+              <span>About</span>
+              <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${mobileAboutOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {/* About Sub-links Accordion Content */}
+            <div className={`transition-all duration-300 overflow-hidden ${mobileAboutOpen ? 'max-h-[1000px] mt-3 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="pl-4 space-y-2 border-l border-gray-100">
+                {aboutLinks.map((link) => (
+                  link.name === 'Cells & Committees' ? (
+                    <div key={link.name} className="space-y-2">
+                      <button
+                        onClick={() => setMobileCellsOpen(!mobileCellsOpen)}
+                        className="w-full text-left text-base font-medium text-gray-600 flex items-center justify-between py-1 focus:outline-none"
+                      >
+                        <span>{link.name}</span>
+                        <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${mobileCellsOpen ? 'rotate-180' : ''}`} />
+                      </button>
+
+                      {/* Nested Cells & Committees Accordion Content */}
+                      <div className={`transition-all duration-300 overflow-hidden ${mobileCellsOpen ? 'max-h-[500px] pl-4 opacity-100 space-y-1.5' : 'max-h-0 opacity-0'}`}>
+                        {[
+                          { n: 'Academic Cell', id: 'academic-cell' },
+                          { n: 'Admission Cell', id: 'admission-cell' },
+                          { n: 'Anti Ragging Squad', id: 'anti-ragging-squad' },
+                          { n: 'Anti Ragging Committee', id: 'anti-ragging-committee' },
+                          { n: 'CASERP Cell', id: 'caserp-cell' },
+                          { n: 'College Development Committee', id: 'cdc' },
+                          { n: 'Cultural Committee', id: 'cultural' },
+                          { n: 'Examination Cell', id: 'exam-cell' },
+                          { n: 'Internal Complaint Committee - ICC', id: 'icc' },
+                          { n: 'SC_ST Cell', id: 'sc-st-cell' },
+                          { n: 'Student Grievance Redressal (SGRC)', id: 'sgrc' },
+                          { n: 'Training and Placement Cell', id: 'placement-cell' }
+                        ].map((cell) => (
+                          <Link
+                            key={cell.id}
+                            to={`/about/cells-committees/${cell.id}`}
+                            className="block py-1 text-sm font-medium text-gray-500 hover:text-blue-600 transition-colors"
+                            onClick={() => {
+                              setMobileAboutOpen(false);
+                              setMobileCellsOpen(false);
+                              setMobileMenuOpen(false);
+                            }}
+                          >
+                            {cell.n}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      className="block py-1 text-base font-medium text-gray-600 hover:text-brand-dark transition-colors"
+                      onClick={() => {
+                        setMobileAboutOpen(false);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      {link.name}
+                    </Link>
+                  )
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Workflow Link */}
+          <Link
+            to="/#workflow"
+            className="text-gray-900 border-b border-gray-100 pb-3 flex items-center justify-between group"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <span>Workflow</span>
+            <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 group-hover:translate-x-1 transition-all" />
+          </Link>
+
+          {/* Academics Link */}
+          <Link
+            to="/collegeprofile"
+            className="text-gray-900 border-b border-gray-100 pb-3 flex items-center justify-between group"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <span>Academics</span>
+            <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 group-hover:translate-x-1 transition-all" />
+          </Link>
+
+          {/* CTA Link */}
           <Link
             to="/login"
-            className="mt-8 bg-brand-dark text-white px-6 py-4 rounded-2xl text-lg font-medium flex items-center justify-center shadow-xl"
+            className="mt-6 bg-brand-dark text-white px-6 py-3.5 rounded-2xl text-base font-semibold flex items-center justify-center shadow-lg hover:bg-black transition-all"
             onClick={() => setMobileMenuOpen(false)}
           >
             Access Portal
