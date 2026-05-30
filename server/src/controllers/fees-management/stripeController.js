@@ -33,6 +33,16 @@ exports.createCheckoutSession = async (req, res) => {
 
         const origin = req.headers.origin || 'http://localhost:5173';
 
+        // Dynamically set checkout descriptions based on whether it is a tuition installment or hostel charge
+        let productName = 'Tuition Fee Clearance';
+        let productDesc = 'Secure ERPSAA Fee Installment Payment';
+
+        const hostelCharge = account.hostelCharges && account.hostelCharges.id(installmentId);
+        if (hostelCharge) {
+            productName = hostelCharge.description || 'Hostel Accommodation Fee';
+            productDesc = 'Secure ERPSAA Hostel & Other Charges Payment';
+        }
+
         // Create checkout session on Stripe
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -40,8 +50,8 @@ exports.createCheckoutSession = async (req, res) => {
                 price_data: {
                     currency: 'inr',
                     product_data: {
-                        name: 'Tuition Fee Clearance',
-                        description: `Secure ERPSAA Fee Installment Payment`,
+                        name: productName,
+                        description: productDesc,
                     },
                     unit_amount: Math.round(Number(amount) * 100), // Cents/paise representation
                 },
@@ -110,6 +120,12 @@ exports.verifyCheckoutSession = async (req, res) => {
         const installment = account.installments.id(installmentId) || account.installments.find(i => i._id.toString() === installmentId);
         if (installment) {
             installment.status = 'paid';
+        } else {
+            // Check if it matches a hostel/other charges entry instead
+            const hostelCharge = account.hostelCharges.id(installmentId) || account.hostelCharges.find(hc => hc._id.toString() === installmentId);
+            if (hostelCharge) {
+                hostelCharge.status = 'paid';
+            }
         }
 
         // Update overall paid status
