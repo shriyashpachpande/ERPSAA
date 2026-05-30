@@ -118,7 +118,7 @@ exports.getMarksRecords = async (query) => {
   if (marksStatus) filter.marksStatus = marksStatus;
 
   const records = await InternalMarksRecord.find(filter)
-    .populate('studentMasterId', 'fullName studentId')
+    .populate('studentMasterId', 'personalDetails studentId')
     .populate('subjectId', 'subjectName subjectCode');
 
   // Sort the marks records to match the exact enrollment sequence of students in the section
