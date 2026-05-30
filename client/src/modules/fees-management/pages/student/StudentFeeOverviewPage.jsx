@@ -300,9 +300,19 @@ const StudentFeeOverviewPage = () => {
                                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">{charge.description}</p>
                                             <p className="text-sm font-black text-gray-900">₹{charge.amount.toLocaleString()}</p>
                                         </div>
-                                        <span className={`px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-tighter ${charge.status === 'paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
-                                            {charge.status}
-                                        </span>
+                                        <div className="flex flex-col items-end gap-2">
+                                            <span className={`px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-tighter ${charge.status === 'paid' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
+                                                {charge.status}
+                                            </span>
+                                            {charge.status === 'pending' && (
+                                                <button 
+                                                    onClick={() => triggerPaymentModal(charge)}
+                                                    className="px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-[8.5px] font-black uppercase tracking-widest transition-all shadow-sm"
+                                                >
+                                                    Pay Now
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
