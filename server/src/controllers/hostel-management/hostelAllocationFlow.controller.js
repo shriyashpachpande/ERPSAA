@@ -102,117 +102,179 @@ exports.getAllocationReadyStudents = async (req, res) => {
   }
 };
 
+// Helper function containing the core allocation logic (handles optional transaction session)
+const performAllocation = async (data, session) => {
+  const { 
+    applicationId, 
+    bedId, 
+    roomId, 
+    studentId, 
+    hostelId, 
+    hostelFeeAmount, 
+    feeDescription 
+  } = data;
+
+  // 1. Fetch related data
+  const bedQuery = HostelBed.findById(bedId);
+  const roomQuery = HostelRoom.findById(roomId);
+  const appQuery = HostelApplication.findById(applicationId);
+
+  if (session) {
+    bedQuery.session(session);
+    roomQuery.session(session);
+    appQuery.session(session);
+  }
+
+  const [bed, room, app] = await Promise.all([
+    bedQuery,
+    roomQuery,
+    appQuery
+  ]);
+
+  if (!bed) throw new Error('Selected bed not found');
+  if (bed.status !== 'Vacant') throw new Error('Selected bed is already occupied');
+  if (!room) throw new Error('Selected room not found');
+  if (!app) throw new Error('Hostel application not found');
+
+  // Fetch floor to get blockId (required for allocation record)
+  const floorQuery = HostelFloor.findById(room.floorId);
+  if (session) floorQuery.session(session);
+  const floor = await floorQuery;
+  if (!floor) throw new Error('Structure error: Floor not found for selected room');
+
+  // 2. STRICT VALIDATIONS
+  const activeBedQuery = HostelAllocation.findOne({ bedId, status: 'Active' });
+  const activeStudentQuery = HostelAllocation.findOne({ studentId, status: 'Active' });
+  if (session) {
+    activeBedQuery.session(session);
+    activeStudentQuery.session(session);
+  }
+  const [activeBedAllocation, activeStudentAllocation] = await Promise.all([
+    activeBedQuery,
+    activeStudentQuery
+  ]);
+
+  if (activeBedAllocation) throw new Error('This bed already has an active occupant.');
+  if (activeStudentAllocation) throw new Error('This student already has an active hostel allocation.');
+
+  // 3. CREATE ALLOCATION
+  const allocation = await HostelAllocation.create([{
+    applicationId,
+    studentId,
+    bedId,
+    roomId,
+    floorId: room.floorId,
+    blockId: floor.blockId,
+    hostelId: hostelId || app.preferredHostelId,
+    allocationDate: new Date(),
+    status: 'Active'
+  }], session ? { session } : {});
+
+  // 4. UPDATE BED
+  bed.status = 'Occupied';
+  bed.currentStudent = studentId;
+  await bed.save(session ? { session } : {});
+
+  // 5. UPDATE ROOM
+  room.occupiedCount += 1;
+  if (room.occupiedCount >= room.capacity) room.isAvailable = false;
+  await room.save(session ? { session } : {});
+
+  // 6. UPDATE APPLICATION
+  app.status = 'Allocated';
+  await app.save(session ? { session } : {});
+
+  // 7. FEE INTEGRATION
+  const feeAccountQuery = StudentFeeAccount.findOne({ studentId });
+  if (session) feeAccountQuery.session(session);
+  const feeAccount = await feeAccountQuery;
+  if (feeAccount) {
+    feeAccount.hostelCharges.push({
+      amount: Number(hostelFeeAmount),
+      description: feeDescription || 'Hostel Fee',
+      date: new Date(),
+      status: 'pending'
+    });
+    feeAccount.totalOtherCharges += Number(hostelFeeAmount);
+    feeAccount.totalPayable += Number(hostelFeeAmount);
+    await feeAccount.save(session ? { session } : {});
+  }
+
+  // 8. STUDENT STATUS SYNC
+  const studentQuery = StudentMaster.findById(studentId);
+  if (session) studentQuery.session(session);
+  const student = await studentQuery;
+  if (student) {
+    student.modules.hostel = {
+      status: 'allocated',
+      lastUpdated: new Date(),
+      notes: `Allocated Room ${room.roomNumber}`
+    };
+    student.markModified('modules.hostel');
+    await student.save(session ? { session } : {});
+  }
+
+  return allocation[0];
+};
+
 // @desc    Step 5: Perform the actual allocation
 // @route   POST /api/hostel/allocation/assign
 exports.assignBed = async (req, res) => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
+  let session;
   try {
-    const { 
-      applicationId, 
-      bedId, 
-      roomId, 
-      studentId, 
-      hostelId, // IMPORTANT: Now properly destructured
-      hostelFeeAmount, 
-      feeDescription 
-    } = req.body;
+    session = await mongoose.startSession();
+    session.startTransaction();
 
-    // 1. Fetch related data
-    const [bed, room, app] = await Promise.all([
-      HostelBed.findById(bedId).session(session),
-      HostelRoom.findById(roomId).session(session),
-      HostelApplication.findById(applicationId).session(session)
-    ]);
-
-    if (!bed) throw new Error('Selected bed not found');
-    if (bed.status !== 'Vacant') throw new Error('Selected bed is already occupied');
-    if (!room) throw new Error('Selected room not found');
-    if (!app) throw new Error('Hostel application not found');
-
-    // Fetch floor to get blockId (required for allocation record)
-    const floor = await HostelFloor.findById(room.floorId).session(session);
-    if (!floor) throw new Error('Structure error: Floor not found for selected room');
-
-    // 2. STRICT VALIDATIONS
-    // - Bed vacancy double-check
-    const activeBedAllocation = await HostelAllocation.findOne({ bedId, status: 'Active' }).session(session);
-    if (activeBedAllocation) throw new Error('This bed already has an active occupant.');
-
-    // - Student double-allocation check
-    const activeStudentAllocation = await HostelAllocation.findOne({ studentId, status: 'Active' }).session(session);
-    if (activeStudentAllocation) throw new Error('This student already has an active hostel allocation.');
-
-    // 3. CREATE ALLOCATION
-    const allocation = await HostelAllocation.create([{
-      applicationId,
-      studentId,
-      bedId,
-      roomId,
-      floorId: room.floorId,
-      blockId: floor.blockId,
-      hostelId: hostelId || app.preferredHostelId, // Fallback to app's preference if needed
-      allocationDate: new Date(),
-      status: 'Active'
-    }], { session });
-
-    // 4. UPDATE BED
-    bed.status = 'Occupied';
-    bed.currentStudent = studentId;
-    await bed.save({ session });
-
-    // 5. UPDATE ROOM
-    room.occupiedCount += 1;
-    if (room.occupiedCount >= room.capacity) room.isAvailable = false;
-    await room.save({ session });
-
-    // 6. UPDATE APPLICATION
-    app.status = 'Allocated';
-    await app.save({ session });
-
-    // 7. FEE INTEGRATION
-    const feeAccount = await StudentFeeAccount.findOne({ studentId }).session(session);
-    if (feeAccount) {
-      feeAccount.hostelCharges.push({
-        amount: Number(hostelFeeAmount),
-        description: feeDescription || 'Hostel Fee',
-        date: new Date(),
-        status: 'pending'
+    try {
+      const result = await performAllocation(req.body, session);
+      await session.commitTransaction();
+      session.endSession();
+      
+      return res.status(201).json({ 
+        success: true, 
+        message: 'Bed successfully allocated',
+        data: result 
       });
-      feeAccount.totalOtherCharges += Number(hostelFeeAmount);
-      feeAccount.totalPayable += Number(hostelFeeAmount);
-      await feeAccount.save({ session });
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+
+      const isTransactionError = error.message.includes('transaction') || 
+                                 error.message.includes('Transaction') || 
+                                 error.message.includes('replica set') ||
+                                 error.code === 251 || 
+                                 error.code === 20;
+
+      if (isTransactionError) {
+        console.warn('[Hostel Allocation] MongoDB Transactions not supported. Retrying with direct non-transactional fallback...');
+        throw { isTransactionFallback: true };
+      }
+      throw error;
     }
-
-    // 8. STUDENT STATUS SYNC
-    const student = await StudentMaster.findById(studentId).session(session);
-    if (student) {
-      student.modules.hostel = {
-        status: 'allocated',
-        lastUpdated: new Date(),
-        notes: `Allocated Room ${room.roomNumber}`
-      };
-      student.markModified('modules.hostel');
-      await student.save({ session });
+  } catch (fallbackError) {
+    if (fallbackError.isTransactionFallback) {
+      // Direct sequential execution fallback (for standalone local databases)
+      try {
+        const result = await performAllocation(req.body, null);
+        return res.status(201).json({ 
+          success: true, 
+          message: 'Bed successfully allocated (fallback mode)',
+          data: result 
+        });
+      } catch (error) {
+        console.error('CRITICAL ALLOCATION ERROR (FALLBACK):', error);
+        return res.status(500).json({ 
+          success: false, 
+          error: error.message,
+          message: 'Allocation failed (non-transactional)' 
+        });
+      }
     }
-
-    await session.commitTransaction();
-    res.status(201).json({ 
-      success: true, 
-      message: 'Bed successfully allocated',
-      data: allocation[0] 
-    });
-
-  } catch (error) {
-    await session.abortTransaction();
-    console.error('CRITICAL ALLOCATION ERROR:', error);
-    res.status(500).json({ 
+    console.error('CRITICAL ALLOCATION ERROR:', fallbackError);
+    return res.status(500).json({ 
       success: false, 
-      error: error.message,
-      message: 'Transaction failed during room allocation'
+      error: fallbackError.message,
+      message: 'Transaction failed during room allocation' 
     });
-  } finally {
-    session.endSession();
   }
 };
