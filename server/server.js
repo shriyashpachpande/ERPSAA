@@ -1,13 +1,13 @@
+const dotenv = require('dotenv');
+// Load env vars immediately at startup
+dotenv.config();
+
 const express = require('express');
 const path = require('path');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const helmet = require('helmet');
 const connectDB = require('./src/config/db');
 const { apiLimiter } = require('./src/middlewares/rateLimiter');
-
-// Load env vars
-dotenv.config();
 
 // Connect to database
 connectDB();

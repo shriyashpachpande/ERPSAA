@@ -12,10 +12,24 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
       token: process.env.UPSTASH_REDIS_REST_TOKEN,
     });
 
-    // Adapt @upstash/redis's connectionless execute method for rate-limit-redis
+    // Adapt @upstash/redis's connectionless methods for rate-limit-redis
     redisStore = new RedisStore({
-      sendCommand: async (...args) => {
-        return await redis.execute(args);
+      sendCommand: async (command, ...commandArgs) => {
+        const cmd = command.toLowerCase();
+
+        if (cmd === 'eval') {
+          const script = commandArgs[0];
+          const numKeys = parseInt(commandArgs[1], 10);
+          const keys = commandArgs.slice(2, 2 + numKeys);
+          const args = commandArgs.slice(2 + numKeys);
+          return await redis.eval(script, keys, args);
+        }
+
+        if (typeof redis[cmd] === 'function') {
+          return await redis[cmd](...commandArgs);
+        }
+
+        throw new Error(`Unsupported Redis command: ${command}`);
       },
       prefix: 'erpsaa-rl-login:', // Custom prefix for ERP login rate limits
     });
