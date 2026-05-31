@@ -198,14 +198,14 @@ const FeeStudentDirectoryPage = () => {
                                         </td>
                                         <td className="px-8 py-6 text-right">
                                             {acc.feeAccount ? (
-                                                <button
+                                                <button type="button"
                                                     onClick={() => navigate(`/app/staff/fees/students/${acc.feeAccount._id}`)}
                                                     className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-900 rounded-xl font-bold text-xs hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all shadow-sm"
                                                 >
                                                     View Account <ChevronRight className="w-3 h-3" />
                                                 </button>
                                             ) : (
-                                                <button
+                                                <button type="button"
                                                     onClick={() => openAssignModal(acc)}
                                                     className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 border border-primary-600 text-white rounded-xl font-bold text-xs hover:bg-primary-700 transition-all shadow-lg shadow-primary-500/20"
                                                 >
@@ -252,7 +252,7 @@ const FeeStudentDirectoryPage = () => {
                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-2">Select Target Year Structure</label>
                                 <div className="grid grid-cols-1 gap-3">
                                     {availableStructures.length > 0 ? availableStructures.map(s => (
-                                        <button
+                                        <button type="button"
                                             key={s._id}
                                             onClick={() => setSelectedStructureId(s._id)}
                                             className={`p-6 rounded-3xl border-2 text-left transition-all ${selectedStructureId === s._id
@@ -280,13 +280,13 @@ const FeeStudentDirectoryPage = () => {
                         </div>
 
                         <div className="flex gap-4 pt-4">
-                            <button
+                            <button type="button"
                                 onClick={() => setShowAssignModal(false)}
                                 className="flex-1 py-4 bg-gray-100 text-gray-500 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-all"
                             >
                                 Cancel
                             </button>
-                            <button
+                            <button type="button"
                                 disabled={!selectedStructureId || assigningLoading}
                                 onClick={handleAssignFee}
                                 className="flex-1 py-4 bg-primary-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-primary-700 disabled:opacity-50 disabled:grayscale transition-all shadow-xl shadow-primary-500/20"

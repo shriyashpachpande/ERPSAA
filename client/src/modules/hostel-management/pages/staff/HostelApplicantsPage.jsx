@@ -102,7 +102,7 @@ const HostelApplicantsPage = () => {
         </div>
         <div className="flex gap-2">
            {['All', 'Pending', 'Approved', 'Waitlisted', 'Allocated', 'Rejected'].map(f => (
-             <button
+             <button type="button"
               key={f}
               onClick={() => setStatusFilter(f)}
               className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${statusFilter === f ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100' : 'bg-gray-50 text-gray-400 border border-gray-100 hover:border-indigo-200 hover:text-indigo-600'}`}
@@ -156,7 +156,7 @@ const HostelApplicantsPage = () => {
                     <td className="px-6 py-5 text-right">
                       {app.status === 'Pending' ? (
                         <div className="flex justify-end gap-2">
-                           <button 
+                           <button type="button" 
                             onClick={() => setSelectedApp(app)}
                             className="p-2 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
                             title="Take Action"
@@ -165,7 +165,7 @@ const HostelApplicantsPage = () => {
                            </button>
                         </div>
                       ) : (
-                        <button 
+                        <button type="button" 
                           onClick={() => setSelectedApp(app)}
                           className="px-3 py-1.5 bg-gray-50 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all"
                         >
@@ -196,7 +196,7 @@ const HostelApplicantsPage = () => {
            <div className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
               <div className="px-8 py-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                  <h3 className="text-lg font-black text-gray-900">Application Review</h3>
-                 <button onClick={() => setSelectedApp(null)} className="p-2 hover:bg-white rounded-xl transition-all">
+                 <button type="button" onClick={() => setSelectedApp(null)} className="p-2 hover:bg-white rounded-xl transition-all">
                     <X className="w-5 h-5 text-gray-400" />
                  </button>
               </div>
@@ -251,19 +251,19 @@ const HostelApplicantsPage = () => {
                       </div>
 
                       <div className="grid grid-cols-3 gap-4">
-                         <button 
+                         <button type="button" 
                           onClick={() => handleStatusUpdate(selectedApp._id, 'Approved')}
                           className="p-4 bg-emerald-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex flex-col items-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
                          >
                             <Check className="w-5 h-5" /> Approve
                          </button>
-                         <button 
+                         <button type="button" 
                           onClick={() => handleStatusUpdate(selectedApp._id, 'Waitlisted')}
                           className="p-4 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex flex-col items-center gap-2 hover:bg-blue-700 transition-all shadow-lg shadow-blue-100"
                          >
                             <Clock className="w-5 h-5" /> Waitlist
                          </button>
-                         <button 
+                         <button type="button" 
                           onClick={() => handleStatusUpdate(selectedApp._id, 'Rejected')}
                           className="p-4 bg-rose-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest flex flex-col items-center gap-2 hover:bg-rose-700 transition-all shadow-lg shadow-rose-100"
                          >

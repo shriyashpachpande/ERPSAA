@@ -78,7 +78,7 @@ const Header = ({ toggleSidebar }) => {
   return (
     <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-6 z-10 shadow-sm shrink-0 w-full">
       <div className="flex items-center gap-4">
-        <button 
+        <button type="button" 
           onClick={toggleSidebar}
           className="md:hidden text-gray-500 hover:text-gray-700 focus:outline-none p-2 rounded-md transition-colors"
         >

@@ -79,7 +79,7 @@ const AccountsDashboard = () => {
                 <AlertTriangle className="w-16 h-16 text-rose-500 mb-4" />
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Error Loading Dashboard</h2>
                 <p className="text-gray-500 mb-6">{error}</p>
-                <button onClick={fetchData} className="px-6 py-3 bg-primary-600 text-white rounded-xl font-bold">Retry Now</button>
+                <button type="button" onClick={fetchData} className="px-6 py-3 bg-primary-600 text-white rounded-xl font-bold">Retry Now</button>
             </div>
         );
     }
@@ -103,7 +103,7 @@ const AccountsDashboard = () => {
                         <Clock className="w-4 h-4 mr-2 text-gray-400" />
                         <span className="text-xs font-bold text-gray-500 uppercase">Updated: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
-                    <button 
+                    <button type="button" 
                         onClick={fetchData}
                         className={`p-3 bg-primary-600 text-white rounded-2xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 ${refreshing ? 'animate-spin' : ''}`}
                     >
@@ -162,7 +162,7 @@ const AccountsDashboard = () => {
                         </div>
                         <div className="flex gap-2">
                             {['7D', '30D', '90D'].map(range => (
-                                <button key={range} className={`px-3 py-1.5 text-xs font-black rounded-xl transition-all ${range === '30D' ? 'bg-primary-600 text-white shadow-lg shadow-primary-200' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}>
+                                <button type="button" key={range} className={`px-3 py-1.5 text-xs font-black rounded-xl transition-all ${range === '30D' ? 'bg-primary-600 text-white shadow-lg shadow-primary-200' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}>
                                     {range}
                                 </button>
                             ))}
@@ -298,7 +298,7 @@ const AccountsDashboard = () => {
                         <h3 className="text-xl font-bold text-gray-900">Recent Payment Ledger</h3>
                         <p className="text-sm font-medium text-gray-500">Latest 10 confirmed transactions</p>
                     </div>
-                    <button className="text-primary-600 font-bold text-sm hover:underline">View All Entries</button>
+                    <button type="button" className="text-primary-600 font-bold text-sm hover:underline">View All Entries</button>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
@@ -365,7 +365,7 @@ const AccountsDashboard = () => {
                                         <p className="text-xs text-gray-500 font-medium">{stu.studentId.academicProfile.course} • Year {stu.studentId.academicProfile.yearNumber}</p>
                                         <p className="text-sm font-black text-rose-600 mt-1">Due: ₹{stu.balance.toLocaleString()}</p>
                                     </div>
-                                    <button className="p-2 bg-white rounded-xl text-primary-600 hover:bg-primary-600 hover:text-white transition-all shadow-sm">
+                                    <button type="button" className="p-2 bg-white rounded-xl text-primary-600 hover:bg-primary-600 hover:text-white transition-all shadow-sm">
                                         <ChevronRight className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -381,7 +381,7 @@ const AccountsDashboard = () => {
                             <h3 className="text-xl font-bold text-gray-900">Fee Structure Performance</h3>
                             <p className="text-sm font-medium text-gray-500">Revenue snapshot by enrollment type</p>
                         </div>
-                        <button className="px-4 py-2 bg-primary-50 text-primary-700 rounded-xl font-bold text-xs hover:bg-primary-100 transition-all">
+                        <button type="button" className="px-4 py-2 bg-primary-50 text-primary-700 rounded-xl font-bold text-xs hover:bg-primary-100 transition-all">
                             Analyze Impact
                         </button>
                     </div>

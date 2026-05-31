@@ -104,9 +104,9 @@ const ReviewPanelPage = () => {
                 
                 {/* Mode Selector */}
                 <div className="flex p-1 bg-gray-100 rounded-2xl mb-8 border border-gray-200">
-                    <button onClick={() => setActionMode('review')} className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${actionMode === 'review' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>Review & Comment</button>
-                    <button onClick={() => setActionMode('request_reupload')} className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${actionMode === 'request_reupload' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>Request Doc Re-upload</button>
-                    <button onClick={() => setActionMode('restrict')} className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${actionMode === 'restrict' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500 hover:text-red-500'}`}>Final Decisions</button>
+                    <button type="button" onClick={() => setActionMode('review')} className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${actionMode === 'review' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>Review & Comment</button>
+                    <button type="button" onClick={() => setActionMode('request_reupload')} className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${actionMode === 'request_reupload' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>Request Doc Re-upload</button>
+                    <button type="button" onClick={() => setActionMode('restrict')} className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${actionMode === 'restrict' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-500 hover:text-red-500'}`}>Final Decisions</button>
                 </div>
 
                 {actionMode === 'review' && (
@@ -124,7 +124,7 @@ const ReviewPanelPage = () => {
                                 placeholder="E.g., Verified academic records against physical copies..."
                             />
                         </div>
-                        <button onClick={submitReview} disabled={actionLoading} className="w-full flex justify-center items-center px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-black transition-colors disabled:opacity-50">
+                        <button type="button" onClick={submitReview} disabled={actionLoading} className="w-full flex justify-center items-center px-6 py-3 bg-brand-dark text-white font-bold rounded-xl hover:bg-black transition-colors disabled:opacity-50">
                             {actionLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Save Comment & Mark Under Review'}
                         </button>
                     </div>
@@ -164,7 +164,7 @@ const ReviewPanelPage = () => {
                             />
                         </div>
 
-                        <button onClick={requestReupload} disabled={actionLoading || requestedFields.length === 0} className="w-full flex justify-center items-center px-6 py-3 bg-amber-600 text-white font-bold rounded-xl hover:bg-amber-700 transition-colors shadow-lg shadow-amber-600/20 disabled:opacity-50">
+                        <button type="button" onClick={requestReupload} disabled={actionLoading || requestedFields.length === 0} className="w-full flex justify-center items-center px-6 py-3 bg-amber-600 text-white font-bold rounded-xl hover:bg-amber-700 transition-colors shadow-lg shadow-amber-600/20 disabled:opacity-50">
                             {actionLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Confirm Re-upload Request'}
                         </button>
                     </div>
@@ -177,7 +177,7 @@ const ReviewPanelPage = () => {
                             <CheckCircle className="w-12 h-12 text-green-500 mx-auto" />
                             <h3 className="text-xl font-bold text-green-900">Approve Admission</h3>
                             <p className="text-sm text-green-700 max-w-sm mx-auto">This will irreversibly seal the application and process the candidate as a formally approved future enrollment.</p>
-                            <button onClick={approveApp} disabled={actionLoading} className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-green-600/30">
+                            <button type="button" onClick={approveApp} disabled={actionLoading} className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-green-600/30">
                                 Verify and Approve
                             </button>
                         </div>
@@ -196,7 +196,7 @@ const ReviewPanelPage = () => {
                                 placeholder="MANDATORY: Provide clear reason for rejection."
                             />
 
-                            <button onClick={rejectApp} disabled={actionLoading || !rejectionReason} className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-red-600/30 disabled:opacity-50">
+                            <button type="button" onClick={rejectApp} disabled={actionLoading || !rejectionReason} className="px-8 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-red-600/30 disabled:opacity-50">
                                 Confirmed Reject
                             </button>
                         </div>

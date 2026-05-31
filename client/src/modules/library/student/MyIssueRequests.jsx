@@ -107,7 +107,7 @@ const MyIssueRequests = () => {
             <div className="sticky top-0 z-50 bg-white/70 backdrop-blur-2xl border-b border-slate-100/50 px-6 py-6 stagger-item">
                 <div className="max-w-7xl mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-6">
-                        <button
+                        <button type="button"
                             onClick={() => navigate(-1)}
                             className="group p-4 bg-white rounded-3xl shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] hover:shadow-[0_0_20px_0px_rgba(139,92,246,0.5)] transition-all duration-500"
                         >
@@ -225,7 +225,7 @@ const MyIssueRequests = () => {
                             <p className="text-slate-400 font-bold max-w-sm mx-auto uppercase tracking-[0.25em] text-[10px] leading-[2.5]">
                                 No active petitions detected in our servers. Start your intellectual journey today.
                             </p>
-                            <button
+                            <button type="button"
                                 onClick={() => navigate('/app/student/library/catalog')}
                                 className="mt-14 px-12 py-6 bg-brand-dark text-white rounded-[2rem] font-black uppercase tracking-[0.3em] text-[10px] hover:bg-blue-600 transition-all duration-500 active:scale-95 flex items-center gap-6 shadow-2xl shadow-brand-dark/20 hover:shadow-blue-500/40 group"
                             >

@@ -183,7 +183,7 @@ const IssueRequestsReviewPage = () => {
                                 <div className="xl:w-1/4 flex flex-col md:flex-row xl:flex-col justify-center gap-3">
                                     {req.status === 'PENDING' ? (
                                         <>
-                                            <button 
+                                            <button type="button" 
                                                 onClick={() => handleReview(req._id, 'APPROVED')}
                                                 disabled={actionStatus.loading && actionStatus.id === req._id}
                                                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-[0.1em] py-3 rounded-2xl shadow-lg shadow-emerald-600/20 active:scale-95 transition-all text-[10px] flex items-center justify-center gap-2"
@@ -191,7 +191,7 @@ const IssueRequestsReviewPage = () => {
                                                 {actionStatus.loading && actionStatus.id === req._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
                                                 Just Approve
                                             </button>
-                                            <button 
+                                            <button type="button" 
                                                 onClick={async () => {
                                                     await handleReview(req._id, 'APPROVED');
                                                     // After approval, navigate to Issue page with prefilled data
@@ -209,7 +209,7 @@ const IssueRequestsReviewPage = () => {
                                                 Approve & Issue
                                                 <ArrowRight className="w-4 h-4" />
                                             </button>
-                                            <button 
+                                            <button type="button" 
                                                 onClick={() => handleReview(req._id, 'REJECTED')}
                                                 disabled={actionStatus.loading && actionStatus.id === req._id}
                                                 className="flex-1 bg-rose-50 hover:bg-rose-100 text-rose-600 font-black uppercase tracking-[0.1em] py-3 rounded-2xl border-2 border-rose-100 active:scale-95 transition-all text-[10px] flex items-center justify-center gap-2"
@@ -241,7 +241,7 @@ const IssueRequestsReviewPage = () => {
                                          <Loader2 className="w-12 h-12 mx-auto animate-spin" />}
                                         <p className="text-lg font-black tracking-tight">{actionStatus.message}</p>
                                         {!actionStatus.loading && (
-                                            <button 
+                                            <button type="button" 
                                                 onClick={() => setActionStatus({ id: null, loading: false, message: '', type: '' })}
                                                 className="bg-white text-brand-dark px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest"
                                             >

@@ -8,7 +8,7 @@ const AdmissionDashboard = () => {
           <h1 className="text-2xl font-bold text-gray-900">Admission Management</h1>
           <p className="text-sm text-gray-500">Review applications, applicant statuses, and complete enrollments.</p>
         </div>
-        <button className="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-primary-700 transition-colors">
+        <button type="button" className="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-primary-700 transition-colors">
           + Start New Admission
         </button>
       </div>
@@ -80,7 +80,7 @@ const AdmissionDashboard = () => {
                     </td>
                     <td className="p-4 text-sm text-gray-500">{row.date}</td>
                     <td className="p-4 text-right">
-                      <button className="text-primary-600 hover:text-primary-900 text-sm font-medium">Review</button>
+                      <button type="button" className="text-primary-600 hover:text-primary-900 text-sm font-medium">Review</button>
                     </td>
                   </tr>
                 ))}

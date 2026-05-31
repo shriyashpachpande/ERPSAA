@@ -83,13 +83,13 @@ const SubjectsPage = () => {
         </div>
 
         <div className="flex gap-4">
-          <button
+          <button type="button"
             onClick={handleCreate}
             className="px-8 py-4 bg-slate-900 text-white rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 active:scale-95 flex items-center gap-3 font-black text-xs uppercase tracking-[0.15em]"
           >
             <Plus className="w-4 h-4 text-primary-400" /> New Subject
           </button>
-          <button className="p-4 bg-white text-slate-400 rounded-2xl border border-slate-100 shadow-sm active:scale-95">
+          <button type="button" className="p-4 bg-white text-slate-400 rounded-2xl border border-slate-100 shadow-sm active:scale-95">
             <Settings className="w-6 h-6" />
           </button>
         </div>

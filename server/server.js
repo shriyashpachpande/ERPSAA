@@ -12,6 +12,9 @@ connectDB();
 
 const app = express();
 
+// Initialize WhatsApp Service
+require('./src/services/whatsappService');
+
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -120,7 +120,7 @@ const MyMenteesPage = () => {
                 {sections.map((sec) => {
                   const isSelected = sec._id === selectedSectionId;
                   return (
-                    <button
+                    <button type="button"
                       key={sec._id}
                       onClick={() => setSelectedSectionId(sec._id)}
                       className={`w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-center justify-between group ${

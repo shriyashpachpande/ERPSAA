@@ -30,7 +30,7 @@ const FacultyTable = ({ data, loading, onViewDetails, onToggleStatus, onDelete, 
           />
         </div>
         <div className="flex items-center gap-2">
-          <button className="p-2 text-gray-500 hover:bg-white rounded-lg border border-transparent hover:border-gray-200 transition-all">
+          <button type="button" className="p-2 text-gray-500 hover:bg-white rounded-lg border border-transparent hover:border-gray-200 transition-all">
             <Filter className="w-4 h-4" />
           </button>
         </div>
@@ -81,7 +81,7 @@ const FacultyTable = ({ data, loading, onViewDetails, onToggleStatus, onDelete, 
                 </td>
                 <td className="px-6 py-4 text-right">
                   <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button 
+                    <button type="button" 
                       onClick={() => onViewDetails(faculty)}
                       className="p-2 text-primary-600 hover:bg-primary-100 rounded-lg transition-colors"
                       title="View Profile"
@@ -90,14 +90,14 @@ const FacultyTable = ({ data, loading, onViewDetails, onToggleStatus, onDelete, 
                     </button>
                     {canManage && (
                       <>
-                        <button 
+                        <button type="button" 
                           onClick={() => onToggleStatus(faculty._id, faculty.status === 'active' ? 'inactive' : 'active')}
                           className={`p-2 rounded-lg transition-colors ${faculty.status === 'active' ? 'text-emerald-600 hover:bg-emerald-100' : 'text-gray-400 hover:bg-gray-200'}`}
                           title={faculty.status === 'active' ? 'Deactivate' : 'Activate'}
                         >
                           {faculty.status === 'active' ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
                         </button>
-                        <button 
+                        <button type="button" 
                           onClick={() => onDelete(faculty)}
                           className="p-2 text-rose-500 hover:bg-rose-100 rounded-lg transition-colors"
                           title="Delete Faculty"

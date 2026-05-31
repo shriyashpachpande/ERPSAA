@@ -83,7 +83,7 @@ const FeeStructureManagementPage = () => {
                     <h1 className="text-4xl font-black text-gray-900 tracking-tight italic">Fee Structure.</h1>
                     <p className="text-sm font-medium text-gray-500">Define and manage institutional pricing across all departments.</p>
                 </div>
-                <button className="flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-black transition-all shadow-2xl hover:scale-[1.02] active:scale-[0.98]">
+                <button type="button" className="flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-black transition-all shadow-2xl hover:scale-[1.02] active:scale-[0.98]">
                     <Plus className="w-4 h-4" /> Define New Structure
                 </button>
             </div>
@@ -102,7 +102,7 @@ const FeeStructureManagementPage = () => {
                 </div>
                 <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
                     {courses.map(course => (
-                        <button
+                        <button type="button"
                             key={course}
                             onClick={() => setCourseFilter(course)}
                             className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
@@ -142,10 +142,10 @@ const FeeStructureManagementPage = () => {
                                         )}
                                     </div>
                                     <div className="flex gap-2">
-                                        <button className="p-2 text-gray-400 hover:text-primary-600 transition-colors">
+                                        <button type="button" className="p-2 text-gray-400 hover:text-primary-600 transition-colors">
                                             <Edit2 className="w-4 h-4" />
                                         </button>
-                                        <button className="p-2 text-gray-400 hover:text-rose-600 transition-colors">
+                                        <button type="button" className="p-2 text-gray-400 hover:text-rose-600 transition-colors">
                                             <Trash2 className="w-4 h-4" />
                                         </button>
                                     </div>
@@ -176,7 +176,7 @@ const FeeStructureManagementPage = () => {
                                     </div>
                                 </div>
 
-                                <button 
+                                <button type="button" 
                                     onClick={() => window.location.href = `/app/staff/fees/structures/analysis/${structure._id}`}
                                     className="w-full flex items-center justify-between px-6 py-4 bg-gray-900 border border-gray-900 rounded-2xl text-xs font-black uppercase tracking-widest text-white hover:bg-black transition-all shadow-lg hover:shadow-primary-500/20 active:scale-[0.98]"
                                 >

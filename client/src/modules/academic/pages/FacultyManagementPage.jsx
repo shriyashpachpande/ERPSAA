@@ -87,14 +87,14 @@ const FacultyManagementPage = () => {
               </p>
               
               <div className="flex flex-col sm:flex-row w-full gap-3">
-                <button 
+                <button type="button" 
                   onClick={() => setFacultyToDelete(null)}
                   disabled={isDeleting}
                   className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-colors disabled:opacity-50 w-full"
                 >
                   Cancel
                 </button>
-                <button 
+                <button type="button" 
                   onClick={confirmDelete}
                   disabled={isDeleting}
                   className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl shadow-lg shadow-rose-600/20 transition-all disabled:opacity-50 flex items-center justify-center gap-2 w-full"

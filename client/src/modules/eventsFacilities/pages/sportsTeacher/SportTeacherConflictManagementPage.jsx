@@ -142,14 +142,14 @@ const SportTeacherConflictManagementPage = () => {
                                         </div>
                                         {conflict.request1.status === 'pending' && (
                                             <div className="mt-4 flex gap-2">
-                                                <button 
+                                                <button type="button" 
                                                     onClick={() => handleAction(conflict.request1.id, 'approve')}
                                                     disabled={!!actionLoading}
                                                     className="flex-1 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition-colors active:scale-95 disabled:opacity-50"
                                                 >
                                                     {actionLoading === conflict.request1.id ? <RefreshCw className="w-3 h-3 animate-spin mx-auto"/> : 'Approve'}
                                                 </button>
-                                                <button 
+                                                <button type="button" 
                                                     onClick={() => handleAction(conflict.request1.id, 'reject')}
                                                     disabled={!!actionLoading}
                                                     className="flex-1 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg text-xs font-bold transition-colors active:scale-95 disabled:opacity-50"
@@ -181,14 +181,14 @@ const SportTeacherConflictManagementPage = () => {
                                         </div>
                                         {conflict.request2.status === 'pending' && (
                                             <div className="mt-4 flex gap-2">
-                                                <button 
+                                                <button type="button" 
                                                     onClick={() => handleAction(conflict.request2.id, 'approve')}
                                                     disabled={!!actionLoading}
                                                     className="flex-1 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-xs font-bold transition-colors active:scale-95 disabled:opacity-50"
                                                 >
                                                     {actionLoading === conflict.request2.id ? <RefreshCw className="w-3 h-3 animate-spin mx-auto"/> : 'Approve'}
                                                 </button>
-                                                <button 
+                                                <button type="button" 
                                                     onClick={() => handleAction(conflict.request2.id, 'reject')}
                                                     disabled={!!actionLoading}
                                                     className="flex-1 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 rounded-lg text-xs font-bold transition-colors active:scale-95 disabled:opacity-50"

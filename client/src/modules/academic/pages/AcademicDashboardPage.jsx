@@ -142,7 +142,7 @@ const AcademicDashboardPage = () => {
               <Zap className="w-5 h-5 fill-current" />
             </div>
           </div>
-          <button className="p-4 lg:p-5 bg-slate-900 text-white rounded-[1.5rem] lg:rounded-3xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 active:scale-95">
+          <button type="button" className="p-4 lg:p-5 bg-slate-900 text-white rounded-[1.5rem] lg:rounded-3xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 active:scale-95">
             <Settings className="w-6 h-6 animate-[spin_4s_linear_infinite]" />
           </button>
         </div>
@@ -237,7 +237,7 @@ const AcademicDashboardPage = () => {
 
               <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {actions.map((action, idx) => (
-                  <button
+                  <button type="button"
                     key={action.id || idx}
                     onClick={() => window.location.href = action.path}
                     className="p-8 glass-panel bg-white/40 hover:bg-white border-white/60 hover:border-primary-200 rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 text-left group/tile relative overflow-hidden"
@@ -314,7 +314,7 @@ const AcademicDashboardPage = () => {
                   <p className="text-xs text-slate-400 font-medium leading-relaxed">
                     Departmental performance for the 2023-24 cycle is being audited. Ensure all <span className="text-white">Internal Marks</span> are finalized by EOM.
                   </p>
-                  <button className="w-full py-4 bg-white text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-[0.25em] hover:bg-primary-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-2">
+                  <button type="button" className="w-full py-4 bg-white text-slate-900 rounded-2xl font-black text-[10px] uppercase tracking-[0.25em] hover:bg-primary-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-2">
                     Request Full Audit <FileText className="w-3 h-3" />
                   </button>
                 </div>

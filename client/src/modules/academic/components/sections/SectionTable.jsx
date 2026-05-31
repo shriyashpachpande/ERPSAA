@@ -75,14 +75,14 @@ const SectionTable = ({ data, loading, onEdit, onToggleStatus, highlightMentor }
               </td>
               <td className="px-8 py-5 text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <button 
+                  <button type="button" 
                     onClick={() => onEdit(sec)}
                     className="p-3 text-primary-600 hover:bg-white hover:shadow-sm rounded-2xl transition-all active:scale-95"
                     title="Edit Section"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
-                  <button 
+                  <button type="button" 
                     onClick={() => onToggleStatus(sec._id, sec.status === 'active' ? 'inactive' : 'active')}
                     className={`p-3 rounded-2xl transition-all active:scale-95 hover:shadow-sm ${
                       sec.status === 'active' ? 'text-red-400 hover:bg-red-50' : 'text-emerald-400 hover:bg-emerald-50'

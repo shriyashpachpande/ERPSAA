@@ -137,14 +137,14 @@ const CreateApplicantAccountPage = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                        <button
+                        <button type="button"
                             onClick={handleCopy}
                             className={`flex items-center justify-center px-6 py-3 rounded-xl font-bold transition-all shadow-md ${copied ? 'bg-green-600 text-white shadow-green-600/20' : 'bg-gray-900 text-white hover:bg-black'}`}
                         >
                             {copied ? <CheckCircle className="w-5 h-5 mr-2" /> : <Copy className="w-5 h-5 mr-2" />}
                             {copied ? 'Copied to Clipboard!' : 'Copy Credentials'}
                         </button>
-                        <button
+                        <button type="button"
                             onClick={() => { setSuccessData(null); handleReset(); }}
                             className="flex items-center justify-center px-6 py-3 bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-colors"
                         >

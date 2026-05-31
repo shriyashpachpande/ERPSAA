@@ -558,47 +558,42 @@ exports.createApplicantAccount = async (req, res) => {
       }
     }
 
-    const user = await User.create({
+    if (!mobileNumber) {
+      return res.status(400).json({ success: false, error: 'WhatsApp mobile number is required to send the verification OTP.' });
+    }
+
+    // --- WHATSAPP OTP INTEGRATION ---
+    const PendingUser = require('../../models/auth/PendingUser');
+    const whatsappService = require('../../services/whatsappService');
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpire = new Date(Date.now() + 15 * 60 * 1000);
+
+    // Save to temporary storage
+    await PendingUser.create({
       fullName,
       email: generatedEmail,
-      username: username || undefined,
-      password,
+      password, // Password will be hashed in the User pre-save hook when verified
+      phone: mobileNumber,
       role: 'student',
-      isActive: true,
-      mustChangePassword: true,
-      createdBy: req.user.id
+      otherData: {
+        year: yearStr,
+        username,
+        staffId: req.user.id
+      },
+      otp,
+      otpExpire
     });
 
-    // Automatically create the Admission Application skeleton with the Admission Year
-    const newAppId = `APP-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-    await AdmissionApplication.create({
-      applicationId: newAppId,
-      linkedUserId: user._id,
-      admissionYear: Number(yearStr),
-      applicationStatus: 'draft',
-      personalDetails: { 
-        fullName,
-        email: generatedEmail,
-        mobileNumber: mobileNumber || undefined
-      },
-      addressDetails: {
-        current: { addressLine1: '', city: '', state: '', pincode: '' },
-        permanent: { addressLine1: '', city: '', state: '', pincode: '' }
-      },
-      academicDetails: {},
-      courseSelection: {},
-      guardianDetails: {}
-    });
+    // Send OTP to student
+    await whatsappService.sendOTP(mobileNumber, otp);
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
-      data: {
-        _id: user._id,
-        fullName: user.fullName,
-        generatedEmail: user.email,
-        username: user.username,
-        role: user.role
-      }
+      message: 'OTP sent to student WhatsApp',
+      phone: mobileNumber,
+      tempPassword: password
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

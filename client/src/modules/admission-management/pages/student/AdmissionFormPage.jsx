@@ -15,6 +15,27 @@ import { useDepartments } from '../../../academic/hooks/useDepartments';
 // resolveUrl is now handled by the centralized getFileUrl
 const resolveUrl = (urlOrPath) => getFileUrl(urlOrPath);
 
+const Select = ({ label, value, onChange, options, placeholder = 'Select', icon: Icon }) => (
+    <div className="group">
+        <label className="block text-sm font-bold text-gray-700 mb-2 transition-colors group-focus-within:text-primary-600 flex items-center gap-2">
+            {label}
+        </label>
+        <div className="relative">
+            <select
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 focus:bg-white outline-none transition-all font-semibold text-gray-900 appearance-none shadow-sm"
+            >
+                <option value="">{placeholder}</option>
+                {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+            </select>
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                <ChevronRight className="w-4 h-4 rotate-90" />
+            </div>
+        </div>
+    </div>
+);
+
 // ── Get login email from stored user object (set at login time) ──────────────
 // The JWT only stores `id`, so we read from the `user` key written by the auth flow.
 const getLoginEmail = () => {
@@ -288,27 +309,6 @@ const AdmissionFormPage = () => {
     const isReadOnly = !['draft', 'reupload_requested'].includes(appStatus);
     const displayProfilePhoto = profilePhotoPreview || resolveUrl(savedProfilePhotoUrl);
 
-    // ── Reusable select component ─────────────────────────────────────────────
-    const Select = ({ label, value, onChange, options, placeholder = 'Select', icon: Icon }) => (
-        <div className="group">
-            <label className="block text-sm font-bold text-gray-700 mb-2 transition-colors group-focus-within:text-primary-600 flex items-center gap-2">
-                {label}
-            </label>
-            <div className="relative">
-                <select
-                    value={value}
-                    onChange={(e) => onChange(e.target.value)}
-                    className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 focus:bg-white outline-none transition-all font-semibold text-gray-900 appearance-none shadow-sm"
-                >
-                    <option value="">{placeholder}</option>
-                    {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <ChevronRight className="w-4 h-4 rotate-90" />
-                </div>
-            </div>
-        </div>
-    );
 
     return (
         <div className="max-w-[1200px] mx-auto space-y-8">
@@ -339,11 +339,11 @@ const AdmissionFormPage = () => {
                     <div className="flex items-center gap-3">
                         {!isReadOnly && (
                             <>
-                                <button onClick={handleSaveDraft} disabled={saving} className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-2xl font-bold transition-all shadow-sm flex items-center gap-2">
+                                <button type="button" onClick={handleSaveDraft} disabled={saving} className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-2xl font-bold transition-all shadow-sm flex items-center gap-2">
                                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                                     Save Draft
                                 </button>
-                                <button onClick={handleSubmit} disabled={submitting || saving} className="px-6 py-2.5 bg-primary-600 text-white rounded-2xl font-bold transition-all shadow-lg shadow-primary-600/20 flex items-center gap-2">
+                                <button type="button" onClick={handleSubmit} disabled={submitting || saving} className="px-6 py-2.5 bg-primary-600 text-white rounded-2xl font-bold transition-all shadow-lg shadow-primary-600/20 flex items-center gap-2">
                                     {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                                     Final Submit
                                 </button>
@@ -388,7 +388,7 @@ const AdmissionFormPage = () => {
                             const isCompleted = progress > (s.id * 15); // Simple visual feedback
 
                             return (
-                                <button
+                                <button type="button"
                                     key={s.id}
                                     onClick={() => setStep(s.id)}
                                     className={`w-full text-left p-4 rounded-3xl transition-all flex items-start gap-4 group relative ${isActive ? 'bg-white shadow-xl shadow-primary-600/10 border border-primary-100' : 'border border-transparent'}`}
@@ -743,7 +743,7 @@ const AdmissionFormPage = () => {
                                                                             <p className="text-[9px] font-medium text-gray-400">{hasNewFile ? 'Pending' : new Date(savedMeta.uploadedAt).toLocaleDateString()}</p>
                                                                         </div>
                                                                         {hasNewFile && (
-                                                                            <button onClick={() => clearPendingDoc(docKey)} className="p-2 hover:bg-rose-50 text-gray-300 hover:text-rose-500 rounded-lg transition-all">
+                                                                            <button type="button" onClick={() => clearPendingDoc(docKey)} className="p-2 hover:bg-rose-50 text-gray-300 hover:text-rose-500 rounded-lg transition-all">
                                                                                 <X className="w-4 h-4" />
                                                                             </button>
                                                                         )}

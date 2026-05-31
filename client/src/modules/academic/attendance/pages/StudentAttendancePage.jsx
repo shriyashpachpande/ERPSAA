@@ -78,10 +78,10 @@ const StudentAttendancePage = () => {
            </div>
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <button className="flex-1 sm:flex-none p-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
+          <button type="button" className="flex-1 sm:flex-none p-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
             <Filter className="w-4 h-4 text-slate-600 mx-auto" />
           </button>
-          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-600/20">
+          <button type="button" className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-600/20">
             <Download className="w-4 h-4" /> Export Ledger
           </button>
         </div>
@@ -223,7 +223,7 @@ const StudentAttendancePage = () => {
               </div>
               Detailed Records Log
             </h3>
-            <button className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] hover:text-indigo-700 transition-colors px-4 py-2 bg-indigo-50 rounded-xl border border-indigo-100">View Archive</button>
+            <button type="button" className="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] hover:text-indigo-700 transition-colors px-4 py-2 bg-indigo-50 rounded-xl border border-indigo-100">View Archive</button>
           </div>
 
           <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-100">

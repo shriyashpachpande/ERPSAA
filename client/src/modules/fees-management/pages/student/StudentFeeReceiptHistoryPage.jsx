@@ -105,10 +105,10 @@ const StudentFeeReceiptHistoryPage = () => {
                             </div>
 
                             <div className="flex gap-3 pt-2">
-                                <button className="flex-1 flex items-center justify-center gap-2 py-3 bg-gray-900 text-white rounded-2xl font-bold text-xs hover:bg-black transition-all shadow-lg shadow-gray-200">
+                                <button type="button" className="flex-1 flex items-center justify-center gap-2 py-3 bg-gray-900 text-white rounded-2xl font-bold text-xs hover:bg-black transition-all shadow-lg shadow-gray-200">
                                     <Printer className="w-4 h-4" /> Print
                                 </button>
-                                <button className="p-3 bg-primary-50 text-primary-600 rounded-2xl hover:bg-primary-600 hover:text-white transition-all shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)]">
+                                <button type="button" className="p-3 bg-primary-50 text-primary-600 rounded-2xl hover:bg-primary-600 hover:text-white transition-all shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)]">
                                     <Download className="w-4 h-4" />
                                 </button>
                             </div>

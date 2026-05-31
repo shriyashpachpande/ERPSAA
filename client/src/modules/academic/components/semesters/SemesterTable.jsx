@@ -39,7 +39,7 @@ const SemesterTable = ({ data, loading, onEdit }) => {
                 <AcademicStatusBadge status={sem.status} />
               </td>
               <td className="px-6 py-4 text-right">
-                <button 
+                <button type="button" 
                   onClick={() => onEdit(sem)}
                   className="p-3 text-primary-600 hover:bg-primary-100 rounded-2xl transition-all shadow-sm hover:shadow-primary-600/10 active:scale-95"
                 >

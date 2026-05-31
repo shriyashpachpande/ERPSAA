@@ -49,7 +49,7 @@ const AdminBookRequestReviewPage = () => {
                 
                 <div className="flex gap-2 p-1 bg-gray-100 rounded-2xl w-fit">
                     {['PENDING', 'APPROVED', 'REJECTED', 'ORDERED', 'ALL'].map(tab => (
-                        <button 
+                        <button type="button" 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
@@ -148,19 +148,19 @@ const AdminBookRequestReviewPage = () => {
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => handleReview('APPROVED')}
                                         className="p-5 bg-emerald-600 text-white rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-900/40"
                                     >
                                         Approve
                                     </button>
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => handleReview('REJECTED')}
                                         className="p-5 bg-red-600 text-white rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all shadow-xl shadow-red-900/40"
                                     >
                                         Reject
                                     </button>
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => handleReview('ORDERED')}
                                         className="col-span-2 p-5 bg-primary-600 text-white rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-primary-700 transition-all shadow-xl shadow-primary-900/40 mt-2"
                                     >

@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
     ChevronLeft, Clock, Info, ExternalLink, Activity, User, Calendar, 
-    Sparkles, ShieldCheck, ArrowRight, Bell, Target, Zap 
+    Sparkles, ShieldCheck, ArrowRight, Bell, Target, Zap, ArrowLeft 
 } from 'lucide-react';
 import { useComplaintDetails } from '../../../../hooks/complaint-management/useComplaintDetails';
 import { COMPLAINT_STATUS_UI } from '../../../../constants/complaint-management/complaintStatusUiConstants';
@@ -57,7 +57,7 @@ const ComplaintStatusTrackingPage = () => {
                 </div>
                 <h2 className="text-4xl font-black text-slate-900 tracking-tighter">Terminal Disconnected</h2>
                 <p className="text-slate-400 font-bold mt-4 max-w-sm mx-auto uppercase tracking-widest text-[10px]">The requested ticket is invalid or access was denied.</p>
-                <button 
+                <button type="button" 
                     onClick={() => navigate('/app/student/complaints/my')}
                     className="mt-12 px-12 py-5 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all duration-500 shadow-2xl active:scale-95 flex items-center gap-4 mx-auto"
                 >
@@ -76,7 +76,7 @@ const ComplaintStatusTrackingPage = () => {
             <div className="max-w-7xl mx-auto mb-16 space-y-10">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 stagger-item">
                     <div className="flex items-center gap-6">
-                        <button
+                        <button type="button"
                             onClick={() => navigate('/app/student/complaints/my')}
                             className="group p-4 bg-white rounded-3xl shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] hover:shadow-[0_0_20px_0px_rgba(139,92,246,0.5)] transition-all duration-500"
                         >
@@ -188,7 +188,7 @@ const ComplaintStatusTrackingPage = () => {
                             </div>
 
                             <div className="mt-12 pt-10 border-t border-white/5">
-                                <button 
+                                <button type="button" 
                                     onClick={() => navigate(`/app/student/complaints/details/${id}`)}
                                     className="w-full py-5 bg-white text-slate-900 font-black rounded-2xl hover:bg-blue-600 hover:text-white transition-all duration-500 flex items-center justify-center gap-3 shadow-xl shadow-white/5 active:scale-95 group/btn"
                                 >

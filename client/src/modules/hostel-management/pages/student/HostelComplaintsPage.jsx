@@ -137,7 +137,7 @@ const HostelComplaintsPage = () => {
               className="pl-11 pr-4 py-3.5 bg-white border border-slate-100 rounded-2xl w-full md:w-64 focus:outline-none focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 font-medium text-sm text-slate-700 transition-all shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)]"
             />
           </div>
-          <button 
+          <button type="button" 
             onClick={() => setIsModalOpen(true)}
             className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white px-6 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all flex items-center gap-2"
           >
@@ -177,7 +177,7 @@ const HostelComplaintsPage = () => {
 
               <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-slate-50">
                 <StatusBadge status={c.status} />
-                <button 
+                <button type="button" 
                   onClick={() => setSelectedComplaint(c)}
                   className="px-5 py-2.5 bg-slate-50 text-slate-700 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all flex items-center gap-2 group/btn"
                 >
@@ -205,7 +205,7 @@ const HostelComplaintsPage = () => {
                     <p className="text-[10px] font-black text-slate-400 capitalize">#{selectedComplaint._id?.slice(-6)}</p>
                   </div>
                 </div>
-                <button onClick={() => setSelectedComplaint(null)} className="p-2 hover:bg-slate-50 rounded-xl transition-all">
+                <button type="button" onClick={() => setSelectedComplaint(null)} className="p-2 hover:bg-slate-50 rounded-xl transition-all">
                   <X className="w-5 h-5 text-slate-400" />
                 </button>
              </div>
@@ -244,7 +244,7 @@ const HostelComplaintsPage = () => {
 
              <div className="px-10 py-6 bg-slate-50/50 border-t border-slate-50 flex items-center justify-between">
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Submitted on: {new Date(selectedComplaint.createdAt).toLocaleString()}</p>
-                <button onClick={() => setSelectedComplaint(null)} className="py-3 px-8 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-black transition-all">Close Viewer</button>
+                <button type="button" onClick={() => setSelectedComplaint(null)} className="py-3 px-8 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-black transition-all">Close Viewer</button>
              </div>
           </div>
         </div>
@@ -260,7 +260,7 @@ const HostelComplaintsPage = () => {
                 <h2 className="text-2xl font-black text-slate-900 leading-none mb-1">New Complaint</h2>
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Share your feedback or report an issue</p>
               </div>
-              <button onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-slate-50 rounded-2xl transition-all">
+              <button type="button" onClick={() => setIsModalOpen(false)} className="p-3 hover:bg-slate-50 rounded-2xl transition-all">
                 <X className="w-6 h-6 text-slate-400" />
               </button>
             </div>

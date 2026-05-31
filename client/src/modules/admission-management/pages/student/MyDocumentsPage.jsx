@@ -188,7 +188,7 @@ const MyDocumentsPage = () => {
                     </div>
 
                     <div className="flex justify-center mt-12">
-                        <button
+                        <button type="button"
                             onClick={handleSubmitReupload}
                             disabled={actionLoading || Object.keys(reuploadFiles).length === 0}
                             className="px-10 py-4 bg-amber-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-amber-600/30 hover:bg-amber-700 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 flex items-center gap-3"

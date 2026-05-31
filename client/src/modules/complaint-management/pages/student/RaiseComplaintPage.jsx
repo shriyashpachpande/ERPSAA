@@ -57,7 +57,7 @@ const RaiseComplaintPage = () => {
                 {/* 2. ELITE HEADER */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-16 stagger-item">
                     <div className="flex items-center gap-6">
-                        <button
+                        <button type="button"
                             onClick={() => navigate(-1)}
                             className="group p-4 bg-white rounded-3xl shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] hover:shadow-[0_0_20px_0px_rgba(139,92,246,0.5)] transition-all duration-500"
                         >

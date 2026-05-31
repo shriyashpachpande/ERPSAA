@@ -81,7 +81,7 @@ const FeeStructureImpactAnalysis = () => {
         <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 text-center px-6">
             <AlertCircle className="w-12 h-12 text-rose-500" />
             <h2 className="text-2xl font-black text-gray-900 italic">{error || 'No analysis data found'}</h2>
-            <button onClick={() => navigate(-1)} className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest">Back to Structures</button>
+            <button type="button" onClick={() => navigate(-1)} className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest">Back to Structures</button>
         </div>
     );
 
@@ -98,7 +98,7 @@ const FeeStructureImpactAnalysis = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center gap-6">
-                    <button 
+                    <button type="button" 
                         onClick={() => navigate(-1)}
                         className="p-4 bg-white border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all shadow-sm group"
                     >
@@ -250,7 +250,7 @@ const FeeStructureImpactAnalysis = () => {
                         <h3 className="text-xl font-black text-gray-900 italic">Recent Activity</h3>
                         <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-1">Latest transactions for this structure.</p>
                     </div>
-                    <button className="px-5 py-3 bg-gray-50 text-gray-900 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition-all border border-gray-100">
+                    <button type="button" className="px-5 py-3 bg-gray-50 text-gray-900 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-100 transition-all border border-gray-100">
                         View All
                     </button>
                 </div>

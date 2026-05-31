@@ -99,7 +99,7 @@ const AccountsReportsPage = () => {
         <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 text-center px-6">
             <AlertCircle className="w-12 h-12 text-rose-500" />
             <h2 className="text-2xl font-black text-gray-900 italic">{error || 'No data available'}</h2>
-            <button onClick={fetchReport} className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest">Retry</button>
+            <button type="button" onClick={fetchReport} className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest">Retry</button>
         </div>
     );
 
@@ -126,10 +126,10 @@ const AccountsReportsPage = () => {
                     <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-2">Comprehensive institutional financial analytics.</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <button className="flex items-center px-8 py-4 bg-white border border-gray-100 rounded-3xl text-xs font-black uppercase tracking-widest text-gray-900 hover:bg-gray-50 transition-all shadow-sm">
+                    <button type="button" className="flex items-center px-8 py-4 bg-white border border-gray-100 rounded-3xl text-xs font-black uppercase tracking-widest text-gray-900 hover:bg-gray-50 transition-all shadow-sm">
                         <Download className="w-4 h-4 mr-3" /> Export Report
                     </button>
-                    <button onClick={fetchReport} className="p-4 bg-gray-900 text-white rounded-3xl hover:bg-black transition-all shadow-xl shadow-gray-200">
+                    <button type="button" onClick={fetchReport} className="p-4 bg-gray-900 text-white rounded-3xl hover:bg-black transition-all shadow-xl shadow-gray-200">
                         <RefreshCw className="w-5 h-5" />
                     </button>
                 </div>

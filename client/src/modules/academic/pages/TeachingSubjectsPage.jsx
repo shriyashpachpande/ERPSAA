@@ -169,7 +169,7 @@ const TeachingSubjectsPage = () => {
             <div className="space-y-1">
               <h3 className="text-xl font-bold text-slate-900 tracking-tight">No Subjects Match Filters</h3>
               <p className="text-sm text-slate-400 max-w-xs mx-auto mb-6">Try adjusting your filters to find the allocations you're looking for.</p>
-              <button 
+              <button type="button" 
                 onClick={() => setFilters({ academicYearId: '', semesterId: '', faculty: '' })}
                 className="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-lg"
               >

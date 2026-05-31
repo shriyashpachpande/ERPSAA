@@ -170,7 +170,7 @@ const SubjectTable = ({ data, loading, onEdit }) => {
                 </td>
 
                 <td className="px-8 py-6 bg-white/90 rounded-r-[2rem] border-y border-r border-transparent text-right silent-glow-row transition-all">
-                  <button
+                  <button type="button"
                     onClick={() => onEdit(sub)}
                     className="p-4 bg-slate-50 text-slate-400 hover:text-primary-600 hover:bg-white rounded-2xl transition-all shadow-sm active:scale-90 border border-slate-100/50"
                   >

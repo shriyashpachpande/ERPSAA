@@ -81,7 +81,7 @@ const StaffBookDetails = () => {
                 <AlertCircle className="w-16 h-16 text-red-500 mb-4" />
                 <h2 className="text-2xl font-black text-brand-dark mb-2">Oops! Something went wrong</h2>
                 <p className="text-gray-500 text-center mb-6">{error || 'Book not found'}</p>
-                <button 
+                <button type="button" 
                     onClick={() => navigate(-1)}
                     className="flex items-center px-6 py-3 bg-brand-dark text-white rounded-2xl font-black uppercase tracking-widest hover:bg-primary-600 transition-all"
                 >
@@ -106,7 +106,7 @@ const StaffBookDetails = () => {
             {/* Header / Navigation */}
             <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-100 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <button 
+                    <button type="button" 
                         onClick={() => navigate(-1)}
                         className="p-3 hover:bg-gray-100 rounded-2xl transition-colors text-brand-dark"
                     >
@@ -118,11 +118,11 @@ const StaffBookDetails = () => {
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-brand-dark rounded-xl font-bold text-xs hover:bg-gray-50 transition-all">
+                    <button type="button" className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-brand-dark rounded-xl font-bold text-xs hover:bg-gray-50 transition-all">
                         <Edit className="w-4 h-4 text-blue-500" />
                         Edit Book
                     </button>
-                    <button onClick={() => navigate('/app/library/issue')} className="flex items-center gap-2 px-4 py-2 bg-brand-dark text-white rounded-xl font-bold text-xs hover:bg-black transition-all">
+                    <button type="button" onClick={() => navigate('/app/library/issue')} className="flex items-center gap-2 px-4 py-2 bg-brand-dark text-white rounded-xl font-bold text-xs hover:bg-black transition-all">
                         <BookOpen className="w-4 h-4" />
                         Issue This Book
                     </button>
@@ -226,21 +226,21 @@ const StaffBookDetails = () => {
                                 Operational Actions
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <button className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group text-left">
+                                <button type="button" className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group text-left">
                                     <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl w-fit mb-4 group-hover:bg-blue-600 group-hover:text-white transition-all">
                                         <Layers className="w-5 h-5" />
                                     </div>
                                     <h4 className="font-black text-brand-dark mb-1">View All Copies</h4>
                                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">Manage individual units</p>
                                 </button>
-                                <button className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group text-left">
+                                <button type="button" className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group text-left">
                                     <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl w-fit mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-all">
                                         <Plus className="w-5 h-5" />
                                     </div>
                                     <h4 className="font-black text-brand-dark mb-1">Add New Copies</h4>
                                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">Expand existing stock</p>
                                 </button>
-                                <button onClick={() => navigate('/app/library/issue-requests')} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group text-left">
+                                <button type="button" onClick={() => navigate('/app/library/issue-requests')} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group text-left">
                                     <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl w-fit mb-4 group-hover:bg-amber-600 group-hover:text-white transition-all">
                                         <History className="w-5 h-5" />
                                     </div>
@@ -254,7 +254,7 @@ const StaffBookDetails = () => {
                         <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
                             <div className="flex items-center justify-between mb-8">
                                 <h3 className="text-xl font-black text-brand-dark tracking-tight">Active Transactions</h3>
-                                <button onClick={() => navigate('/app/library/issued-list')} className="text-[10px] font-black text-primary-500 uppercase tracking-widest hover:underline">View All History</button>
+                                <button type="button" onClick={() => navigate('/app/library/issued-list')} className="text-[10px] font-black text-primary-500 uppercase tracking-widest hover:underline">View All History</button>
                             </div>
                             <div className="space-y-4">
                                 {book.copies?.filter(c => c.status === 'ISSUED').length > 0 ? (
@@ -269,7 +269,7 @@ const StaffBookDetails = () => {
                                                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Status: {copy.status}</p>
                                                 </div>
                                             </div>
-                                            <button className="p-2 hover:bg-white rounded-xl transition-colors">
+                                            <button type="button" className="p-2 hover:bg-white rounded-xl transition-colors">
                                                 <Eye className="w-4 h-4 text-gray-400" />
                                             </button>
                                         </div>

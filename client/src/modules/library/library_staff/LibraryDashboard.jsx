@@ -102,8 +102,8 @@ const LibraryDashboard = () => {
                     <p className="text-gray-500 font-medium pl-10 text-sm uppercase tracking-widest">Operations & Analytics Dashboard</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button onClick={() => navigate('/app/library/issue')} className="px-6 py-3 bg-brand-dark text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:bg-black transition-all active:scale-95">Issue Book</button>
-                    <button onClick={() => navigate('/app/library/return')} className="px-6 py-3 bg-white border border-gray-200 text-brand-dark rounded-2xl font-black text-sm uppercase tracking-widest shadow-sm hover:bg-gray-50 transition-all active:scale-95">Return Book</button>
+                    <button type="button" onClick={() => navigate('/app/library/issue')} className="px-6 py-3 bg-brand-dark text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:bg-black transition-all active:scale-95">Issue Book</button>
+                    <button type="button" onClick={() => navigate('/app/library/return')} className="px-6 py-3 bg-white border border-gray-200 text-brand-dark rounded-2xl font-black text-sm uppercase tracking-widest shadow-sm hover:bg-gray-50 transition-all active:scale-95">Return Book</button>
                 </div>
             </header>
 
@@ -243,7 +243,7 @@ const LibraryDashboard = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2 ml-4">
-                                    <button
+                                    <button type="button"
                                         onClick={() => handleQuickApprove(req._id)}
                                         disabled={actionLoading === req._id}
                                         className="p-2 bg-white text-emerald-600 rounded-xl border border-gray-100 shadow-sm hover:bg-emerald-600 hover:text-white transition-all shadow-emerald-500/5 group-hover:shadow-emerald-500/20"
@@ -259,7 +259,7 @@ const LibraryDashboard = () => {
                             </div>
                         )}
                     </div>
-                    <button onClick={() => navigate('/app/library/issue-requests')} className="w-full mt-6 py-4 bg-indigo-50 text-indigo-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">Review All Requests</button>
+                    <button type="button" onClick={() => navigate('/app/library/issue-requests')} className="w-full mt-6 py-4 bg-indigo-50 text-indigo-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">Review All Requests</button>
                 </div>
 
                 {/* Recent Transactions */}
@@ -305,7 +305,7 @@ const LibraryDashboard = () => {
                         </div>
                         <h4 className="text-lg font-black tracking-tight mb-2">Overdue Books</h4>
                         <p className="text-xs text-white/60 font-bold leading-relaxed">Critical attention required for high-risk lending durations.</p>
-                        <button onClick={() => navigate('/app/library/issued-books')} className="mt-6 text-[10px] font-black uppercase tracking-widest text-white border-b-2 border-white/30 hover:border-white transition-all pb-1 translate-y-0 group-hover:-translate-y-1 block w-fit">Take Action</button>
+                        <button type="button" onClick={() => navigate('/app/library/issued-books')} className="mt-6 text-[10px] font-black uppercase tracking-widest text-white border-b-2 border-white/30 hover:border-white transition-all pb-1 translate-y-0 group-hover:-translate-y-1 block w-fit">Take Action</button>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">

@@ -137,7 +137,7 @@ const StudentDashboardMain = () => {
                             <Calendar className="w-4 h-4" />
                             {new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
                         </div>
-                        <button
+                        <button type="button"
                             onClick={() => toast.success('Customization mode enabled!')}
                             className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-gray-100 shadow-sm text-sm font-bold text-gray-900 hover:bg-gray-50 transition-colors"
                         >

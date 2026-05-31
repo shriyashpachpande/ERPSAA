@@ -78,7 +78,7 @@ const TopNavbar = () => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <button className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center space-x-1 ${aboutDropdownOpen ? 'text-brand-dark bg-white shadow-sm ring-1 ring-gray-100' : 'text-gray-600 hover:text-brand-dark hover:bg-white'}`}>
+            <button type="button" className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center space-x-1 ${aboutDropdownOpen ? 'text-brand-dark bg-white shadow-sm ring-1 ring-gray-100' : 'text-gray-600 hover:text-brand-dark hover:bg-white'}`}>
               <span>About</span>
               <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${aboutDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -166,7 +166,7 @@ const TopNavbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button
+        <button type="button"
           className="md:hidden text-brand-dark p-2 -mr-2 rounded-lg hover:bg-gray-100/50 transition-colors"
           onClick={() => {
             setMobileMenuOpen(!mobileMenuOpen);
@@ -196,7 +196,7 @@ const TopNavbar = () => {
 
           {/* About Accordion */}
           <div className="border-b border-gray-100 pb-3">
-            <button
+            <button type="button"
               onClick={() => setMobileAboutOpen(!mobileAboutOpen)}
               className="w-full text-left text-gray-900 flex items-center justify-between group focus:outline-none"
             >
@@ -210,7 +210,7 @@ const TopNavbar = () => {
                 {aboutLinks.map((link) => (
                   link.name === 'Cells & Committees' ? (
                     <div key={link.name} className="space-y-2">
-                      <button
+                      <button type="button"
                         onClick={() => setMobileCellsOpen(!mobileCellsOpen)}
                         className="w-full text-left text-base font-medium text-gray-600 flex items-center justify-between py-1 focus:outline-none"
                       >

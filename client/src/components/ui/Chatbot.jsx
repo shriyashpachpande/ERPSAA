@@ -99,7 +99,7 @@ const Chatbot = () => {
                   <p>Always Online</p>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="close-btn">
+              <button type="button" onClick={() => setIsOpen(false)} className="close-btn">
                 <Minimize2 size={18} />
               </button>
             </div>

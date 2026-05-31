@@ -36,7 +36,7 @@ const AcademicYearTable = ({ data, loading, onEdit, onSetCurrent }) => {
               </td>
               <td className="px-6 py-4 text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <button 
+                  <button type="button" 
                     onClick={() => onEdit(year)}
                     className="p-2 text-primary-600 hover:bg-primary-100 rounded-lg transition-colors"
                     title="Edit Year"
@@ -44,7 +44,7 @@ const AcademicYearTable = ({ data, loading, onEdit, onSetCurrent }) => {
                     <Edit className="w-4 h-4" />
                   </button>
                   {!year.isCurrent && (
-                    <button 
+                    <button type="button" 
                       onClick={() => onSetCurrent(year._id)}
                       className="p-2 text-emerald-600 hover:bg-emerald-100 rounded-lg transition-colors"
                       title="Set as Current"

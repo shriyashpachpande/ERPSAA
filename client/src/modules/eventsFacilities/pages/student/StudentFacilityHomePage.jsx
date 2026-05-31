@@ -100,7 +100,7 @@ const StudentFacilityHomePage = () => {
                                 className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-9 py-2.5 text-sm font-semibold text-slate-800 placeholder-slate-400 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 shadow-sm transition-all"
                             />
                             {searchQuery && (
-                                <button
+                                <button type="button"
                                     onClick={() => setSearchQuery('')}
                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                                 >
@@ -129,7 +129,7 @@ const StudentFacilityHomePage = () => {
                                 <Search className="w-8 h-8 text-slate-300" />
                             </div>
                             <h3 className="text-xl font-black text-slate-700 mb-2">No Facilities Found</h3>
-                            <p className="text-slate-400 font-medium">Try a different name or <button onClick={() => setSearchQuery('')} className="text-blue-500 hover:underline font-bold">clear the search</button>.</p>
+                            <p className="text-slate-400 font-medium">Try a different name or <button type="button" onClick={() => setSearchQuery('')} className="text-blue-500 hover:underline font-bold">clear the search</button>.</p>
                         </div>
                     ) : (
                         categories.map((cat, idx) => {

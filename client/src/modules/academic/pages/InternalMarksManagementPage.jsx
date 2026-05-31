@@ -63,7 +63,7 @@ const InternalMarksManagementPage = () => {
               <h3 className="text-xl font-black text-gray-900">Batch Marks Entry</h3>
               <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-1">Section: {filters.sectionId} | Subject: {filters.subjectId}</p>
             </div>
-            <button 
+            <button type="button" 
               onClick={() => setIsEntryMode(false)}
               className="px-6 py-3 bg-gray-50 hover:bg-gray-100 text-[10px] font-black uppercase tracking-widest text-gray-400 rounded-2xl transition-all"
             >

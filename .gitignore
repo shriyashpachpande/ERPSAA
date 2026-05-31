@@ -61,6 +61,12 @@ server/db_check_output.txt
 server/seeder_output.txt
 server/allocation_debug.txt
 
+# WhatsApp Session Data
+server/.wwebjs_auth/
+server/.wwebjs_cache/
+.wwebjs_auth/
+.wwebjs_cache/
+
 # Scratch scripts and sensitive files
 passwords.md
 server/passwords.md

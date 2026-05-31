@@ -1,12 +1,13 @@
 import { CheckSquare, Upload, Search, CheckCircle, ArrowRight } from 'lucide-react';
 
+const steps = [
+  { num: "01", title: 'Initiate', desc: 'Staff generates secure cryptographic credentials.', icon: Search },
+  { num: "02", title: 'Capture', desc: 'Student inputs dynamic multi-step application.', icon: CheckSquare },
+  { num: "03", title: 'Verify', desc: 'Secure document upload & automated scanning.', icon: Upload },
+  { num: "04", title: 'Activate', desc: 'Instant conversion to official academic record.', icon: CheckCircle },
+];
+
 const WorkflowSection = () => {
-  const steps = [
-    { num: "01", title: 'Initiate', desc: 'Staff generates secure cryptographic credentials.', icon: Search },
-    { num: "02", title: 'Capture', desc: 'Student inputs dynamic multi-step application.', icon: CheckSquare },
-    { num: "03", title: 'Verify', desc: 'Secure document upload & automated scanning.', icon: Upload },
-    { num: "04", title: 'Activate', desc: 'Instant conversion to official academic record.', icon: CheckCircle },
-  ];
 
   return (
     <section id="workflow" className="py-12 bg-[#07090F]/80 text-white relative overflow-hidden">
@@ -28,7 +29,7 @@ const WorkflowSection = () => {
           
           <div className="grid md:grid-cols-4 gap-8 md:gap-4 relative">
             {steps.map((step, i) => (
-              <div key={i} className="flex flex-col items-center text-center group relative z-10">
+              <div key={step.num} className="flex flex-col items-center text-center group relative z-10">
                 <div className="w-24 h-24 rounded-2xl bg-gray-800/80 backdrop-blur-md border border-gray-700 flex flex-col items-center justify-center font-bold relative group-hover:bg-gray-800 group-hover:border-primary-500/50 transition-all duration-300 shadow-xl mb-6">
                   <step.icon className="w-6 h-6 text-gray-400 group-hover:text-primary-400 transition-colors mb-2" />
                   <span className="text-sm text-gray-500 font-mono">{step.num}</span>

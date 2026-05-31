@@ -29,7 +29,7 @@ const StudentAcademicProfilePage = () => {
     <div className="min-h-[calc(100vh-100px)] flex flex-col space-y-4 lg:space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
       {studentId && (
         <div className="flex items-center justify-between shrink-0 px-1">
-          <button 
+          <button type="button" 
             onClick={() => navigate(-1)}
             className="group flex items-center gap-2 px-6 py-2.5 bg-white rounded-2xl shadow-[0px_0px_15px_rgba(59,130,246,0.08)] border border-slate-200 transition-all active:scale-95 hover:border-indigo-200 hover:shadow-indigo-500/10"
           >

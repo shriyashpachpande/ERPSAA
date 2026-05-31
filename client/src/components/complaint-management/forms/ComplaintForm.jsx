@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Upload, X, Info, Check, ChevronDown, Sparkles, Zap, ShieldAlert, Target, BookOpen, User, Building, Heart, Laptop, Shield, Book as BookIcon, MessageSquarePlus, LayoutGrid } from 'lucide-react';
+import { Send, Upload, X, Info, Check, ChevronDown, Sparkles, Zap, ShieldAlert, Target, BookOpen, User, Building, Heart, Laptop, Shield, Book as BookIcon, MessageSquarePlus, LayoutGrid, Loader2 } from 'lucide-react';
 import { COMPLAINT_CATEGORY_UI } from '../../../constants/complaint-management/complaintCategoryUiConstants';
 import gsap from 'gsap';
 

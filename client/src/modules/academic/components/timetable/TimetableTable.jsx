@@ -62,13 +62,13 @@ const TimetableTable = ({ data, loading, onEdit, onDelete }) => {
               </td>
               <td className="px-8 py-5 text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <button 
+                  <button type="button" 
                     onClick={() => onEdit(entry)}
                     className="p-3 text-primary-600 hover:bg-white rounded-2xl transition-all shadow-sm border border-transparent hover:border-gray-100"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
-                  <button 
+                  <button type="button" 
                     onClick={() => { if(window.confirm('Delete this entry?')) onDelete(entry._id) }}
                     className="p-3 text-red-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all shadow-sm"
                   >

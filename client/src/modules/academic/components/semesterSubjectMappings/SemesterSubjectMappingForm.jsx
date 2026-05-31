@@ -69,7 +69,7 @@ const SemesterSubjectMappingForm = ({ academicYearId, department, semesterId, ex
             {department ? `Department Context: ${department}` : 'Bulk Mapping for Semester'}
           </p>
         </div>
-        <button onClick={onClose} className="p-2 hover:bg-white rounded-xl transition-colors shadow-sm">
+        <button type="button" onClick={onClose} className="p-2 hover:bg-white rounded-xl transition-colors shadow-sm">
           <X className="w-5 h-5 text-gray-400" />
         </button>
       </div>
@@ -94,7 +94,7 @@ const SemesterSubjectMappingForm = ({ academicYearId, department, semesterId, ex
           <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
             Available Subjects ({availableSubjects.length})
           </h3>
-          <button 
+          <button type="button" 
             onClick={handleSelectAll}
             className="text-[10px] font-black uppercase tracking-widest text-primary-600 hover:underline"
           >
@@ -146,7 +146,7 @@ const SemesterSubjectMappingForm = ({ academicYearId, department, semesterId, ex
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Selected</p>
           <p className="text-xl font-black text-gray-900">{selectedIds.length} <span className="text-sm text-gray-400 font-bold uppercase tracking-widest ml-1">Subjects</span></p>
         </div>
-        <button
+        <button type="button"
           onClick={handleSubmit}
           disabled={loading || selectedIds.length === 0}
           className="flex-1 py-5 bg-primary-600 text-white text-xs font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl shadow-primary-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100 flex items-center justify-center gap-2"

@@ -8,6 +8,38 @@ import {
 } from 'lucide-react';
 import gsap from 'gsap';
 
+const StatusBadge = ({ status }) => {
+    const styles = {
+        draft: 'bg-gray-100 text-gray-600 border-gray-200',
+        submitted: 'bg-blue-50 text-blue-700 border-blue-200',
+        under_review: 'bg-purple-50 text-purple-700 border-purple-200',
+        pending_clarification: 'bg-orange-50 text-orange-700 border-orange-200',
+        reupload_requested: 'bg-amber-50 text-amber-700 border-amber-200',
+        approved: 'bg-green-50 text-green-700 border-green-200',
+        rejected: 'bg-red-50 text-red-700 border-red-200'
+    };
+    const style = styles[status] || styles.draft;
+    return (
+        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${style}`}>
+            {status.replace('_', ' ')}
+        </span>
+    );
+};
+
+const StatCard = ({ title, value, icon: Icon, color, subValue }) => (
+    <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md group">
+        <div className="flex justify-between items-start">
+            <div>
+                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">{title}</p>
+                <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
+            </div>
+            <div className={`p-2.5 rounded-xl ${color} group-hover:scale-110 transition-transform`}>
+                <Icon className="w-5 h-5" />
+            </div>
+        </div>
+    </div>
+);
+
 const ReviewQueuePage = () => {
     const [applications, setApplications] = useState([]);
     const [stats, setStats] = useState({
@@ -78,37 +110,6 @@ const ReviewQueuePage = () => {
         fetchApplications();
     };
 
-    const StatusBadge = ({ status }) => {
-        const styles = {
-            draft: 'bg-gray-100 text-gray-600 border-gray-200',
-            submitted: 'bg-blue-50 text-blue-700 border-blue-200',
-            under_review: 'bg-purple-50 text-purple-700 border-purple-200',
-            pending_clarification: 'bg-orange-50 text-orange-700 border-orange-200',
-            reupload_requested: 'bg-amber-50 text-amber-700 border-amber-200',
-            approved: 'bg-green-50 text-green-700 border-green-200',
-            rejected: 'bg-red-50 text-red-700 border-red-200'
-        };
-        const style = styles[status] || styles.draft;
-        return (
-            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${style}`}>
-                {status.replace('_', ' ')}
-            </span>
-        );
-    };
-
-    const StatCard = ({ title, value, icon: Icon, color, subValue }) => (
-        <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md group">
-            <div className="flex justify-between items-start">
-                <div>
-                    <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">{title}</p>
-                    <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
-                </div>
-                <div className={`p-2.5 rounded-xl ${color} group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-5 h-5" />
-                </div>
-            </div>
-        </div>
-    );
 
     return (
         <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
@@ -119,7 +120,7 @@ const ReviewQueuePage = () => {
                     <p className="text-gray-500 font-medium tracking-tight">Manage and process all student admission applications.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button onClick={fetchApplications} className="p-2.5 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all text-gray-600 shadow-sm">
+                    <button type="button" onClick={fetchApplications} className="p-2.5 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all text-gray-600 shadow-sm">
                         <Clock className="w-5 h-5" />
                     </button>
                     <Link to="/app/staff/new-admission" className="px-5 py-2.5 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-all font-bold text-sm shadow-lg shadow-primary-200 flex items-center">
@@ -151,25 +152,25 @@ const ReviewQueuePage = () => {
 
                 <div className="flex items-center gap-3">
                     <div className="flex items-center bg-white border border-gray-200 rounded-2xl p-1 shadow-sm">
-                        <button 
+                        <button type="button" 
                             onClick={() => setStatusFilter('')} 
                             className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${statusFilter === '' ? 'bg-gray-900 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
                         >
                             All
                         </button>
-                        <button 
+                        <button type="button" 
                             onClick={() => setStatusFilter('submitted')} 
                             className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${statusFilter === 'submitted' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
                         >
                             New
                         </button>
-                        <button 
+                        <button type="button" 
                             onClick={() => setStatusFilter('under_review')} 
                             className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${statusFilter === 'under_review' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
                         >
                             In Review
                         </button>
-                        <button 
+                        <button type="button" 
                             onClick={() => setStatusFilter('reupload_requested')} 
                             className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${statusFilter === 'reupload_requested' ? 'bg-amber-600 text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
                         >
@@ -257,14 +258,14 @@ const ReviewQueuePage = () => {
                             Page {page} of {totalPages}
                         </p>
                         <div className="flex gap-2">
-                            <button 
+                            <button type="button" 
                                 disabled={page === 1}
                                 onClick={() => setPage(p => p - 1)}
                                 className="p-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
                                 <ChevronLeft className="w-4 h-4" />
                             </button>
-                            <button 
+                            <button type="button" 
                                 disabled={page === totalPages}
                                 onClick={() => setPage(p => p + 1)}
                                 className="p-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"

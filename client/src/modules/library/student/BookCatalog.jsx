@@ -239,7 +239,7 @@ const StudentBookCatalog = () => {
             {/* 3. CATEGORY PILLS */}
             <div className="reveal-anim flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
                 {categories.map(cat => (
-                    <button
+                    <button type="button"
                         key={cat}
                         onClick={() => {
                             setCategoryFilter(cat);
@@ -289,7 +289,7 @@ const StudentBookCatalog = () => {
                             
                             {visibleCount < displayBooks.length && (
                                 <div className="flex justify-center pt-8">
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => setVisibleCount(prev => prev + 24)}
                                         className="px-10 py-4 bg-white border border-gray-100 text-gray-900 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-gray-50 transition-all shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)]"
                                     >
@@ -307,7 +307,7 @@ const StudentBookCatalog = () => {
                             <p className="text-gray-400 font-bold max-w-sm mx-auto text-sm leading-relaxed">
                                 We couldn't find any books matching your criteria. Try adjusting your search or filters.
                             </p>
-                            <button
+                            <button type="button"
                                 onClick={() => {
                                     setSearchTerm('');
                                     setCategoryFilter('All');

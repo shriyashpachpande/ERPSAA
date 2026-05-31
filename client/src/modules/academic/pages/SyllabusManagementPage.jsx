@@ -112,7 +112,7 @@ const SyllabusManagementPage = () => {
                    {/* Quick Select Buttons */}
                    <div className="flex flex-wrap gap-2 pt-2">
                       {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(pct => (
-                        <button
+                        <button type="button"
                           key={pct}
                           onClick={() => handleSliderChange(item._id, pct)}
                           className={`flex-1 min-w-[45px] py-2 rounded-xl text-[10px] font-black transition-all border ${
@@ -162,7 +162,7 @@ const SyllabusManagementPage = () => {
                       <Sparkles className="w-4 h-4 text-amber-500" />
                       <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Updated: {new Date(item.updatedAt).toLocaleDateString()}</span>
                    </div>
-                   <button 
+                   <button type="button" 
                      onClick={() => handleSave(item._id)}
                      disabled={updating || localProgress[item._id] === item.syllabusProgress}
                      className="px-6 py-3 bg-slate-900 text-white rounded-2xl flex items-center gap-3 text-[10px] font-black uppercase tracking-widest hover:bg-primary-600 transition-all shadow-xl shadow-slate-900/10 disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed group/btn"

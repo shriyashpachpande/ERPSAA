@@ -122,7 +122,7 @@ const MyMasterProfilePage = () => {
           <h3 className="font-black text-2xl text-slate-900 tracking-tight mb-3 uppercase">Profile Locked</h3>
           <p className="text-slate-500 text-sm font-medium leading-relaxed max-w-md">{error}</p>
         </div>
-        <button onClick={() => navigate(-1)} className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all active:scale-95 shadow-xl shadow-slate-900/10">
+        <button type="button" onClick={() => navigate(-1)} className="px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] hover:bg-indigo-600 transition-all active:scale-95 shadow-xl shadow-slate-900/10">
            Go Back Home
         </button>
       </div>
@@ -241,7 +241,7 @@ const MyMasterProfilePage = () => {
       {/* VIBRANT MODULE CARDS */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {moduleCards.map((mod, idx) => (
-            <button
+            <button type="button"
               key={idx}
               onClick={() => navigate(mod.link)}
               style={{ animationDelay: `${idx * 100}ms` }}
@@ -398,7 +398,7 @@ const MyMasterProfilePage = () => {
                ))}
             </div>
             <div className="mt-16 flex justify-center">
-               <button 
+               <button type="button" 
                   onClick={() => navigate('/app/student/admission/documents')}
                   className="px-12 py-5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-[2rem] font-black text-[11px] uppercase tracking-[0.3em] hover:shadow-2xl hover:shadow-indigo-500/40 hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-4 shadow-xl shadow-indigo-600/20 group"
                >

@@ -63,7 +63,7 @@ const TimetableFilters = ({ filters, setFilters, years }) => {
         </select>
       </div>
 
-      <button 
+      <button type="button" 
         onClick={() => setFilters({ academicYearId: '', semesterId: '', sectionId: '', dayOfWeek: '' })}
         className="px-6 py-3.5 bg-gray-50 hover:bg-gray-100 text-[10px] font-black uppercase tracking-widest text-gray-400 rounded-2xl transition-all"
       >

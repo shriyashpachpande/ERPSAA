@@ -84,7 +84,7 @@ const MyHostelStatusPage = () => {
         </div>
         <h2 className="text-3xl font-black text-gray-900 mb-4">No Active Application</h2>
         <p className="text-gray-500 mb-10 max-w-md mx-auto leading-relaxed">You haven't applied for hostel accommodation yet. Apply now to track your status and get allocated.</p>
-        <button 
+        <button type="button" 
           onClick={() => navigate('/app/student/hostel/apply')}
           className="px-10 py-4 bg-indigo-600 text-white rounded-2xl font-black shadow-xl shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-2 mx-auto uppercase tracking-widest text-xs"
         >
@@ -221,7 +221,7 @@ const MyHostelStatusPage = () => {
               Quick Support
             </h2>
             <div className="space-y-4">
-              <button 
+              <button type="button" 
                 onClick={() => navigate('/app/student/hostel/complaints')}
                 className="w-full p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-between hover:bg-white/10 transition-all group"
               >
@@ -234,7 +234,7 @@ const MyHostelStatusPage = () => {
                 <ChevronRight className="w-4 h-4 text-gray-500 group-hover:text-white" />
               </button>
 
-              <button 
+              <button type="button" 
                 onClick={() => navigate('/app/student/hostel/maintenance')}
                 className="w-full p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-between hover:bg-white/10 transition-all group"
               >

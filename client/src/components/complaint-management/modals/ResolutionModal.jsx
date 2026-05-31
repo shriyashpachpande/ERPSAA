@@ -24,7 +24,7 @@ const ResolutionModal = ({ isOpen, onClose, onSubmit, type = 'resolve' }) => {
                         {isReject ? <AlertTriangle size={18} className="text-red-500" /> : <CheckCircle size={18} className="text-green-500" />}
                         {isReject ? 'Reject Complaint' : isEscalate ? 'Escalate Complaint' : 'Resolve Complaint'}
                     </h3>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
+                    <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-6">

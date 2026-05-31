@@ -179,7 +179,7 @@ const HODFacultyDetailsPage = () => {
               </div>
             ) : (
               filteredFaculty.map((f, index) => (
-                <button
+                <button type="button"
                   key={f._id}
                   ref={el => listItemsRef.current[index] = el}
                   onClick={() => handleSelectFaculty(f)}
@@ -230,7 +230,7 @@ const HODFacultyDetailsPage = () => {
                 </div>
                 
                 {/* Back Button (Mobile only) */}
-                <button 
+                <button type="button" 
                   onClick={() => setShowMobileDetails(false)}
                   className="lg:hidden absolute top-6 left-6 z-30 p-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-xl border border-white/20 text-white transition-all active:scale-95"
                 >
@@ -275,10 +275,10 @@ const HODFacultyDetailsPage = () => {
                 
                 {/* Header Actions */}
                 <div className="absolute top-6 right-6 lg:top-8 lg:right-10 flex gap-3 lg:gap-4 z-20">
-                   <button className="p-2.5 lg:p-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-xl lg:rounded-2xl border border-white/10 text-white transition-all hover:scale-110 active:scale-90">
+                   <button type="button" className="p-2.5 lg:p-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-xl lg:rounded-2xl border border-white/10 text-white transition-all hover:scale-110 active:scale-90">
                       <MessageSquare className="w-4 h-4 lg:w-5 lg:h-5" />
                    </button>
-                   <button className="p-2.5 lg:p-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-xl lg:rounded-2xl border border-white/10 text-white transition-all hover:scale-110 active:scale-90">
+                   <button type="button" className="p-2.5 lg:p-3 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-xl lg:rounded-2xl border border-white/10 text-white transition-all hover:scale-110 active:scale-90">
                       <Globe className="w-4 h-4 lg:w-5 lg:h-5" />
                    </button>
                 </div>

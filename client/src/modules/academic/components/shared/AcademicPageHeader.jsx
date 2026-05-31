@@ -12,7 +12,7 @@ const AcademicPageHeader = ({ title, subtitle, action }) => (
       </div>
     </div>
     {action && (
-      <button 
+      <button type="button" 
         onClick={action.onClick} 
         disabled={action.disabled} 
         className="flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-2xl hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-indigo-600/20 font-bold text-sm disabled:opacity-50"

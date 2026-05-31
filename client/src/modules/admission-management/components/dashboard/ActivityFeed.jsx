@@ -98,7 +98,7 @@ const ActivityFeed = ({ activities }) => {
         ))}
       </div>
 
-      <button className="mt-4 w-full py-3 rounded-xl bg-gray-50 text-[10px] font-black text-gray-500 hover:bg-brand-dark hover:text-white transition-all uppercase tracking-widest shadow-sm hover:shadow-md">
+      <button type="button" className="mt-4 w-full py-3 rounded-xl bg-gray-50 text-[10px] font-black text-gray-500 hover:bg-brand-dark hover:text-white transition-all uppercase tracking-widest shadow-sm hover:shadow-md">
         View Notification Center
       </button>
     </div>

@@ -73,7 +73,7 @@ const AcademicAdminDashboard = ({ stats, loading }) => {
                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Enrollment progression over time</p>
               </div>
               <div className="flex gap-2">
-                 {['YTD', 'ALL'].map(t => <button key={t} className={`px-4 py-2 rounded-xl text-[10px] font-black transition-all ${t === 'ALL' ? 'bg-slate-900 text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>{t}</button>)}
+                 {['YTD', 'ALL'].map(t => <button type="button" key={t} className={`px-4 py-2 rounded-xl text-[10px] font-black transition-all ${t === 'ALL' ? 'bg-slate-900 text-white shadow-lg' : 'bg-slate-100 text-slate-400'}`}>{t}</button>)}
               </div>
            </div>
 
@@ -153,7 +153,7 @@ const AcademicAdminDashboard = ({ stats, loading }) => {
                </h3>
                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Resource distribution per academic unit</p>
             </div>
-            <button className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary-600 transition-all shadow-xl shadow-slate-900/10 active:scale-95">
+            <button type="button" className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-primary-600 transition-all shadow-xl shadow-slate-900/10 active:scale-95">
                Download Audit <ArrowUpRight className="w-4 h-4" />
             </button>
          </div>

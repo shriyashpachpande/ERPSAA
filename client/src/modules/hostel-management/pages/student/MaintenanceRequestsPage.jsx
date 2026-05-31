@@ -88,7 +88,7 @@ const MaintenanceRequestsPage = () => {
           <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-2">Maintenance Requests</h1>
           <p className="text-gray-500 font-medium text-sm">Report repairs and service needs for your room or block.</p>
         </div>
-        <button
+        <button type="button"
           onClick={() => setIsModalOpen(true)}
           className="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] hover:bg-indigo-700 transition-all flex items-center gap-2"
         >
@@ -146,7 +146,7 @@ const MaintenanceRequestsPage = () => {
           <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden">
             <div className="p-8 border-b border-gray-100 flex items-center justify-between">
               <h2 className="text-xl font-black text-gray-900">Request Repair</h2>
-              <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all">
+              <button type="button" onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl transition-all">
                 <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>

@@ -128,7 +128,7 @@ const HostelApplicationPage = () => {
           <Info className="w-12 h-12 mx-auto mb-4 text-amber-500" />
           <h2 className="text-xl font-black mb-2 text-amber-900">Admission Record Pending</h2>
           <p className="font-medium mb-6 text-amber-700">Your student master record was not found. Please ensure your admission is approved by the administration before applying for hostel.</p>
-          <button onClick={() => navigate('/app')} className="px-6 py-2 bg-amber-600 text-white rounded-xl font-bold">Back to Dashboard</button>
+          <button type="button" onClick={() => navigate('/app')} className="px-6 py-2 bg-amber-600 text-white rounded-xl font-bold">Back to Dashboard</button>
         </div>
       </div>
     );
@@ -141,7 +141,7 @@ const HostelApplicationPage = () => {
           <AlertCircle className="w-12 h-12 mx-auto mb-4" />
           <h2 className="text-xl font-black mb-2">Profile Error</h2>
           <p className="font-medium mb-6">{error || 'Could not load student profile data. Please ensure your admission record is approved.'}</p>
-          <button onClick={() => window.location.reload()} className="px-6 py-2 bg-rose-600 text-white rounded-xl font-bold">Retry</button>
+          <button type="button" onClick={() => window.location.reload()} className="px-6 py-2 bg-rose-600 text-white rounded-xl font-bold">Retry</button>
         </div>
       </div>
     );
@@ -155,7 +155,7 @@ const HostelApplicationPage = () => {
         </div>
         <h2 className="text-2xl font-black text-gray-900 mb-2">Application Already Exists</h2>
         <p className="text-gray-500 mb-8">You have an active hostel application with status: <span className="font-bold text-indigo-600 uppercase tracking-wider">{existingApp.status}</span></p>
-        <button 
+        <button type="button" 
           onClick={() => navigate('/app/student/hostel')}
           className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
         >

@@ -56,7 +56,7 @@ const MyRoomDetailsPage = () => {
           </div>
           <h2 className="text-2xl font-black text-gray-900 mb-2">No Active Allotment</h2>
           <p className="text-gray-500 mb-8 font-medium">You don't have an active hostel room allotment yet. If you have already applied, please check your application status.</p>
-          <button 
+          <button type="button" 
             onClick={() => window.location.href = '/app/student/hostel/status'}
             className="px-8 py-3 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 transition-all"
           >

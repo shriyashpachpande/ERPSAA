@@ -61,14 +61,14 @@ const FacultyAcademicAllocationTable = ({ data, loading, onEdit, onToggleStatus 
               </td>
               <td className="px-8 py-5 text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <button 
+                  <button type="button" 
                     onClick={() => onEdit(item)}
                     className="p-3 text-primary-600 hover:bg-white rounded-2xl transition-all shadow-sm border border-transparent hover:border-gray-100"
                     title="Edit Allocation"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
-                  <button 
+                  <button type="button" 
                     onClick={() => onToggleStatus(item._id, item.assignmentStatus === 'active' ? 'historical' : 'active')}
                     className="p-3 text-gray-400 hover:bg-white rounded-2xl transition-all shadow-sm border border-transparent hover:border-gray-100"
                     title="Toggle Status"

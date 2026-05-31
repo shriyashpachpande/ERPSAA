@@ -149,7 +149,7 @@ const BookDetails = () => {
                 <AlertCircle className="w-16 h-16 text-red-500 mb-4" />
                 <h2 className="text-2xl font-black text-brand-dark mb-2">Oops! Something went wrong</h2>
                 <p className="text-gray-500 text-center mb-6">{error || 'Book not found'}</p>
-                <button
+                <button type="button"
                     onClick={() => navigate(-1)}
                     className="flex items-center px-6 py-3 bg-brand-dark text-white rounded-2xl font-black uppercase tracking-widest hover:bg-primary-600 transition-all"
                 >
@@ -166,7 +166,7 @@ const BookDetails = () => {
         <div className="min-h-screen bg-gray-50/50 pb-20">
             {/* Header / Navigation */}
             <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-100 px-6 py-4 flex items-center gap-4">
-                <button
+                <button type="button"
                     onClick={() => navigate(-1)}
                     className="p-3 hover:bg-gray-100 rounded-2xl transition-colors text-brand-dark"
                 >
@@ -189,7 +189,7 @@ const BookDetails = () => {
                             actionStatus.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
                         <span className="font-bold text-sm tracking-wide">{actionStatus.message}</span>
                         {!actionStatus.loading && (
-                            <button onClick={() => setActionStatus({ ...actionStatus, message: '' })} className="ml-4 opacity-70 hover:opacity-100 font-black">✕</button>
+                            <button type="button" onClick={() => setActionStatus({ ...actionStatus, message: '' })} className="ml-4 opacity-70 hover:opacity-100 font-black">✕</button>
                         )}
                     </div>
                 )}
@@ -316,7 +316,7 @@ const BookDetails = () => {
 
                                 <div className="w-full md:w-auto flex flex-col gap-4">
                                     {book.stats?.available > 0 ? (
-                                        <button
+                                        <button type="button"
                                             onClick={handleIssue}
                                             disabled={actionStatus.loading}
                                             className="w-full md:w-64 bg-primary-500 hover:bg-primary-600 text-white font-black uppercase tracking-[0.2em] py-5 rounded-[1.5rem] shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] active:scale-95 transition-all text-xs flex items-center justify-center gap-2"
@@ -324,7 +324,7 @@ const BookDetails = () => {
                                             {actionStatus.loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Request Issue'}
                                         </button>
                                     ) : (
-                                        <button
+                                        <button type="button"
                                             onClick={handleReserve}
                                             disabled={actionStatus.loading}
                                             className="w-full md:w-64 bg-white/10 hover:bg-white/20 border-2 border-white/10 text-white font-black uppercase tracking-[0.2em] py-5 rounded-[1.5rem] active:scale-95 transition-all text-xs flex items-center justify-center gap-2"

@@ -142,7 +142,7 @@ const AdmissionStatusTrackerPage = () => {
                             <h3 className="text-emerald-900 font-black text-3xl tracking-tight mb-3">Welcome Aboard!</h3>
                             <p className="text-emerald-700 font-medium max-w-md mx-auto text-lg leading-relaxed">Your admission has been officially approved. We are excited to have you as part of our academic community.</p>
                             <div className="mt-8 flex justify-center gap-4">
-                                <button className="px-8 py-3 bg-emerald-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-emerald-200">Download Letter</button>
+                                <button type="button" className="px-8 py-3 bg-emerald-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-emerald-200">Download Letter</button>
                                 <Link to="/app/student/fees" className="px-8 py-3 bg-white text-emerald-600 border border-emerald-100 rounded-2xl font-black text-xs uppercase tracking-widest transition-all">Pay Fees</Link>
                             </div>
                         </div>

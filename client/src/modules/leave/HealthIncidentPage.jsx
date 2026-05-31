@@ -213,8 +213,8 @@ const HealthIncidentPage = () => {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-xl font-bold tracking-tight">Recent Incidents</h2>
                             <div className="flex bg-black/50 border border-white/10 rounded-xl overflow-hidden text-xs font-bold uppercase tracking-wider">
-                                <button className="px-4 py-2 hover:bg-white/10 transition-colors">All</button>
-                                <button className="px-4 py-2 bg-white/10 border-l border-white/10 text-primary-400">Open</button>
+                                <button type="button" className="px-4 py-2 hover:bg-white/10 transition-colors">All</button>
+                                <button type="button" className="px-4 py-2 bg-white/10 border-l border-white/10 text-primary-400">Open</button>
                             </div>
                         </div>
 
@@ -272,7 +272,7 @@ const HealthIncidentPage = () => {
                                                      )}
                                                  </div>
                                                  {incident.status === 'Open' ? (
-                                                     <button 
+                                                     <button type="button" 
                                                         onClick={() => setResolveModal({ open: true, incidentId: incident._id, notes: '', severity: incident.severity })}
                                                         className="px-3 py-1.5 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 rounded-lg transition-colors cursor-pointer"
                                                      >
@@ -323,13 +323,13 @@ const HealthIncidentPage = () => {
                         </div>
 
                         <div className="flex gap-4 mt-8">
-                            <button
+                            <button type="button"
                                 onClick={() => setResolveModal({ open: false, incidentId: null, notes: '', severity: '' })}
                                 className="flex-1 py-3 px-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-xl font-bold transition-all"
                             >
                                 Cancel
                             </button>
-                            <button
+                            <button type="button"
                                 onClick={handleResolveSubmit}
                                 disabled={formLoading}
                                 className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"

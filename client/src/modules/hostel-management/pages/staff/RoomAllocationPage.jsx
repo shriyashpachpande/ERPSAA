@@ -155,7 +155,7 @@ const RoomAllocationPage = () => {
           <p className="text-gray-500 italic">Securely assigning approved residents to verified facilities.</p>
         </div>
         {step > 1 && (
-          <button onClick={() => setStep(step - 1)} className="flex items-center gap-2 text-sm font-black text-gray-400 hover:text-indigo-600 transition-all uppercase tracking-widest">
+          <button type="button" onClick={() => setStep(step - 1)} className="flex items-center gap-2 text-sm font-black text-gray-400 hover:text-indigo-600 transition-all uppercase tracking-widest">
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
         )}
@@ -218,7 +218,7 @@ const RoomAllocationPage = () => {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                            {floor.rooms.map(room => (
-                             <button 
+                             <button type="button" 
                                key={room._id} 
                                onClick={() => handleSelectRoom(block, floor, room)}
                                className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100 hover:border-indigo-600 hover:bg-white transition-all text-left flex items-start justify-between group"
@@ -316,7 +316,7 @@ const RoomAllocationPage = () => {
               <h2 className="text-2xl font-black text-gray-900 mb-10">Choose a Vacant Bed</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                  {beds.map(bed => (
-                   <button 
+                   <button type="button" 
                      key={bed._id}
                      disabled={bed.status !== 'Vacant'}
                      onClick={() => { setSelectedBed(bed); setStep(5); }}
@@ -391,7 +391,7 @@ const RoomAllocationPage = () => {
                     />
                  </div>
 
-                 <button 
+                 <button type="button" 
                    disabled={submitting}
                    onClick={handleFinalAssign}
                    className="w-full py-8 bg-indigo-600 text-white rounded-[2rem] text-sm font-black uppercase tracking-[0.3em] shadow-2xl shadow-indigo-200 hover:bg-black transition-all transform active:scale-95 disabled:opacity-50"

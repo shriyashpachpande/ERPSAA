@@ -122,7 +122,7 @@ const MyEventRequestsPage = () => {
                   <div className="flex justify-between items-start mb-4">
                     {getStatusBadge(req.status)}
                     {req.status === 'pending' && (
-                      <button 
+                      <button type="button" 
                         onClick={() => cancelRequest(req._id)}
                         className="text-slate-400 hover:text-rose-500 transition-colors p-1"
                         title="Cancel Request"

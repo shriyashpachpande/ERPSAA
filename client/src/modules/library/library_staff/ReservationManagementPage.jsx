@@ -60,7 +60,7 @@ const StaffReservationManagementPage = () => {
                             />
                         </div>
                     </div>
-                    <button 
+                    <button type="button" 
                         onClick={handleSearch}
                         disabled={searching || !searchTerm}
                         className="px-10 py-4 bg-brand-dark text-white rounded-3xl font-black flex items-center gap-3 hover:bg-black transition-all active:scale-95 disabled:grayscale shadow-xl shadow-gray-200"
@@ -116,7 +116,7 @@ const StaffReservationManagementPage = () => {
                                         </span>
                                     </td>
                                     <td className="px-8 py-6 text-right">
-                                        <button 
+                                        <button type="button" 
                                             onClick={() => handleCancel(res._id)}
                                             className="p-2 text-red-100 hover:text-red-500 transition-colors"
                                             title="Cancel Reservation"
@@ -147,7 +147,7 @@ const StaffReservationManagementPage = () => {
                         Expired notifications are automatically cleared on book return. If a student fails to collect within the hold window, the next student is automatically notified.
                     </p>
                 </div>
-                <button className="relative z-10 px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl font-black text-sm uppercase tracking-widest border border-white/10 transition-all active:scale-95">
+                <button type="button" className="relative z-10 px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl font-black text-sm uppercase tracking-widest border border-white/10 transition-all active:scale-95">
                     Clear Expired Holds
                 </button>
             </div>

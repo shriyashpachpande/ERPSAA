@@ -72,7 +72,7 @@ const StudentBookingHistoryPage = () => {
         {/* Status Filter Pills */}
         <div className="flex flex-wrap gap-2">
           {['all', 'pending', 'approved', 'rejected', 'cancelled'].map(s => (
-            <button
+            <button type="button"
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`px-5 py-2 rounded-full text-sm font-bold capitalize transition-all border ${statusFilter === s

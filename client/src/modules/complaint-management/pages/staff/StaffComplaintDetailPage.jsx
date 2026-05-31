@@ -53,7 +53,7 @@ const StaffComplaintDetailPage = () => {
 
     return (
         <div className="p-6 max-w-7xl mx-auto">
-            <button 
+            <button type="button" 
                 onClick={() => navigate(-1)}
                 className="flex items-center gap-2 text-slate-500 hover:text-slate-800 mb-6 group transition-colors"
             >
@@ -100,19 +100,19 @@ const StaffComplaintDetailPage = () => {
                         <div className="space-y-3">
                             {['resolved', 'closed', 'rejected'].indexOf(complaint.status) === -1 && (
                                 <>
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => setActionModal({ isOpen: true, type: 'resolve' })}
                                         className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                                     >
                                         <CheckCircle size={16} /> Resolve
                                     </button>
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => setActionModal({ isOpen: true, type: 'reject' })}
                                         className="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                                     >
                                         <XCircle size={16} /> Reject
                                     </button>
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => setActionModal({ isOpen: true, type: 'escalate' })}
                                         className="w-full py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                                     >
@@ -175,7 +175,7 @@ const StaffComplaintDetailPage = () => {
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
                                 />
-                                <button 
+                                <button type="button" 
                                     onClick={handleSendMessage}
                                     className="p-4 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
                                 >

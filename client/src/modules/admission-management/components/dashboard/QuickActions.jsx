@@ -5,7 +5,7 @@ import { BookMarked, UserCheck, RefreshCw, FileSpreadsheet, PlusCircle } from 'l
 const ActionButton = ({ icon: Icon, title, count, color, bgColor, path }) => {
   const navigate = useNavigate();
   return (
-    <button 
+    <button type="button" 
       onClick={() => navigate(path)}
       className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all group w-full"
     >

@@ -129,7 +129,7 @@ const SemesterSubjectMappingTable = ({ data, loading, onDelete }) => {
                 </td>
 
                 <td className="px-8 py-6 bg-white/80 rounded-r-[2rem] border-y border-r border-transparent text-right silent-glow transition-all">
-                  <button 
+                  <button type="button" 
                     onClick={() => onDelete(m._id)}
                     className="p-4 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all active:scale-90 group/btn"
                   >

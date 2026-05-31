@@ -99,7 +99,7 @@ const StaffLostDamagedPage = () => {
                         <p className="text-red-600/70 text-xs font-bold leading-relaxed">
                             Marking an item as lost will remove it from the circulable inventory and automatically apply a loss penalty (₹500) to the student's record.
                         </p>
-                        <button 
+                        <button type="button" 
                             onClick={() => handleAction('LOST')}
                             disabled={!copyId || loading}
                             className="w-full py-4 bg-red-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-red-700 transition-all shadow-lg shadow-red-200 disabled:grayscale"
@@ -130,7 +130,7 @@ const StaffLostDamagedPage = () => {
                             />
                         </div>
 
-                        <button 
+                        <button type="button" 
                             onClick={() => handleAction('DAMAGED')}
                             disabled={!copyId || loading}
                             className="w-full py-4 bg-amber-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-amber-700 transition-all shadow-lg shadow-amber-200 disabled:grayscale"

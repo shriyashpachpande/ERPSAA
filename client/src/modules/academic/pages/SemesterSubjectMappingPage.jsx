@@ -98,14 +98,14 @@ const SemesterSubjectMappingPage = () => {
         
         <div className="relative z-10 flex gap-4">
            {canManage && (
-             <button 
+             <button type="button" 
               onClick={() => setIsModalOpen(true)}
               className="px-8 py-4 bg-slate-900 text-white rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 active:scale-95 flex items-center gap-3 font-black text-xs uppercase tracking-[0.15em]"
              >
                 <Sparkles className="w-4 h-4 text-primary-400" /> Assign Subjects
              </button>
            )}
-           <button className="p-4 bg-white text-slate-400 rounded-2xl hover:bg-slate-50 transition-all border border-slate-100 shadow-sm active:scale-95">
+           <button type="button" className="p-4 bg-white text-slate-400 rounded-2xl hover:bg-slate-50 transition-all border border-slate-100 shadow-sm active:scale-95">
               <Settings className="w-6 h-6 animate-[spin_8s_linear_infinite]" />
            </button>
         </div>

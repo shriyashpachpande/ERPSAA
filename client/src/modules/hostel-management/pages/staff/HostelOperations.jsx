@@ -15,7 +15,7 @@ import {
   MessageSquare, Wrench, ShieldAlert, PieChart, 
   DoorOpen, DoorClosed, LayoutGrid, Info, Check, 
   Clock, AlertCircle, X, Search, Calendar, User, 
-  MapPin, Hash, Layers, Home, ArrowRight
+  MapPin, Hash, Layers, Home, ArrowRight, Phone, HeartPulse, Users
 } from 'lucide-react';
 import gsap from 'gsap';
 
@@ -205,7 +205,7 @@ export const CheckInCheckOutPage = () => {
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Current Date</p>
             <p className="text-sm font-bold text-gray-800">{new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
           </div>
-          <button 
+          <button type="button" 
             onClick={() => window.location.reload()}
             className="p-3 bg-white border border-gray-100 rounded-2xl hover:bg-gray-50 text-gray-400 hover:text-indigo-600 transition-all shadow-sm"
           >
@@ -240,7 +240,7 @@ export const CheckInCheckOutPage = () => {
           <div className="lg:col-span-4">
             <div className="flex p-1 bg-gray-50 rounded-2xl border border-gray-100">
               {['Check-In', 'Check-Out'].map(t => (
-                <button
+                <button type="button"
                   key={t}
                   onClick={() => { setMode(t); if(profile) setProfile(null); }}
                   className={`flex-1 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${
@@ -394,7 +394,7 @@ export const CheckInCheckOutPage = () => {
                   </ul>
                 </div>
 
-                <button 
+                <button type="button" 
                   onClick={handleOperation}
                   disabled={submitting || (mode === 'Check-In' && profile.student.modules?.hostel?.status === 'checked_in') || (mode === 'Check-Out' && profile.student.modules?.hostel?.status !== 'checked_in')}
                   className={`w-full py-5 rounded-2xl font-black text-white uppercase tracking-widest text-xs shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:grayscale ${
@@ -491,7 +491,7 @@ export const HostelStaffComplaintsPage = () => {
              </div>
              <div className="flex items-center gap-4">
                 <StatusBadge status={c.status} />
-                <button 
+                <button type="button" 
                   onClick={() => setSelected(c)}
                   className="p-2 hover:bg-indigo-50 text-indigo-600 rounded-xl transition-all"
                 >
@@ -505,7 +505,7 @@ export const HostelStaffComplaintsPage = () => {
       {selected && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
            <div className="bg-white w-full max-w-xl rounded-[2.5rem] p-10 overflow-hidden relative">
-              <button 
+              <button type="button" 
                 onClick={() => setSelected(null)}
                 className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-xl transition-all"
               >
@@ -527,8 +527,8 @@ export const HostelStaffComplaintsPage = () => {
               ></textarea>
 
               <div className="grid grid-cols-2 gap-4">
-                 <button onClick={() => handleUpdate('Resolved')} className="py-4 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-emerald-700">Mark Resolved</button>
-                 <button onClick={() => handleUpdate('In-Progress')} className="py-4 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700">In Progress</button>
+                 <button type="button" onClick={() => handleUpdate('Resolved')} className="py-4 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-emerald-700">Mark Resolved</button>
+                 <button type="button" onClick={() => handleUpdate('In-Progress')} className="py-4 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700">In Progress</button>
               </div>
            </div>
         </div>
@@ -589,7 +589,7 @@ export const MaintenanceRequestsPage = () => {
                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">{r.location} • {r.status}</p>
                 </div>
              </div>
-             <button 
+             <button type="button" 
               onClick={() => setSelected(r)}
               className="px-6 py-3 bg-gray-50 text-gray-900 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
              >
@@ -602,7 +602,7 @@ export const MaintenanceRequestsPage = () => {
       {selected && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
            <div className="bg-white w-full max-w-xl rounded-[2.5rem] p-10 relative">
-              <button 
+              <button type="button" 
                 onClick={() => setSelected(null)}
                 className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-xl transition-all"
               >
@@ -623,8 +623,8 @@ export const MaintenanceRequestsPage = () => {
               ></textarea>
 
               <div className="grid grid-cols-2 gap-4">
-                 <button onClick={() => handleUpdate('Resolved')} className="py-4 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-emerald-700 shadow-lg shadow-emerald-100">Task Completed</button>
-                 <button onClick={() => handleUpdate('In-Progress')} className="py-4 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 shadow-lg shadow-indigo-100">In Progress</button>
+                 <button type="button" onClick={() => handleUpdate('Resolved')} className="py-4 bg-emerald-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-emerald-700 shadow-lg shadow-emerald-100">Task Completed</button>
+                 <button type="button" onClick={() => handleUpdate('In-Progress')} className="py-4 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 shadow-lg shadow-indigo-100">In Progress</button>
               </div>
            </div>
         </div>
@@ -670,7 +670,7 @@ export const RoomDetailsPage = () => {
           <p className="text-gray-500 font-medium">Detailed layout of blocks, floors and beds.</p>
         </div>
         {selectedHostel && (
-          <button 
+          <button type="button" 
             onClick={() => { setSelectedHostel(null); setOccupancy(null); }}
             className="text-xs font-black text-indigo-600 uppercase tracking-widest hover:underline"
           >

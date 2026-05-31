@@ -62,7 +62,7 @@ const StudentDirectoryPage = () => {
               className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm transition-all"
             />
           </div>
-          <button className="p-2.5 bg-white border border-gray-200 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors shadow-sm">
+          <button type="button" className="p-2.5 bg-white border border-gray-200 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-colors shadow-sm">
              <Filter className="w-5 h-5" />
           </button>
         </div>

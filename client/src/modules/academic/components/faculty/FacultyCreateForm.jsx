@@ -40,7 +40,7 @@ const FacultyCreateForm = ({ onClose, onSubmit, onSuccess }) => {
           <h2 className="text-2xl font-black text-gray-900 tracking-tight">Register Faculty</h2>
           <p className="text-gray-500 text-sm font-medium">New account will be generated with @erpsaa.com address</p>
         </div>
-        <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-2xl transition-colors text-gray-400">
+        <button type="button" onClick={onClose} className="p-2 hover:bg-gray-100 rounded-2xl transition-colors text-gray-400">
           <X className="w-6 h-6" />
         </button>
       </div>

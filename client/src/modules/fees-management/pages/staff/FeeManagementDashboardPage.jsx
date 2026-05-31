@@ -13,6 +13,26 @@ import gsap from 'gsap';
 
 const COLORS = ['#4F46E5', '#F59E0B', '#EF4444', '#10B981'];
 
+const StatCard = ({ title, value, icon: Icon, color, trend, trendValue }) => (
+    <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 group">
+        <div className="flex items-center justify-between mb-6">
+            <div className={`p-4 rounded-2xl ${color} group-hover:scale-110 transition-transform`}>
+                <Icon className="w-6 h-6" />
+            </div>
+            {trend && (
+                <div className={`flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                    {trend === 'up' ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                    {trendValue}
+                </div>
+            )}
+        </div>
+        <p className="text-sm font-bold text-gray-500 mb-1">{title}</p>
+        <h3 className="text-4xl font-black text-gray-900 tracking-tighter">
+            {typeof value === 'number' ? `₹${value.toLocaleString()}` : value}
+        </h3>
+    </div>
+);
+
 const FeeManagementDashboardPage = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -60,7 +80,7 @@ const FeeManagementDashboardPage = () => {
                 <h3 className="text-2xl font-black text-gray-900 italic">Financial Sync Error.</h3>
                 <p className="text-gray-500 font-bold uppercase tracking-widest text-[10px]">{error}</p>
             </div>
-            <button onClick={fetchDashboardData} className="flex items-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-black transition-all shadow-2xl">
+            <button type="button" onClick={fetchDashboardData} className="flex items-center gap-2 px-8 py-4 bg-gray-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-black transition-all shadow-2xl">
                 <RefreshCw className="w-4 h-4" /> Re-establish Connection
             </button>
         </div>
@@ -79,25 +99,6 @@ const FeeManagementDashboardPage = () => {
         { name: 'Outstanding', value: stats.totalOutstanding }
     ];
 
-    const StatCard = ({ title, value, icon: Icon, color, trend, trendValue }) => (
-        <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 group">
-            <div className="flex items-center justify-between mb-6">
-                <div className={`p-4 rounded-2xl ${color} group-hover:scale-110 transition-transform`}>
-                    <Icon className="w-6 h-6" />
-                </div>
-                {trend && (
-                    <div className={`flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                        {trend === 'up' ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                        {trendValue}
-                    </div>
-                )}
-            </div>
-            <p className="text-sm font-bold text-gray-500 mb-1">{title}</p>
-            <h3 className="text-4xl font-black text-gray-900 tracking-tighter">
-                {typeof value === 'number' ? `₹${value.toLocaleString()}` : value}
-            </h3>
-        </div>
-    );
 
     return (
         <div className="space-y-10 pb-20">
@@ -108,10 +109,10 @@ const FeeManagementDashboardPage = () => {
                     <p className="text-white/60 font-medium text-lg max-w-md">Financial oversight and collection monitoring center for ERPSAA.</p>
                 </div>
                 <div className="flex items-center gap-4 relative z-10">
-                    <button className="flex items-center px-6 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 rounded-2xl transition-all font-bold text-sm">
+                    <button type="button" className="flex items-center px-6 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/10 rounded-2xl transition-all font-bold text-sm">
                         <Calendar className="w-4 h-4 mr-2" /> Current Session
                     </button>
-                    <button onClick={fetchDashboardData} className="p-4 bg-primary-500 text-white rounded-2xl hover:bg-primary-600 transition-all shadow-lg shadow-primary-500/30 group">
+                    <button type="button" onClick={fetchDashboardData} className="p-4 bg-primary-500 text-white rounded-2xl hover:bg-primary-600 transition-all shadow-lg shadow-primary-500/30 group">
                         <RefreshCw className="w-5 h-5 group-active:rotate-180 transition-transform duration-500" />
                     </button>
                 </div>
@@ -180,7 +181,7 @@ const FeeManagementDashboardPage = () => {
                             <h3 className="text-2xl font-black text-gray-900 tracking-tight">Recent Activity</h3>
                             <p className="text-sm font-medium text-gray-500">Live stream of latest fee transactions.</p>
                         </div>
-                        <button className="p-4 bg-gray-50 text-gray-900 hover:bg-gray-100 rounded-2xl transition-all shadow-sm group">
+                        <button type="button" className="p-4 bg-gray-50 text-gray-900 hover:bg-gray-100 rounded-2xl transition-all shadow-sm group">
                             <Download className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
                         </button>
                     </div>
@@ -217,7 +218,7 @@ const FeeManagementDashboardPage = () => {
                                             <span className="text-lg font-black text-gray-900">₹{p.amount.toLocaleString()}</span>
                                         </td>
                                         <td className="px-6 py-5 text-right">
-                                            <button className="p-3 bg-gray-50 text-gray-400 group-hover:bg-primary-600 group-hover:text-white rounded-xl transition-all">
+                                            <button type="button" className="p-3 bg-gray-50 text-gray-400 group-hover:bg-primary-600 group-hover:text-white rounded-xl transition-all">
                                                 <ChevronRight className="w-4 h-4" />
                                             </button>
                                         </td>

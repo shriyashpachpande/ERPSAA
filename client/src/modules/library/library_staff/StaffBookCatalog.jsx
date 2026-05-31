@@ -62,7 +62,7 @@ const StaffBookCatalog = () => {
                     <h1 className="text-2xl font-black text-brand-dark tracking-tight">Book Catalog Management</h1>
                     <p className="text-gray-500 font-medium text-sm">Add, edit, or remove books from the library</p>
                 </div>
-                <button className="flex items-center justify-center bg-primary-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 active:scale-95 group">
+                <button type="button" className="flex items-center justify-center bg-primary-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 active:scale-95 group">
                     <Plus className="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform" />
                     Add New Book
                 </button>
@@ -117,13 +117,13 @@ const StaffBookCatalog = () => {
                         <div key={book._id} className="book-grid-item relative group">
                             <BookCard book={book} to={`/app/library/book/${book._id}`} />
                             <div className="absolute top-2 left-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button className="p-2 bg-white/90 backdrop-blur shadow-md rounded-lg text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
+                                <button type="button" className="p-2 bg-white/90 backdrop-blur shadow-md rounded-lg text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
                                     <Edit className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 bg-white/90 backdrop-blur shadow-md rounded-lg text-primary-600 hover:bg-primary-600 hover:text-white transition-colors">
+                                <button type="button" className="p-2 bg-white/90 backdrop-blur shadow-md rounded-lg text-primary-600 hover:bg-primary-600 hover:text-white transition-colors">
                                     <Copy className="w-4 h-4" />
                                 </button>
-                                <button 
+                                <button type="button" 
                                     onClick={() => deleteBook(book._id).then(fetchBooks)}
                                     className="p-2 bg-white/90 backdrop-blur shadow-md rounded-lg text-red-600 hover:bg-red-600 hover:text-white transition-colors"
                                 >

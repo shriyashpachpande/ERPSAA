@@ -229,7 +229,7 @@ const LeaveRequestsPage = () => {
                                                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest text-center mb-1">Actions</p>
 
                                                     {leave.approvalStage !== 'Forwarded to HOD' && (
-                                                        <button
+                                                        <button type="button"
                                                             disabled={actionLoading === leave._id}
                                                             onClick={() => handleActionClick(leave._id, 'Forwarded to HOD')}
                                                             className="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 px-5 py-3 rounded-xl font-bold text-xs transition-all active:scale-95"
@@ -237,14 +237,14 @@ const LeaveRequestsPage = () => {
                                                             Forward to HOD
                                                         </button>
                                                     )}
-                                                    <button
+                                                    <button type="button"
                                                         disabled={actionLoading === leave._id}
                                                         onClick={() => handleActionClick(leave._id, 'Approved')}
                                                         className="w-full bg-slate-900 hover:bg-slate-800 text-white shadow-xl shadow-slate-900/10 px-5 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 active:scale-95"
                                                     >
                                                         <Check className="w-4 h-4" /> {leave.approvalStage === 'Forwarded to HOD' ? 'Final Approve' : 'Approve'}
                                                     </button>
-                                                    <button
+                                                    <button type="button"
                                                         disabled={actionLoading === leave._id}
                                                         onClick={() => handleActionClick(leave._id, 'Rejected')}
                                                         className="w-full bg-white hover:bg-rose-50 text-rose-600 border border-slate-200 hover:border-rose-200 px-5 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 active:scale-95"
@@ -292,13 +292,13 @@ const LeaveRequestsPage = () => {
                             ></textarea>
 
                             <div className="flex gap-4 mt-8">
-                                <button
+                                <button type="button"
                                     onClick={() => setRemarksModal({ open: false, leaveId: null, action: null, remarks: '' })}
                                     className="flex-1 py-3.5 px-4 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-bold transition-all active:scale-95"
                                 >
                                     Cancel
                                 </button>
-                                <button
+                                <button type="button"
                                     onClick={submitAction}
                                     className={`flex-1 py-3.5 px-4 text-white rounded-xl font-bold transition-all shadow-lg active:scale-95 ${remarksModal.action === 'Approved' ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/20' : 'bg-rose-600 hover:bg-rose-500 shadow-rose-600/20'}`}
                                 >

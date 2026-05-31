@@ -149,7 +149,7 @@ const ServiceRules = () => {
                         <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">Handbook Navigation</h3>
                         <div className="space-y-1">
                             {sections.map(s => (
-                                <button key={s.id} onClick={() => scrollToSection(s.id)} className="w-full text-left py-2 px-3 rounded-lg text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all">
+                                <button type="button" key={s.id} onClick={() => scrollToSection(s.id)} className="w-full text-left py-2 px-3 rounded-lg text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all">
                                     {s.title}
                                 </button>
                             ))}

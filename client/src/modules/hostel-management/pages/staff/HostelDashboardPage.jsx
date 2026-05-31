@@ -65,7 +65,7 @@ const HostelDashboardPage = () => {
           <AlertCircle className="w-12 h-12 mx-auto mb-4" />
           <h2 className="text-xl font-black mb-2">Dashboard Error</h2>
           <p className="font-medium mb-6">{error || 'Could not load dashboard data.'}</p>
-          <button onClick={() => window.location.reload()} className="px-6 py-2 bg-rose-600 text-white rounded-xl font-bold">Retry</button>
+          <button type="button" onClick={() => window.location.reload()} className="px-6 py-2 bg-rose-600 text-white rounded-xl font-bold">Retry</button>
         </div>
       </div>
     );
@@ -79,7 +79,7 @@ const HostelDashboardPage = () => {
           <p className="text-gray-500 text-sm font-medium uppercase tracking-widest">Live Residency & Occupancy Tracking</p>
         </div>
         <div className="flex gap-3">
-          <button 
+          <button type="button" 
             onClick={() => navigate('/app/hostel/applicants')}
             className="px-6 py-3 bg-brand-dark text-white rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-gray-800 transition-all shadow-lg shadow-gray-200"
           >
@@ -185,7 +185,7 @@ const HostelDashboardPage = () => {
                             <p className="text-xs text-gray-500 font-medium">There are {stats.pendingApplications} pending hostel applications.</p>
                         </div>
                     </div>
-                    <button onClick={() => navigate('/app/hostel/applicants')} className="text-xs font-black text-indigo-600 uppercase tracking-widest hover:underline">Review</button>
+                    <button type="button" onClick={() => navigate('/app/hostel/applicants')} className="text-xs font-black text-indigo-600 uppercase tracking-widest hover:underline">Review</button>
                  </div>
                )}
                {stats.activeMaintenance > 5 && (
@@ -199,7 +199,7 @@ const HostelDashboardPage = () => {
                             <p className="text-xs text-gray-500 font-medium">{stats.activeMaintenance} requests require assignment.</p>
                         </div>
                     </div>
-                    <button onClick={() => navigate('/app/hostel/maintenance')} className="text-xs font-black text-amber-600 uppercase tracking-widest hover:underline">Manage</button>
+                    <button type="button" onClick={() => navigate('/app/hostel/maintenance')} className="text-xs font-black text-amber-600 uppercase tracking-widest hover:underline">Manage</button>
                  </div>
                )}
                <div className="p-4 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-between opacity-60">
@@ -228,7 +228,7 @@ const HostelDashboardPage = () => {
                  { name: 'Occupancy Flow', path: '/app/hostel/occupancy', icon: PieChart },
                  { name: 'Contact Log', path: '/app/hostel/dashboard', icon: Users },
                ].map((item, idx) => (
-                 <button 
+                 <button type="button" 
                   key={idx}
                   onClick={() => navigate(item.path)}
                   className="w-full p-4 bg-white/10 border border-white/20 rounded-2xl flex items-center justify-between hover:bg-white/20 transition-all group"
@@ -253,7 +253,7 @@ const HostelDashboardPage = () => {
              {stats.activeComplaints > 0 ? (
                 <div className="space-y-4">
                     <p className="text-sm text-gray-500 font-medium">There are <span className="font-black text-rose-600">{stats.activeComplaints} unresolved complaints</span> requiring attention.</p>
-                    <button 
+                    <button type="button" 
                         onClick={() => navigate('/app/hostel/complaints')}
                         className="w-full py-3 bg-rose-50 text-rose-600 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-100 transition-all"
                     >

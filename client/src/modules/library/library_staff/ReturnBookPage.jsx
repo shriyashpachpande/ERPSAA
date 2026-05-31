@@ -77,7 +77,7 @@ const ReturnBookPage = () => {
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                     />
                 </div>
-                <button 
+                <button type="button" 
                     onClick={handleSearch}
                     disabled={loading}
                     className="px-8 bg-primary-600 text-white rounded-2xl font-black hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 active:scale-95 disabled:opacity-50"
@@ -200,7 +200,7 @@ const ReturnBookPage = () => {
                                 )}
                             </div>
 
-                            <button 
+                            <button type="button" 
                                 onClick={handleReturn}
                                 disabled={loading}
                                 className="w-full py-5 bg-primary-600 text-white rounded-2xl font-black text-lg hover:bg-primary-700 transition-all shadow-xl shadow-primary-600/30 transform active:scale-95 flex items-center justify-center gap-3 group"

@@ -84,7 +84,7 @@ const EventApprovalDashboard = () => {
           
           <div className="flex bg-slate-200/50 p-1 rounded-2xl">
             {['pending', 'approved', 'rejected', 'all'].map(f => (
-              <button
+              <button type="button"
                 key={f}
                 onClick={() => setFilter(f)}
                 className={`px-6 py-2.5 rounded-xl text-sm font-bold capitalize transition-all ${
@@ -150,7 +150,7 @@ const EventApprovalDashboard = () => {
                        <td className="p-5 text-right">
                          {req.status === 'pending' ? (
                            <div className="flex justify-end gap-2">
-                             <button
+                             <button type="button"
                                onClick={() => handleAction(req._id, 'approve')}
                                disabled={actionLoading === req._id}
                                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl text-sm transition-colors disabled:opacity-50 flex items-center gap-1 active:scale-95"
@@ -158,7 +158,7 @@ const EventApprovalDashboard = () => {
                                {actionLoading === req._id ? <RefreshCw className="w-4 h-4 animate-spin"/> : <CheckCircle className="w-4 h-4"/>}
                                Approve
                              </button>
-                             <button
+                             <button type="button"
                                onClick={() => handleAction(req._id, 'reject')}
                                disabled={actionLoading === req._id}
                                className="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold border border-rose-200 rounded-xl text-sm transition-colors disabled:opacity-50 flex items-center gap-1 active:scale-95"

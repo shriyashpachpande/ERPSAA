@@ -93,7 +93,7 @@ const AdminAuditLogsPage = () => {
                                         </div>
                                     </td>
                                     <td className="px-8 py-6 text-right">
-                                        <button className="p-2 text-gray-300 hover:text-primary-600 transition-colors">
+                                        <button type="button" className="p-2 text-gray-300 hover:text-primary-600 transition-colors">
                                             <Eye className="w-5 h-5" />
                                         </button>
                                     </td>

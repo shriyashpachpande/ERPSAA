@@ -3,6 +3,22 @@ import axiosInstance from '../../../../utils/axiosInstance';
 import { CreditCard, CheckCircle, AlertCircle, Clock, Download, ChevronRight, Receipt, ArrowUpRight, Home, ShieldCheck, Loader2, Smartphone, QrCode, Lock, ArrowLeft } from 'lucide-react';
 import gsap from 'gsap';
 
+const StatCard = ({ title, value, icon: Icon, color, subText }) => (
+    <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] hover:shadow-md transition-shadow">
+        <div className="flex items-center justify-between mb-4">
+            <div className={`p-3 rounded-2xl ${color}`}>
+                <Icon className="w-6 h-6" />
+            </div>
+            <div className="bg-gray-50 px-3 py-1 rounded-full text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                Live
+            </div>
+        </div>
+        <p className="text-sm font-semibold text-gray-500 mb-1">{title}</p>
+        <h3 className="text-3xl font-black text-gray-900 tracking-tight">₹{value.toLocaleString()}</h3>
+        {subText && <p className="text-xs text-gray-400 mt-2 font-medium">{subText}</p>}
+    </div>
+);
+
 const StudentFeeOverviewPage = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -155,7 +171,7 @@ const StudentFeeOverviewPage = () => {
                         Your fee account has not been assigned by the accounts department yet. Please contact the accounts office to initialize your ledger.
                     </p>
                 </div>
-                <button onClick={fetchFeeData} className="px-8 py-3 bg-primary-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-primary-700 transition-all shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)]">
+                <button type="button" onClick={fetchFeeData} className="px-8 py-3 bg-primary-600 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-primary-700 transition-all shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)]">
                     Check Status
                 </button>
             </div>
@@ -175,7 +191,7 @@ const StudentFeeOverviewPage = () => {
                         : error}
                 </p>
             </div>
-            <button onClick={fetchFeeData} className="px-8 py-3 bg-gray-900 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-black transition-all">
+            <button type="button" onClick={fetchFeeData} className="px-8 py-3 bg-gray-900 text-white rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-black transition-all">
                 Refresh Status
             </button>
         </div>
@@ -183,21 +199,6 @@ const StudentFeeOverviewPage = () => {
 
     const { account, payments } = data;
 
-    const StatCard = ({ title, value, icon: Icon, color, subText }) => (
-        <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-2xl ${color}`}>
-                    <Icon className="w-6 h-6" />
-                </div>
-                <div className="bg-gray-50 px-3 py-1 rounded-full text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                    Live
-                </div>
-            </div>
-            <p className="text-sm font-semibold text-gray-500 mb-1">{title}</p>
-            <h3 className="text-3xl font-black text-gray-900 tracking-tight">₹{value.toLocaleString()}</h3>
-            {subText && <p className="text-xs text-gray-400 mt-2 font-medium">{subText}</p>}
-        </div>
-    );
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
@@ -274,7 +275,7 @@ const StudentFeeOverviewPage = () => {
                                         {inst.status === 'verification_pending' ? 'Pending Approval' : inst.status}
                                     </span>
                                     {inst.status === 'pending' && (
-                                        <button 
+                                        <button type="button" 
                                             onClick={() => triggerPaymentModal(inst)}
                                             className="px-3 py-1 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-[8.5px] font-black uppercase tracking-widest transition-all shadow-sm"
                                         >
@@ -373,7 +374,7 @@ const StudentFeeOverviewPage = () => {
                 </div>
                 
                 <div className="p-8 bg-gray-50/50 border-t border-gray-50 flex justify-center">
-                    <button 
+                    <button type="button" 
                         onClick={() => window.location.href = '/app/student/fees/receipts'}
                         className="flex items-center gap-2 text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors uppercase tracking-widest"
                     >
@@ -391,7 +392,7 @@ const StudentFeeOverviewPage = () => {
                         <div className="md:col-span-2 bg-[#F8F9FA] p-8 md:p-12 flex flex-col justify-between border-r border-gray-100">
                             <div>
                                 {/* Header with back arrow */}
-                                <button 
+                                <button type="button" 
                                     onClick={() => setShowPaymentModal(false)}
                                     className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors text-xs font-bold uppercase tracking-wider mb-8 cursor-pointer"
                                 >

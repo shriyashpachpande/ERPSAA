@@ -104,7 +104,7 @@ const StudentMasterDetailPanel = () => {
                              <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-indigo-600 transition-colors">
                                 {modData.status.replace('_', ' ')}
                              </span>
-                             <button className="text-[10px] font-bold text-indigo-600 px-3 py-1.5 bg-white border border-indigo-100 rounded-lg hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
+                             <button type="button" className="text-[10px] font-bold text-indigo-600 px-3 py-1.5 bg-white border border-indigo-100 rounded-lg hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
                                 Manage
                              </button>
                          </div>

@@ -67,7 +67,7 @@ const DigitalReceiptPage = () => {
             </div>
             <h3 className="text-2xl font-black text-gray-900 italic">Access Denied.</h3>
             <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">{error}</p>
-            <button onClick={() => window.history.back()} className="px-8 py-3 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-black transition-all">
+            <button type="button" onClick={() => window.history.back()} className="px-8 py-3 bg-gray-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-black transition-all">
                 Go Back
             </button>
         </div>
@@ -79,14 +79,14 @@ const DigitalReceiptPage = () => {
         <div className="min-h-screen bg-gray-50/50 p-6 md:p-12 print:bg-white print:p-0">
             {/* Action Bar (Hidden on Print) */}
             <div className="max-w-4xl mx-auto mb-8 flex items-center justify-between print:hidden">
-                <button
+                <button type="button"
                     onClick={() => window.history.back()}
                     className="flex items-center gap-3 px-6 py-3 bg-white border border-gray-100 rounded-2xl font-black text-[10px] uppercase tracking-widest text-gray-500 hover:bg-gray-50 transition-all shadow-sm"
                 >
                     <ArrowLeft className="w-4 h-4" /> Back to Dashboard
                 </button>
                 <div className="flex gap-3">
-                    <button
+                    <button type="button"
                         onClick={handlePrint}
                         className="flex items-center gap-3 px-8 py-3 bg-gray-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-black transition-all shadow-xl"
                     >

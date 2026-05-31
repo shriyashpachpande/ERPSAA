@@ -90,7 +90,7 @@ const LibraryHistory = () => {
             <div className="max-w-6xl mx-auto mb-16 space-y-10">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 stagger-item">
                     <div className="flex items-center gap-6">
-                        <button
+                        <button type="button"
                             onClick={() => navigate(-1)}
                             className="group p-4 bg-white rounded-3xl shadow-[0px_0px_10px_2px_rgba(59,130,246,0.2),0px_0px_20px_8px_rgba(59,130,246,0.1)] hover:shadow-[0_0_20px_0px_rgba(139,92,246,0.5)] transition-all duration-500"
                         >
@@ -188,7 +188,7 @@ const LibraryHistory = () => {
                         <p className="text-slate-400 font-bold max-w-sm mx-auto uppercase tracking-[0.25em] text-[10px] leading-[2.5]">
                             You haven't completed any book cycles yet. Borrowed books will appear here once returned.
                         </p>
-                        <button
+                        <button type="button"
                             onClick={() => navigate('/app/student/library/catalog')}
                             className="mt-14 px-12 py-6 bg-slate-900 text-white rounded-[2rem] font-black uppercase tracking-[0.3em] text-[10px] hover:bg-blue-600 transition-all duration-500 active:scale-95 flex items-center gap-6 shadow-2xl shadow-brand-dark/20 hover:shadow-blue-500/40"
                         >

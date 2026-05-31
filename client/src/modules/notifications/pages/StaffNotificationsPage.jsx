@@ -82,7 +82,7 @@ const StaffNotificationsPage = () => {
                     </div>
                 </div>
 
-                <button
+                <button type="button"
                     onClick={markAllRead}
                     disabled={unreadCount === 0}
                     className="flex items-center px-6 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all font-bold text-sm shadow-sm text-gray-700 disabled:opacity-50"

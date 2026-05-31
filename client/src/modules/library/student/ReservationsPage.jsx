@@ -97,7 +97,7 @@ const StudentReservationsPage = () => {
                                 )}
                                 
                                 {(res.status === 'ACTIVE' || res.status === 'NOTIFIED') && (
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => handleCancel(res._id)}
                                         className="p-3 bg-white border border-gray-200 rounded-xl text-red-500 hover:bg-red-50 hover:border-red-200 transition-all shadow-sm flex items-center gap-2 font-bold text-xs"
                                     >

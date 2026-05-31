@@ -11,6 +11,19 @@ import {
 
 const COLORS = ['#4F46E5', '#8B5CF6', '#F59E0B', '#10B981', '#EF4444', '#6366F1'];
 
+const StatCard = ({ title, value, icon: Icon, color }) => (
+    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+            <div className={`p-3 rounded-2xl ${color}`}>
+                <Icon className="w-6 h-6" />
+            </div>
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Live</span>
+        </div>
+        <p className="text-sm font-semibold text-gray-500 mb-1">{title}</p>
+        <h3 className="text-3xl font-bold text-gray-900">{value}</h3>
+    </div>
+);
+
 const ReportsPage = () => {
     const [overview, setOverview] = useState({
         total: 0, draft: 0, submitted: 0, underReview: 0,
@@ -50,18 +63,6 @@ const ReportsPage = () => {
         }
     };
 
-    const StatCard = ({ title, value, icon: Icon, color }) => (
-        <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-2xl ${color}`}>
-                    <Icon className="w-6 h-6" />
-                </div>
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Live</span>
-            </div>
-            <p className="text-sm font-semibold text-gray-500 mb-1">{title}</p>
-            <h3 className="text-3xl font-bold text-gray-900">{value}</h3>
-        </div>
-    );
 
     if (loading) {
         return (
@@ -81,10 +82,10 @@ const ReportsPage = () => {
                     <p className="text-gray-500 font-medium tracking-tight text-lg">Real-time admission insights and statistical breakdown.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button className="flex items-center px-5 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all font-bold text-sm shadow-sm text-gray-700">
+                    <button type="button" className="flex items-center px-5 py-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all font-bold text-sm shadow-sm text-gray-700">
                         <Download className="w-4 h-4 mr-2" /> Export CSV
                     </button>
-                    <button onClick={fetchAllData} className="p-3 bg-primary-600 text-white rounded-2xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-200">
+                    <button type="button" onClick={fetchAllData} className="p-3 bg-primary-600 text-white rounded-2xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-200">
                         <RefreshCw className="w-5 h-5" />
                     </button>
                 </div>

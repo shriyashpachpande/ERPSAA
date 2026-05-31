@@ -6,7 +6,7 @@ import Footer from '../../components/sections/Footer';
 
 const PublicLayout = () => {
   const mainRef = useRef(null);
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     gsap.fromTo(
@@ -14,7 +14,7 @@ const PublicLayout = () => {
       { opacity: 0 },
       { opacity: 1, duration: 0.5, ease: 'power2.out' }
     );
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-brand-light overflow-x-hidden">

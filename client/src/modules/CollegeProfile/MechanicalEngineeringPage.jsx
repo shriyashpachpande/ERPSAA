@@ -248,7 +248,7 @@ const MechanicalEngineeringPage = () => {
                             className="bg-white rounded-[3rem] overflow-hidden shadow-3xl max-w-4xl w-full flex flex-col md:flex-row relative"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <button 
+                            <button type="button" 
                                 onClick={() => setSelectedFaculty(null)}
                                 className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 hover:bg-primary-600 hover:text-white transition-all z-20"
                             >

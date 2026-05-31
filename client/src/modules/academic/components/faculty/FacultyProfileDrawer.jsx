@@ -7,7 +7,7 @@ const FacultyProfileDrawer = ({ faculty, onClose }) => {
       <div className="w-full max-w-lg bg-white h-full shadow-2xl animate-in slide-in-from-right duration-500 overflow-y-auto">
         {/* Header */}
         <div className="relative h-48 bg-primary-600 p-8 flex flex-col justify-end">
-          <button 
+          <button type="button" 
             onClick={onClose}
             className="absolute top-6 right-6 p-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors text-white"
           >

@@ -64,7 +64,7 @@ const ComplaintDetailPage = () => {
                 {/* Navigation & Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                     <div className="flex flex-col gap-1">
-                        <button
+                        <button type="button"
                             onClick={() => navigate(-1)}
                             className="flex items-center gap-2 text-indigo-600 font-black text-[10px] uppercase tracking-[0.3em] mb-2 group w-fit"
                         >
@@ -202,7 +202,7 @@ const ComplaintDetailPage = () => {
                         <div className="space-y-4">
                             {complaint.status === 'resolved' && (
                                 <>
-                                    <button
+                                    <button type="button"
                                         onClick={() => setIsFeedbackOpen(true)}
                                         className="w-full py-6 animate-hue-smooth text-white font-black rounded-[2rem] hover:shadow-indigo-300 shadow-2xl shadow-emerald-200 transition-all flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95 group overflow-hidden relative"
                                         style={{ background: 'linear-gradient(135deg, rgb(16, 185, 129), rgb(6, 182, 212), rgb(59, 130, 246), rgb(99, 102, 241), rgb(139, 92, 246), rgb(236, 72, 153), rgb(244, 63, 94))', backgroundSize: '200% 200%' }}
@@ -212,7 +212,7 @@ const ComplaintDetailPage = () => {
                                         </div>
                                         Finalize & Close
                                     </button>
-                                    <button
+                                    <button type="button"
                                         onClick={handleReopen}
                                         className="w-full py-6 bg-white text-slate-700 border border-slate-200 font-black rounded-[2rem] hover:bg-slate-50 hover:border-orange-200 hover:text-orange-600 shadow-sm transition-all flex items-center justify-center gap-3 transform hover:-translate-y-1 active:scale-95 group"
                                     >

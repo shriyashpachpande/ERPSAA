@@ -6,7 +6,7 @@ import { getAllStudents } from '../../student-master/services/studentMasterServi
 import gsap from 'gsap';
 
 const IssueBookPage = () => {
-    const location = useLocation();
+    const { state } = useLocation();
     const { getBooks, getCopies, issueBook, loading: libraryLoading } = useLibrary();
     const [students, setStudents] = useState([]);
     const [books, setBooks] = useState([]);
@@ -62,7 +62,7 @@ const IssueBookPage = () => {
             }
         };
         fetchInitialData();
-    }, [location.state]);
+    }, [state]);
 
     const filteredStudents = students.filter(s => 
         s.personalDetails.fullName.toLowerCase().includes(studentSearch.toLowerCase()) || 
@@ -226,7 +226,7 @@ const IssueBookPage = () => {
                             </div>
                         ) : copies.length > 0 ? (
                             copies.map(copy => (
-                                <button
+                                <button type="button"
                                     key={copy._id}
                                     onClick={() => setSelectedCopy(copy)}
                                     className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-2 group ${
@@ -268,7 +268,7 @@ const IssueBookPage = () => {
                     </div>
                 </div>
 
-                <button 
+                <button type="button" 
                     disabled={!selectedStudent || !selectedBook || !selectedCopy || libraryLoading}
                     onClick={handleIssue}
                     className="w-full md:w-auto px-10 py-5 bg-primary-600 text-white rounded-2xl font-black text-lg hover:bg-primary-700 transition-all shadow-xl shadow-primary-600/30 disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed transform active:scale-95 flex items-center justify-center"

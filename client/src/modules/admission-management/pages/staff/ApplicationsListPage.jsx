@@ -4,6 +4,24 @@ import { Link } from 'react-router-dom';
 import { Search, Loader2, Eye, Filter, CheckCircle, ShieldAlert, FileText, Clock } from 'lucide-react';
 import gsap from 'gsap';
 
+const StatusBadge = ({ status }) => {
+    const styles = {
+        draft: 'bg-gray-100 text-gray-600 border-gray-200',
+        submitted: 'bg-blue-50 text-blue-700 border-blue-200',
+        under_review: 'bg-purple-50 text-purple-700 border-purple-200',
+        pending_clarification: 'bg-orange-50 text-orange-700 border-orange-200',
+        reupload_requested: 'bg-amber-50 text-amber-700 border-amber-200',
+        approved: 'bg-green-50 text-green-700 border-green-200',
+        rejected: 'bg-red-50 text-red-700 border-red-200'
+    };
+    const style = styles[status] || styles.draft;
+    return (
+        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${style}`}>
+            {status.replace('_', ' ')}
+        </span>
+    );
+};
+
 const ApplicationsListPage = () => {
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -47,23 +65,6 @@ const ApplicationsListPage = () => {
         }
     };
 
-    const StatusBadge = ({ status }) => {
-        const styles = {
-            draft: 'bg-gray-100 text-gray-600 border-gray-200',
-            submitted: 'bg-blue-50 text-blue-700 border-blue-200',
-            under_review: 'bg-purple-50 text-purple-700 border-purple-200',
-            pending_clarification: 'bg-orange-50 text-orange-700 border-orange-200',
-            reupload_requested: 'bg-amber-50 text-amber-700 border-amber-200',
-            approved: 'bg-green-50 text-green-700 border-green-200',
-            rejected: 'bg-red-50 text-red-700 border-red-200'
-        };
-        const style = styles[status] || styles.draft;
-        return (
-            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${style}`}>
-                {status.replace('_', ' ')}
-            </span>
-        );
-    };
 
     const filteredApps = applications.filter(app => {
         const matchesSearch = 

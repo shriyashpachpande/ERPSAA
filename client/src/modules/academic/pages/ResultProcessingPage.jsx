@@ -59,7 +59,7 @@ const ResultProcessingPage = () => {
                  <FileText className="w-5 h-5 text-primary-500" /> Preview Results
                </h3>
                {results.length > 0 && results.some(r => r.resultStatus !== 'Published') && (
-                 <button 
+                 <button type="button" 
                   onClick={handlePublish}
                   className="px-6 py-3 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-emerald-600/20 hover:scale-105 transition-all flex items-center gap-2"
                  >

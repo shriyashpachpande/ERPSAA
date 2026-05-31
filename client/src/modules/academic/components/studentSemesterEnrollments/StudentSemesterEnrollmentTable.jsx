@@ -88,14 +88,14 @@ const StudentSemesterEnrollmentTable = ({ data, loading, onEdit }) => {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                      <button 
+                      <button type="button" 
                         onClick={() => navigate(`/app/academic/student-academic-profile/${enroll.studentMasterId?._id}`)}
                         className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-white rounded-lg transition-all border border-transparent hover:border-slate-100 shadow-sm"
                         title="View Profile"
                       >
                         <ExternalLink className="w-4 h-4" />
                       </button>
-                      <button 
+                      <button type="button" 
                         onClick={() => onEdit(enroll)}
                         className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-white rounded-lg transition-all border border-transparent hover:border-slate-100 shadow-sm"
                         title="Edit Placement"
@@ -152,7 +152,7 @@ const StudentSemesterEnrollmentTable = ({ data, loading, onEdit }) => {
                     <p className="text-slate-400 uppercase">Term:</p>
                     <p className="text-slate-700 uppercase">{enroll.academicYearId?.name} • <span className="text-indigo-600 font-black">{enroll.semesterId?.semesterName}</span></p>
                   </div>
-                  <button 
+                  <button type="button" 
                     onClick={() => navigate(`/app/academic/student-academic-profile/${enroll.studentMasterId?._id}`)}
                     className="text-indigo-600 flex items-center gap-1 hover:underline"
                   >

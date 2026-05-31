@@ -74,7 +74,7 @@ const AdmissionStaffDashboard = () => {
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Connection Error</h2>
         <p className="text-gray-500 mb-6 max-w-md">{error}</p>
-        <button 
+        <button type="button" 
           onClick={fetchDashboardData}
           className="px-8 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-all shadow-lg shadow-red-200"
         >
@@ -122,10 +122,10 @@ const AdmissionStaffDashboard = () => {
              <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-100 flex items-center justify-center text-[10px] font-bold text-primary-600">+12</div>
           </div>
           <div className="h-10 w-px bg-gray-200 mx-2 hidden sm:block"></div>
-          <button className="p-2.5 rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-primary-600 hover:bg-primary-50 transition-all shadow-sm">
+          <button type="button" className="p-2.5 rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-primary-600 hover:bg-primary-50 transition-all shadow-sm">
              <Bell className="w-5 h-5" />
           </button>
-          <button className="flex items-center space-x-2 px-4 py-2.5 bg-brand-dark text-white rounded-xl font-bold hover:bg-black transition-all shadow-xl shadow-gray-200 hover:-translate-y-0.5">
+          <button type="button" className="flex items-center space-x-2 px-4 py-2.5 bg-brand-dark text-white rounded-xl font-bold hover:bg-black transition-all shadow-xl shadow-gray-200 hover:-translate-y-0.5">
              <Download className="w-4 h-4" />
              <span className="text-sm">Export Report</span>
           </button>
@@ -168,7 +168,7 @@ const AdmissionStaffDashboard = () => {
              </div>
              <h4 className="font-bold text-lg mb-1">Weekly Pulse</h4>
              <p className="text-white/80 text-xs mb-4">You've cleared 85% of re-upload requests faster than last week. Great job!</p>
-             <button className="text-[10px] font-bold uppercase tracking-widest bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors">
+             <button type="button" className="text-[10px] font-bold uppercase tracking-widest bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors">
                 View Efficiency
              </button>
           </div>

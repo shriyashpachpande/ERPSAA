@@ -48,7 +48,7 @@ const RecentApplications = ({ applications }) => {
           <h3 className="text-lg font-bold text-gray-900">Recent Applications</h3>
           <p className="text-xs text-gray-500">Latest updates from candidates</p>
         </div>
-        <button 
+        <button type="button" 
           onClick={() => navigate('/app/staff/admissions')}
           className="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center group px-3 py-1 rounded-lg hover:bg-primary-50 transition-colors"
         >
@@ -107,7 +107,7 @@ const RecentApplications = ({ applications }) => {
                   <StatusBadge status={app.applicationStatus} />
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <button 
+                  <button type="button" 
                     onClick={() => navigate(`/app/staff/admissions/${app._id}`)}
                     className="flex justify-center items-center ml-auto w-8 h-8 rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-primary-600 hover:bg-primary-50 hover:border-primary-100 transition-all shadow-sm group-hover:scale-110 active:scale-95"
                   >

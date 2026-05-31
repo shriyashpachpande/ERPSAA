@@ -280,7 +280,7 @@ const StudentBonafidePage = () => {
         </div>
         
         <div class="actions no-print">
-          <button class="btn-print" onclick="window.print()">Print / Save PDF</button>
+          <button type="button" class="btn-print" onclick="window.print()">Print / Save PDF</button>
         </div>
         
         <script>
@@ -348,7 +348,7 @@ const StudentBonafidePage = () => {
           </div>
           <div>
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Action Hub</p>
-            <button onClick={() => setModalOpen(true)} className="text-sm font-black text-primary-600 hover:text-primary-700 uppercase tracking-wider mt-0.5">
+            <button type="button" onClick={() => setModalOpen(true)} className="text-sm font-black text-primary-600 hover:text-primary-700 uppercase tracking-wider mt-0.5">
               Apply New Bonafide
             </button>
           </div>
@@ -362,7 +362,7 @@ const StudentBonafidePage = () => {
             <h3 className="text-sm font-black text-gray-900 uppercase tracking-wider">Application Ledger</h3>
             <p className="text-[9px] font-black text-gray-400 mt-0.5 uppercase tracking-widest">Track status of submitted request channels</p>
           </div>
-          <button
+          <button type="button"
             onClick={() => setModalOpen(true)}
             className="flex items-center gap-2 px-6 py-3 bg-brand-dark text-white rounded-2xl hover:bg-brand-dark/95 transition-all text-xs font-bold shadow-md shadow-brand-dark/10"
           >
@@ -420,7 +420,7 @@ const StudentBonafidePage = () => {
                     </td>
                     <td className="p-6 text-center">
                       {req.status === 'approved' ? (
-                        <button
+                        <button type="button"
                           onClick={() => handlePrintCertificate(req)}
                           className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-50 hover:bg-primary-100 text-primary-600 rounded-xl transition-all font-bold text-[10px] uppercase tracking-wider"
                         >
@@ -452,7 +452,7 @@ const StudentBonafidePage = () => {
                 <h4 className="text-base font-black text-gray-900 uppercase tracking-wider">Bonafide Request</h4>
                 <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mt-0.5">Submit details for registrar review</p>
               </div>
-              <button
+              <button type="button"
                 onClick={() => setModalOpen(false)}
                 className="p-2 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100"
               >

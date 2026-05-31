@@ -114,7 +114,7 @@ const FeeStudentAccountDetailPage = () => {
         <div ref={detailRef} className="space-y-8 animate-in fade-in duration-500">
             {/* Header */}
             <div className="flex items-center gap-6">
-                <button onClick={() => window.history.back()} className="p-4 bg-white border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all text-gray-500 shadow-sm">
+                <button type="button" onClick={() => window.history.back()} className="p-4 bg-white border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all text-gray-500 shadow-sm">
                     <ArrowLeft className="w-5 h-5" />
                 </button>
                 <div>
@@ -161,7 +161,7 @@ const FeeStudentAccountDetailPage = () => {
                             </div>
                         </div>
 
-                        <button 
+                        <button type="button" 
                             onClick={() => {
                                 setActiveClaimId(null);
                                 setAmount('');
@@ -209,7 +209,7 @@ const FeeStudentAccountDetailPage = () => {
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2 w-full md:w-auto">
-                                                <button
+                                                <button type="button"
                                                     onClick={() => {
                                                         setActiveClaimId(claim._id);
                                                         setAmount(claim.amount.toString());
@@ -222,7 +222,7 @@ const FeeStudentAccountDetailPage = () => {
                                                 >
                                                     Verify & Clear
                                                 </button>
-                                                <button
+                                                <button type="button"
                                                     onClick={() => handleRejectClaim(claim._id)}
                                                     className="flex-1 md:flex-none px-5 py-3 bg-white/5 hover:bg-rose-500/20 text-rose-400 hover:text-rose-300 rounded-xl border border-white/5 hover:border-rose-500/30 text-[10px] font-black uppercase tracking-wider transition-all"
                                                 >
@@ -313,7 +313,7 @@ const FeeStudentAccountDetailPage = () => {
                                                  <p className="text-xs font-bold text-gray-500">{p.transactionId || 'No Ref ID'}</p>
                                                  <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Reference</p>
                                              </div>
-                                             <button 
+                                             <button type="button" 
                                                 onClick={() => {
                                                     const r = receipts.find(r => r.paymentEntryId === p._id || r.paymentEntryId._id === p._id);
                                                     if(r) window.open(`/app/student/fees/receipts/${r._id}`, '_blank');
@@ -349,7 +349,7 @@ const FeeStudentAccountDetailPage = () => {
                                             <div className="p-3 bg-white rounded-xl shadow-sm">
                                                 <FileText className="w-5 h-5 text-primary-600" />
                                             </div>
-                                            <button className="text-primary-600 hover:text-primary-700 font-bold text-[10px] uppercase tracking-widest">
+                                            <button type="button" className="text-primary-600 hover:text-primary-700 font-bold text-[10px] uppercase tracking-widest">
                                                 Download
                                             </button>
                                         </div>
@@ -375,7 +375,7 @@ const FeeStudentAccountDetailPage = () => {
                                 <h3 className="text-2xl font-black tracking-tight italic">Record Payment.</h3>
                                 <p className="text-xs font-black uppercase text-white/50 tracking-widest mt-1">Manual Transaction Entry</p>
                             </div>
-                            <button onClick={() => setShowModal(false)} className="p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10">
+                            <button type="button" onClick={() => setShowModal(false)} className="p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10">
                                 <Plus className="w-5 h-5 rotate-45" />
                             </button>
                         </div>
@@ -400,7 +400,7 @@ const FeeStudentAccountDetailPage = () => {
                                     <textarea value={remarks} onChange={(e)=>setRemarks(e.target.value)} className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl outline-none focus:ring-4 focus:ring-primary-500/10 font-bold text-gray-900 resize-none h-24" placeholder="Optional notes..."></textarea>
                                 </div>
                             </div>
-                            <button 
+                            <button type="button" 
                                 disabled={saving}
                                 className="w-full py-5 bg-primary-600 text-white rounded-3xl font-black uppercase tracking-widest text-sm hover:shadow-2xl hover:shadow-primary-500/40 transition-all disabled:opacity-50"
                             >

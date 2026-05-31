@@ -69,7 +69,7 @@ const ComplaintTable = ({ complaints, onView, onTrack, isLoading }) => {
                             <td className="px-6 py-4">
                                 <div className="flex items-center gap-2">
                                     {onTrack && (
-                                        <button
+                                        <button type="button"
                                             onClick={() => onTrack(complaint._id)}
                                             className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
                                             title="Track status"
@@ -77,7 +77,7 @@ const ComplaintTable = ({ complaints, onView, onTrack, isLoading }) => {
                                             <Activity size={18} />
                                         </button>
                                     )}
-                                    <button
+                                    <button type="button"
                                         onClick={() => onView(complaint._id)}
                                         className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                                         title="View details"

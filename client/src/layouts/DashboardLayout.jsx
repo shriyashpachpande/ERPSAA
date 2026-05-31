@@ -8,7 +8,7 @@ import Lenis from '@studio-freight/lenis';
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const mainRef = useRef(null);
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -53,7 +53,7 @@ const DashboardLayout = () => {
       lenis.destroy();
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <div className="flex h-screen bg-[#f6f6f6] overflow-hidden font-sans">

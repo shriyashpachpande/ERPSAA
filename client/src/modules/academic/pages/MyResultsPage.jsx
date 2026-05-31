@@ -320,7 +320,7 @@ const MyResultsPage = () => {
         </div>
         
         <div class="actions no-print" style="margin-top: 20px;">
-          <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+          <button type="button" class="btn-print" onclick="window.print()">Print / Save as PDF</button>
         </div>
         
         <script>
@@ -468,7 +468,7 @@ const MyResultsPage = () => {
               </div>
 
               {/* Footer */}
-              <button 
+              <button type="button" 
                 onClick={() => handleDownloadGradecard(result)}
                 className="w-full py-6 bg-gray-50 hover:bg-primary-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 border-t border-gray-100"
               >

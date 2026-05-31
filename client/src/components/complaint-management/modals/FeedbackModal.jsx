@@ -18,7 +18,7 @@ const FeedbackModal = ({ isOpen, onClose, onSubmit }) => {
             <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
                 <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
                     <h3 className="text-lg font-bold text-slate-800">Submit Feedback</h3>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
+                    <button type="button" onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors"><X size={20} /></button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-6">

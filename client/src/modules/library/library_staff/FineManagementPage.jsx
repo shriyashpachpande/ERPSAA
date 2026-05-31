@@ -74,7 +74,7 @@ const StaffFineManagementPage = () => {
                 
                 <div className="flex gap-2 p-1 bg-gray-100 rounded-2xl w-fit">
                     {['ALL', 'UNPAID', 'PAID'].map(tab => (
-                        <button 
+                        <button type="button" 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`px-6 py-2 rounded-xl text-xs font-black transition-all ${
@@ -159,7 +159,7 @@ const StaffFineManagementPage = () => {
                                     </td>
                                     <td className="px-8 py-5 text-right">
                                         {(f.status === 'UNPAID' || f.status === 'PARTIAL') && (
-                                            <button 
+                                            <button type="button" 
                                                 onClick={() => setSelectedFine(f)}
                                                 className="p-2.5 bg-white border border-gray-200 rounded-xl text-primary-600 hover:bg-primary-50 hover:border-primary-200 transition-all shadow-sm"
                                             >
@@ -179,7 +179,7 @@ const StaffFineManagementPage = () => {
                 <div className="fixed inset-0 bg-brand-dark/20 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                     <div className="bg-white max-w-xl w-full rounded-[2.5rem] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
                         <div className="p-8 bg-brand-dark text-white relative">
-                            <button onClick={() => setSelectedFine(null)} className="absolute top-8 right-8 text-white/40 hover:text-white">
+                            <button type="button" onClick={() => setSelectedFine(null)} className="absolute top-8 right-8 text-white/40 hover:text-white">
                                 <XCircle className="w-6 h-6" />
                             </button>
                             <div className="flex items-center gap-4 mb-6">
@@ -226,7 +226,7 @@ const StaffFineManagementPage = () => {
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <button 
+                                <button type="button" 
                                     onClick={handleCollect}
                                     className="p-5 bg-primary-600 text-white rounded-2xl font-black hover:bg-primary-700 transition-all shadow-xl shadow-primary-600/30 flex items-center justify-center gap-3 disabled:opacity-50"
                                     disabled={!paymentAmount || loading}
@@ -234,7 +234,7 @@ const StaffFineManagementPage = () => {
                                     <CheckCircle className="w-5 h-5" />
                                     Collect Payment
                                 </button>
-                                <button 
+                                <button type="button" 
                                     onClick={handleWaive}
                                     className="p-5 bg-indigo-600 text-white rounded-2xl font-black hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-3 disabled:opacity-50"
                                     disabled={!actionReason || loading}

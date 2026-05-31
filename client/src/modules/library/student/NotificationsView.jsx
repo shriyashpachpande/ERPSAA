@@ -89,7 +89,7 @@ const LibraryNotificationsView = () => {
                                 </p>
                                 
                                 {notif.status === 'PENDING' && (
-                                    <button 
+                                    <button type="button" 
                                         onClick={() => handleMarkAsRead(notif._id)}
                                         className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-600 hover:text-primary-700 transition-colors flex items-center gap-2"
                                     >

@@ -34,10 +34,10 @@ const AdminLibraryAnalyticsPage = () => {
                     <p className="text-gray-500 font-medium capitalize">Real-time circulation and inventory intelligence</p>
                 </div>
                 <div className="flex gap-4">
-                    <button onClick={fetchStats} className="p-4 bg-white border border-gray-100 rounded-2xl text-gray-400 hover:text-primary-600 transition-all shadow-sm">
+                    <button type="button" onClick={fetchStats} className="p-4 bg-white border border-gray-100 rounded-2xl text-gray-400 hover:text-primary-600 transition-all shadow-sm">
                         <RefreshCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
                     </button>
-                    <button className="px-8 py-4 bg-brand-dark text-white rounded-2xl font-black flex items-center gap-3 hover:bg-black transition-all shadow-xl shadow-gray-200">
+                    <button type="button" className="px-8 py-4 bg-brand-dark text-white rounded-2xl font-black flex items-center gap-3 hover:bg-black transition-all shadow-xl shadow-gray-200">
                         <Download className="w-5 h-5" />
                         Export Report
                     </button>
@@ -60,7 +60,7 @@ const AdminLibraryAnalyticsPage = () => {
                             <BarChart3 className="w-6 h-6 text-indigo-500" />
                             Most Popular Books
                         </h3>
-                        <button className="text-xs font-black uppercase text-primary-600 tracking-widest">View All</button>
+                        <button type="button" className="text-xs font-black uppercase text-primary-600 tracking-widest">View All</button>
                     </div>
                     
                     <div className="grid grid-cols-1 gap-4">

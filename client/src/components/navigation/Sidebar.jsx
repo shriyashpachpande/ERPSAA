@@ -545,7 +545,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         <div className="relative z-10 flex flex-col h-full overflow-hidden">
           <div className="h-16 flex items-center justify-between px-6 border-b border-white/10 shrink-0">
             <h1 className="text-xl font-bold tracking-wider text-white uppercase">ERPSAA<span className="text-primary-400"></span></h1>
-            <button onClick={() => setIsOpen(false)} className="md:hidden text-gray-400 hover:text-white p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-white/20">
+            <button type="button" onClick={() => setIsOpen(false)} className="md:hidden text-gray-400 hover:text-white p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-white/20">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -584,7 +584,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                       }}
                     >
                       {/* Top Level Item */}
-                      <button
+                      <button type="button"
                         onClick={() => {
                           if (!renderInline) {
                             setExpandedItem(isExpanded ? null : item.name);
@@ -718,7 +718,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 </p>
               </div>
             </div>
-            <button
+            <button type="button"
               onClick={handleLogout}
               className="w-full flex items-center justify-center p-2 rounded-xl text-red-400 hover:bg-white/5 hover:text-red-300 transition-colors text-sm font-semibold"
             >

@@ -25,6 +25,22 @@ const DOC_LIST = [
     { key: 'disabilityCertificate', label: 'Disability Certificate' },
 ];
 
+const SectionHeader = ({ title, icon: Icon }) => (
+    <div className="flex items-center mb-6 pb-2 border-b border-gray-100">
+        <div className="w-8 h-8 bg-primary-50 rounded-lg flex items-center justify-center mr-3 text-primary-600">
+            <Icon className="w-4 h-4" />
+        </div>
+        <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+    </div>
+);
+
+const DataRow = ({ label, value }) => (
+    <div>
+        <p className="text-sm font-semibold text-gray-500 mb-1">{label}</p>
+        <p className="font-medium text-gray-900 bg-gray-50 px-4 py-2.5 rounded-lg border border-gray-100">{value || 'N/A'}</p>
+    </div>
+);
+
 const ApplicationDetailPage = () => {
     const { id } = useParams();
     const [application, setApplication] = useState(null);
@@ -54,21 +70,6 @@ const ApplicationDetailPage = () => {
 
     const { personalDetails, addressDetails, academicDetails, courseSelection, guardianDetails, applicationStatus, uploadedDocuments = {} } = application;
 
-    const SectionHeader = ({ title, icon: Icon }) => (
-        <div className="flex items-center mb-6 pb-2 border-b border-gray-100">
-            <div className="w-8 h-8 bg-primary-50 rounded-lg flex items-center justify-center mr-3 text-primary-600">
-                <Icon className="w-4 h-4" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-        </div>
-    );
-
-    const DataRow = ({ label, value }) => (
-        <div>
-            <p className="text-sm font-semibold text-gray-500 mb-1">{label}</p>
-            <p className="font-medium text-gray-900 bg-gray-50 px-4 py-2.5 rounded-lg border border-gray-100">{value || 'N/A'}</p>
-        </div>
-    );
 
     return (
         <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-6">

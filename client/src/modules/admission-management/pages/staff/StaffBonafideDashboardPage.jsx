@@ -96,7 +96,7 @@ const StaffBonafideDashboardPage = () => {
           <h1 className="text-2xl font-black text-gray-900 tracking-tight uppercase">Bonafide Approvals</h1>
           <p className="text-xs text-gray-400 font-semibold tracking-wider uppercase mt-1">Review queue and issue official bonafide certificates</p>
         </div>
-        <button
+        <button type="button"
           onClick={fetchData}
           className="flex items-center gap-2 px-5 py-2.5 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600 rounded-xl text-xs font-bold transition-all shrink-0 self-start md:self-auto"
         >
@@ -106,7 +106,7 @@ const StaffBonafideDashboardPage = () => {
 
       {/* Tabs Layout */}
       <div className="flex border-b border-gray-100 space-x-8">
-        <button
+        <button type="button"
           onClick={() => setActiveTab('pending')}
           className={`pb-4 text-xs font-black uppercase tracking-wider relative transition-colors ${
             activeTab === 'pending' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-600'
@@ -115,7 +115,7 @@ const StaffBonafideDashboardPage = () => {
           Pending Queue ({pendingRequests.length})
           {activeTab === 'pending' && <span className="absolute bottom-0 inset-x-0 h-0.5 bg-primary-600 rounded-full" />}
         </button>
-        <button
+        <button type="button"
           onClick={() => setActiveTab('processed')}
           className={`pb-4 text-xs font-black uppercase tracking-wider relative transition-colors ${
             activeTab === 'processed' ? 'text-primary-600' : 'text-gray-400 hover:text-gray-600'
@@ -175,14 +175,14 @@ const StaffBonafideDashboardPage = () => {
                           )}
                         </td>
                         <td className="p-6 text-right space-x-2">
-                          <button
+                          <button type="button"
                             onClick={() => handleApprove(req._id)}
                             disabled={submittingAction}
                             className="inline-flex items-center gap-1 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 rounded-xl transition-all font-bold text-[10px] uppercase tracking-wider"
                           >
                             <Check className="w-3.5 h-3.5" /> Approve
                           </button>
-                          <button
+                          <button type="button"
                             onClick={() => setRejectionId(req._id)}
                             className="inline-flex items-center gap-1 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-all font-bold text-[10px] uppercase tracking-wider"
                           >
@@ -285,7 +285,7 @@ const StaffBonafideDashboardPage = () => {
                 <h4 className="text-base font-black text-gray-900 uppercase tracking-wider">Reject Request</h4>
                 <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mt-0.5">Please provide formal reason for rejection</p>
               </div>
-              <button 
+              <button type="button" 
                 onClick={() => setRejectionId(null)}
                 className="p-2 text-gray-400 hover:text-gray-900 rounded-full hover:bg-gray-100"
               >
