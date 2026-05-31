@@ -2,6 +2,8 @@ const Stripe = require('stripe');
 const StudentFeeAccount = require('../../models/fees-management/StudentFeeAccount');
 const FeePaymentEntry = require('../../models/fees-management/FeePaymentEntry');
 const DigitalReceipt = require('../../models/fees-management/DigitalReceipt');
+const StudentMaster = require('../../models/student-master/StudentMaster');
+const emailService = require('../../services/emailService');
 
 // Initialize stripe controller
 const getStripe = () => {
@@ -159,6 +161,41 @@ exports.verifyCheckoutSession = async (req, res) => {
             receiptNumber,
             generatedAt: new Date()
         });
+
+        // Fetch student details to personalize the receipt email
+        const student = await StudentMaster.findById(account.studentId);
+        const studentName = student?.personalDetails?.fullName || 'Student';
+        const studentRegId = student?.studentId || 'N/A';
+        
+        // Use exact email entered in Stripe form, falling back to institutional student profile email
+        const customerEmail = session.customer_details?.email || student?.contactDetails?.email;
+
+        // Dynamically resolve payment description for receipt template
+        let paymentDescription = 'Tuition Fee Clearance Installment';
+        const hostelCharge = account.hostelCharges && (account.hostelCharges.id(installmentId) || account.hostelCharges.find(hc => hc._id.toString() === installmentId));
+        if (hostelCharge) {
+            paymentDescription = hostelCharge.description || 'Hostel & Other Charges';
+        } else {
+            const installmentIndex = account.installments.findIndex(i => i._id.toString() === installmentId);
+            if (installmentIndex !== -1) {
+                paymentDescription = `Tuition Fee Installment #${installmentIndex + 1}`;
+            }
+        }
+
+        // Send beautiful HTML receipt asynchronously so it does not block API response
+        if (customerEmail) {
+            emailService.sendPaymentSuccessEmail(customerEmail, {
+                studentName,
+                studentId: studentRegId,
+                amount: Number(amount),
+                transactionId: stripeTxId,
+                receiptNumber,
+                paymentDate: new Date(),
+                paymentDescription
+            }).catch(emailErr => {
+                console.error('[StripeController] Background receipt dispatch failed:', emailErr.message);
+            });
+        }
 
         res.status(200).json({ success: true, account });
     } catch (err) {
