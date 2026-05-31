@@ -47,7 +47,7 @@ exports.getFacultyStats = async (facultyProfileId) => {
 };
 
 exports.getStudentStats = async (studentId) => {
-  const currentEnrollment = await StudentSemesterEnrollment.findOne({ studentId, enrollmentStatus: 'active' })
+  const currentEnrollment = await StudentSemesterEnrollment.findOne({ studentMasterId: studentId, enrollmentStatus: 'Active' })
     .populate('academicYearId', 'name')
     .populate('semesterId', 'semesterName')
     .populate('sectionId', 'name');
@@ -55,7 +55,7 @@ exports.getStudentStats = async (studentId) => {
   const latestResult = await SemesterResultRecord.findOne({ studentId, resultStatus: 'Published' })
     .sort({ createdAt: -1 });
 
-  const recentMarks = await InternalMarksRecord.find({ studentId, marksStatus: { $in: ['Submitted', 'Locked'] } })
+  const recentMarks = await InternalMarksRecord.find({ studentMasterId: studentId, marksStatus: { $in: ['Submitted', 'Locked'] } })
     .populate('subjectId', 'subjectName')
     .limit(5);
 

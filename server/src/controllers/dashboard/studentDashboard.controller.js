@@ -55,7 +55,7 @@ exports.getStudentDashboardData = async (req, res) => {
         const todayDay = days[new Date().getDay()];
         
         const currentEnrollment = await StudentSemesterEnrollment.findOne({ 
-            studentId, 
+            studentMasterId: studentId, 
             enrollmentStatus: 'Active' 
         });
 
