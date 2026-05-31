@@ -2,7 +2,9 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const helmet = require('helmet');
 const connectDB = require('./src/config/db');
+const { apiLimiter } = require('./src/middlewares/rateLimiter');
 
 // Load env vars
 dotenv.config();
@@ -11,6 +13,9 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+// Set security headers using Helmet
+app.use(helmet());
 
 // Initialize WhatsApp Service
 require('./src/services/whatsappService');
@@ -60,6 +65,9 @@ const resultProcessingRoutes = require('./src/routes/academic/resultProcessingRo
 const attendanceRoutes = require('./src/modules/academic/attendance/routes/attendanceRoutes');
 const dashboardRoutes = require('./src/routes/dashboard/dashboardRoutes');
 const bonafideRoutes = require('./src/routes/academic/bonafideRoutes');
+
+// Apply rate limiter to all /api routes
+app.use('/api', apiLimiter);
 
 // Mount routers
 app.use('/api/auth', authRoutes);
