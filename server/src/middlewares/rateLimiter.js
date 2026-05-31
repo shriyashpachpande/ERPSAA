@@ -17,12 +17,30 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
       sendCommand: async (command, ...commandArgs) => {
         const cmd = command.toLowerCase();
 
-        if (cmd === 'eval') {
-          const script = commandArgs[0];
+        if (cmd === 'eval' || cmd === 'evalsha') {
+          const scriptOrSha = commandArgs[0];
           const numKeys = parseInt(commandArgs[1], 10);
           const keys = commandArgs.slice(2, 2 + numKeys);
           const args = commandArgs.slice(2 + numKeys);
-          return await redis.eval(script, keys, args);
+          
+          if (cmd === 'eval') {
+            return await redis.eval(scriptOrSha, keys, args);
+          } else {
+            return await redis.evalsha(scriptOrSha, keys, args);
+          }
+        }
+
+        if (cmd === 'script') {
+          const subCommand = commandArgs[0].toLowerCase();
+          if (subCommand === 'exists') {
+            return await redis.scriptExists(...commandArgs.slice(1));
+          }
+          if (subCommand === 'load') {
+            return await redis.scriptLoad(commandArgs[1]);
+          }
+          if (subCommand === 'flush') {
+            return await redis.scriptFlush();
+          }
         }
 
         if (typeof redis[cmd] === 'function') {
