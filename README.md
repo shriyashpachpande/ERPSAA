@@ -14,6 +14,7 @@ Keywords: College ERP System, Student Academic Administration, MERN Stack Colleg
 [![Node Version](https://img.shields.io/badge/Node-22.x-10b981?logo=node.js&logoColor=white&style=for-the-badge&labelColor=1a1a1a)](https://nodejs.org/)
 [![MongoDB Version](https://img.shields.io/badge/MongoDB-Latest-059669?logo=mongodb&logoColor=white&style=for-the-badge&labelColor=1a1a1a)](https://www.mongodb.com/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-06b6d4?logo=tailwind-css&logoColor=white&style=for-the-badge&labelColor=1a1a1a)](https://tailwindcss.com/)
+[![Security Shield](https://img.shields.io/badge/Security-Enterprise_Grade-00c853?logo=snyk&logoColor=white&style=for-the-badge&labelColor=1a1a1a)](https://github.com/shriyashpachpande/ERPSAA#-enterprise-security--privacy-hardening)
 
 <p align="center">
   🌐 **[Live Production Server • Launch Web Experience 🚀](https://erpsaa-frontend.vercel.app/)**
@@ -167,6 +168,11 @@ graph TD
     
     LoginLimit -->|Has credentials?| Upstash[Upstash Redis Store]
     LoginLimit -->|Missing credentials?| LocalRam[In-Memory RAM Fallback]
+    
+    Router -->|All Requests Body/Query/Params| Sanitizer[inputSanitizer: Custom Unified Sanitizer]
+    Sanitizer -->|1. NoSQL Guard| StripOperators[Strip Keys starting with $ or containing .]
+    Sanitizer -->|2. XSS Guard| StripHtml[Recursively strip script/HTML tags from Strings]
+    Sanitizer -->|3. Perf Guard| SkipComplex[Instantly skip Date/ObjectId/Buffers to prevent CPU lag]
 ```
 
 ### 1. HTTP Security Headers (Helmet.js)
@@ -177,7 +183,14 @@ The Express backend utilizes `helmet` to set secure HTTP headers, forcing modern
 *   **Strict-Transport-Security (HSTS)**: Forces all connections over highly secure SSL/TLS channels.
 *   **Masking Technology Stack**: Explicitly removes the `X-Powered-By: Express` response header, preventing attackers from identifying the specific underlying framework/runtime (technology fingerprinting).
 
-### 2. Hybrid Dual-Store Rate Limiting
+### 2. Custom Unified Input Sanitizer (NoSQL & XSS Protection)
+ERPSAA implements a custom-built, lightweight, dependency-free input sanitization middleware (`inputSanitizer`) mounted globally to intercept and clean all incoming `req.body`, `req.query`, and `req.params` requests:
+*   **NoSQL Injection Defense**: Recursively strips out any object properties starting with a `$` character or containing a `.` to completely block MongoDB query operator injections (e.g., bypassing logins using `{"$gt": ""}`).
+*   **Cross-Site Scripting (XSS) Shield**: Recursively strips out dangerous script and HTML tags (e.g. `<script>alert('hacked')</script>`) from all string inputs, making sure raw injected scripts are neutralized before they ever hit the database.
+*   **Express 5 Compliance**: Legacy packages (like `xss-clean` and `express-mongo-sanitize`) fail and crash under Express 5 because they attempt to replace the entire `req.query` object, which is now a read-only getter. Our custom middleware mutates the keys *inside* the objects, maintaining 100% compatibility with Express 5.
+*   **Plain-Object Performance Optimization**: Evaluates properties recursively, but includes an intelligent `isPlainObjectOrArray()` guard. This ensures the recursive traverser instantly skips complex native system structures (like MongoDB ObjectIds, Date objects, or Buffers), preventing infinite loops, keeping the server response time within microseconds, and ensuring **zero browser lag**.
+
+### 3. Hybrid Dual-Store Rate Limiting
 To achieve high-performance request handling while maintaining bulletproof persistence, ERPSAA uses a hybrid rate-limiting topology:
 *   **General API Guard (`apiLimiter`)**: Applied globally to all `/api/*` routes (300 requests per 15 minutes) using an in-memory RAM store. This protects the server from generic DDoS, script scrapers, and spamming, while avoiding database query overhead.
 *   **Strict Brute-Force Shield (`loginLimiter`)**: Applied specifically to `/api/auth/login` (enforces a strict **3-failed-attempts / 10-minute lockout**).
@@ -185,7 +198,7 @@ To achieve high-performance request handling while maintaining bulletproof persi
     *   **Smart Fallback System**: Built with an automatic fallback mechanism. If the Upstash Redis environment variables are missing during local development, the limiter gracefully defaults to local RAM, ensuring the application remains 100% functional out-of-the-box.
     *   **Brute-Force Isolation**: Configured with `skipSuccessfulRequests: true`. Users who enter correct passwords are *never* locked out or penalized. Only failed requests (invalid credentials) increment the lockout counter, isolating malicious login guessing patterns.
 
-### 3. Shared Network & IP Privacy Architecture Note
+### 4. Shared Network & IP Privacy Architecture Note
 *   **IP-Based Security**: The rate limiter tracks traffic using the client's public **IP Address**—the industry-standard approach for blocking automated botnets and distributed credential stuffing.
 *   **The Wi-Fi NAT Concept**: Due to Network Address Translation (NAT), all devices connected to the same local network (such as a home Wi-Fi or college hostel router) share the **same public IP address**. Consequently, if one device on the Wi-Fi gets locked out due to 3 consecutive wrong passwords, all other devices on that same Wi-Fi will also experience the lockout.
 *   **Testing Protocol**: To test the lockout independently, simply disconnect the testing device from the shared Wi-Fi and switch to **Mobile Data (4G/5G)** to acquire a separate public IP address, allowing instant login and validation!
