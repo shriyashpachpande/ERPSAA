@@ -14,6 +14,12 @@ const sanitizeHtml = (val) => {
   return val.replace(/<[^>]*>/g, '');
 };
 
+const isPlainObjectOrArray = (val) => {
+  if (!val || typeof val !== 'object') return false;
+  const proto = Object.getPrototypeOf(val);
+  return proto === null || proto === Object.prototype || Array.isArray(val);
+};
+
 const sanitizeInput = (obj) => {
   if (!obj || typeof obj !== 'object') return;
 
@@ -25,8 +31,8 @@ const sanitizeInput = (obj) => {
         continue;
       }
 
-      // 2. Recursive cleaning for nested objects/arrays
-      if (typeof obj[key] === 'object' && obj[key] !== null) {
+      // 2. Recursive cleaning for nested plain objects/arrays only
+      if (isPlainObjectOrArray(obj[key])) {
         sanitizeInput(obj[key]);
       } 
       // 3. XSS Prevention: Clean HTML tags from string values
