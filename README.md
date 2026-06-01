@@ -152,6 +152,46 @@ InternalMarksRecordSchema.index(
 
 ---
 
+## 🛡️ Enterprise Security & Privacy Hardening
+
+ERPSAA implements a strict, multi-tier security and privacy hardening layer designed to protect institutional data, prevent technology fingerprinting, and defend against brute-force attacks in stateful and serverless (Vercel) environments.
+
+```mermaid
+graph TD
+    Client[Client Request] --> Helmet[Helmet.js Security Headers]
+    Helmet --> HideTech[Mask Technology Stack: Remove X-Powered-By]
+    HideTech --> Router{Route Endpoint?}
+    
+    Router -->|/api/*| ApiLimit[apiLimiter: General In-Memory Limiter]
+    Router -->|/api/auth/login| LoginLimit[loginLimiter: Redis-Backed Store]
+    
+    LoginLimit -->|Has credentials?| Upstash[Upstash Redis Store]
+    LoginLimit -->|Missing credentials?| LocalRam[In-Memory RAM Fallback]
+```
+
+### 1. HTTP Security Headers (Helmet.js)
+The Express backend utilizes `helmet` to set secure HTTP headers, forcing modern browsers to act defensively against complex attack vectors:
+*   **Content-Security-Policy (CSP)**: Defines trusted scripts, styles, and assets origins, mitigating Cross-Site Scripting (XSS) and data injection.
+*   **X-Frame-Options**: Enforced as `SAMEORIGIN` to completely neutralize Clickjacking attacks.
+*   **X-Content-Type-Options**: Set to `nosniff` to prevent browsers from MIME-sniffing the response away from the declared content-type.
+*   **Strict-Transport-Security (HSTS)**: Forces all connections over highly secure SSL/TLS channels.
+*   **Masking Technology Stack**: Explicitly removes the `X-Powered-By: Express` response header, preventing attackers from identifying the specific underlying framework/runtime (technology fingerprinting).
+
+### 2. Hybrid Dual-Store Rate Limiting
+To achieve high-performance request handling while maintaining bulletproof persistence, ERPSAA uses a hybrid rate-limiting topology:
+*   **General API Guard (`apiLimiter`)**: Applied globally to all `/api/*` routes (300 requests per 15 minutes) using an in-memory RAM store. This protects the server from generic DDoS, script scrapers, and spamming, while avoiding database query overhead.
+*   **Strict Brute-Force Shield (`loginLimiter`)**: Applied specifically to `/api/auth/login` (enforces a strict **3-failed-attempts / 10-minute lockout**).
+    *   **Upstash Redis Persistence**: Backed by a high-availability **Upstash Redis** cloud instance using connectionless REST queries. Since serverless deployments (Vercel) shut down and recycle functions frequently, standard in-memory rate limit stores would reset. Upstash Redis ensures that brute-force limits persist strictly across *all* serverless restarts!
+    *   **Smart Fallback System**: Built with an automatic fallback mechanism. If the Upstash Redis environment variables are missing during local development, the limiter gracefully defaults to local RAM, ensuring the application remains 100% functional out-of-the-box.
+    *   **Brute-Force Isolation**: Configured with `skipSuccessfulRequests: true`. Users who enter correct passwords are *never* locked out or penalized. Only failed requests (invalid credentials) increment the lockout counter, isolating malicious login guessing patterns.
+
+### 3. Shared Network & IP Privacy Architecture Note
+*   **IP-Based Security**: The rate limiter tracks traffic using the client's public **IP Address**—the industry-standard approach for blocking automated botnets and distributed credential stuffing.
+*   **The Wi-Fi NAT Concept**: Due to Network Address Translation (NAT), all devices connected to the same local network (such as a home Wi-Fi or college hostel router) share the **same public IP address**. Consequently, if one device on the Wi-Fi gets locked out due to 3 consecutive wrong passwords, all other devices on that same Wi-Fi will also experience the lockout.
+*   **Testing Protocol**: To test the lockout independently, simply disconnect the testing device from the shared Wi-Fi and switch to **Mobile Data (4G/5G)** to acquire a separate public IP address, allowing instant login and validation!
+
+---
+
 ## 🚀 Installation & Local Setup
 
 ### 📋 Prerequisites
