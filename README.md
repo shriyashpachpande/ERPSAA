@@ -153,6 +153,20 @@ InternalMarksRecordSchema.index(
 
 ---
 
+## 📋 Interactive 0-100 ERP Workflow & Security Showcase
+
+ERPSAA features an ultra-premium, interactive **0-100 System Architecture & Cyber-Security Showcase Dashboard** mapped directly to the public path `/security-workflow`. Engineered specifically for stakeholders and academic reviews, this dashboard offers a hands-on presentation panel:
+
+*   **📋 End-to-End ERP Modules Tour (0-100)**: Visually inspect the step-by-step operational lifecycle of all core modules (Student Admission Lifecycle ➡️ Academics ➡️ Stripe Fee Gateway ➡️ Hostel Occupancy ➡️ Grievances Desk). Includes interactive sandbox buttons to run active API-to-database write simulations.
+*   **🛡️ 6-Layer Cyber Defense Inspector**: Browse code blocks and detailed technical specs of each active defense perimeter (Helmet headers, CORS origins, Dual-Tier Rate Limiting, Upstash Redis, Recursive Sanitizers, and JWT/Bcrypt auth).
+*   **💻 Dynamic Cyber Attack Simulator**: Permits professors to launch simulated payload attacks directly from the UI:
+    *   *XSS Tag Exploit*: Inject `<script>alert('hacked')</script>` to see the recursive regex string sanitization in action.
+    *   *NoSQL Injection*: Inject query operators like `{"email": {"$gt": ""}}` to verify recursive key stripping.
+    *   *Brute Force Lockout*: Click repeatedly to trigger real-time 429 lockouts, and simulate serverless container reboots to prove cloud Redis persistent storage!
+*   **🌐 NAT Shared Network Visualizer**: Interactive local NAT network model illustrating how public IP address blocks behave under shared Wi-Fi connections.
+
+---
+
 ## 🛡️ Enterprise Security & Privacy Hardening
 
 ERPSAA implements a strict, multi-tier security and privacy hardening layer designed to protect institutional data, prevent technology fingerprinting, and defend against brute-force attacks in stateful and serverless (Vercel) environments.
