@@ -7,7 +7,7 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
-const xssClean = require('xss-clean');
+const xssSanitizer = require('./src/middlewares/xssSanitizer');
 const connectDB = require('./src/config/db');
 const { apiLimiter } = require('./src/middlewares/rateLimiter');
 
@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
 
 // Data sanitization against XSS (Cross-Site Scripting)
-app.use(xssClean());
+app.use(xssSanitizer);
 
 // Enable CORS
 app.use(cors());
