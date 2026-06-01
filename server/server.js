@@ -6,8 +6,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize');
-const xssSanitizer = require('./src/middlewares/xssSanitizer');
+const inputSanitizer = require('./src/middlewares/inputSanitizer');
 const connectDB = require('./src/config/db');
 const { apiLimiter } = require('./src/middlewares/rateLimiter');
 
@@ -26,11 +25,8 @@ require('./src/services/whatsappService');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Data sanitization against NoSQL query injection
-app.use(mongoSanitize());
-
-// Data sanitization against XSS (Cross-Site Scripting)
-app.use(xssSanitizer);
+// Data sanitization against NoSQL query injection & XSS
+app.use(inputSanitizer);
 
 // Enable CORS
 app.use(cors());
