@@ -3,6 +3,13 @@ const qrcode = require('qrcode-terminal');
 
 class WhatsAppService {
   constructor() {
+    this.isReady = false;
+
+    if (process.env.VERCEL) {
+      console.log('ℹ️  WhatsApp Service is disabled in Vercel serverless environment.');
+      return;
+    }
+
     this.client = new Client({
       authStrategy: new LocalAuth({
         dataPath: './.wwebjs_auth'
@@ -21,8 +28,6 @@ class WhatsAppService {
         ]
       }
     });
-
-    this.isReady = false;
 
     this.client.on('qr', (qr) => {
       console.log('\n[WhatsApp] QR Code generated. Please scan:');

@@ -4,6 +4,7 @@ const { RedisStore } = require('rate-limit-redis');
 
 // Initialize Redis client and store if environment variables are set
 let redisStore = null;
+let redisDisabled = false;
 
 if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
   try {
@@ -15,39 +16,49 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
     // Adapt @upstash/redis's connectionless methods for rate-limit-redis
     redisStore = new RedisStore({
       sendCommand: async (command, ...commandArgs) => {
-        const cmd = command.toLowerCase();
-
-        if (cmd === 'eval' || cmd === 'evalsha') {
-          const scriptOrSha = commandArgs[0];
-          const numKeys = parseInt(commandArgs[1], 10);
-          const keys = commandArgs.slice(2, 2 + numKeys);
-          const args = commandArgs.slice(2 + numKeys);
-          
-          if (cmd === 'eval') {
-            return await redis.eval(scriptOrSha, keys, args);
-          } else {
-            return await redis.evalsha(scriptOrSha, keys, args);
-          }
+        if (redisDisabled) {
+          throw new Error('Redis store is temporarily disabled due to connection error.');
         }
 
-        if (cmd === 'script') {
-          const subCommand = commandArgs[0].toLowerCase();
-          if (subCommand === 'exists') {
-            return await redis.scriptExists(...commandArgs.slice(1));
-          }
-          if (subCommand === 'load') {
-            return await redis.scriptLoad(commandArgs[1]);
-          }
-          if (subCommand === 'flush') {
-            return await redis.scriptFlush();
-          }
-        }
+        try {
+          const cmd = command.toLowerCase();
 
-        if (typeof redis[cmd] === 'function') {
-          return await redis[cmd](...commandArgs);
-        }
+          if (cmd === 'eval' || cmd === 'evalsha') {
+            const scriptOrSha = commandArgs[0];
+            const numKeys = parseInt(commandArgs[1], 10);
+            const keys = commandArgs.slice(2, 2 + numKeys);
+            const args = commandArgs.slice(2 + numKeys);
+            
+            if (cmd === 'eval') {
+              return await redis.eval(scriptOrSha, keys, args);
+            } else {
+              return await redis.evalsha(scriptOrSha, keys, args);
+            }
+          }
 
-        throw new Error(`Unsupported Redis command: ${command}`);
+          if (cmd === 'script') {
+            const subCommand = commandArgs[0].toLowerCase();
+            if (subCommand === 'exists') {
+              return await redis.scriptExists(...commandArgs.slice(1));
+            }
+            if (subCommand === 'load') {
+              return await redis.scriptLoad(commandArgs[1]);
+            }
+            if (subCommand === 'flush') {
+              return await redis.scriptFlush();
+            }
+          }
+
+          if (typeof redis[cmd] === 'function') {
+            return await redis[cmd](...commandArgs);
+          }
+
+          throw new Error(`Unsupported Redis command: ${command}`);
+        } catch (error) {
+          console.warn(`⚠️ [RateLimiter] Upstash Redis request failed: ${error.message}. Disabling Redis store for this process.`);
+          redisDisabled = true;
+          throw error;
+        }
       },
       prefix: 'erpsaa-rl-login:', // Custom prefix for ERP login rate limits
     });
@@ -69,6 +80,8 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 300,
+  passOnStoreError: true, // Do not block requests if rate limiting encounters an error
+  validate: { xForwardedForHeader: false, forwardedHeader: false },
   message: {
     success: false,
     error: 'Too many requests, please try again later.'
@@ -79,13 +92,16 @@ const apiLimiter = rateLimit({
 
 /**
  * Strict Login Rate Limiter
- * Restricts client IP to 3 failed attempts per 10 minutes.
+ * Restricts client IP to 5 failed attempts per 10 minutes.
  * Uses Upstash Redis (if configured) so locks persist across Serverless restarts on Vercel.
  * Uses skipSuccessfulRequests: true to ensure successful logins (status code < 400) do not count.
+ * Uses passOnStoreError: true to ensure Redis failures do NOT crash logins with 500.
  */
 const loginLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 3,
+  max: 5,
+  passOnStoreError: true, // Crucial: Never crash login requests if Redis store fails
+  validate: { xForwardedForHeader: false, forwardedHeader: false },
   message: {
     success: false,
     error: 'Too many login attempts. Please try again after 10 minutes.'

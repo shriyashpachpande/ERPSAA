@@ -24,7 +24,18 @@ const LoginPage = () => {
                 navigate(['academic_admin', 'hod', 'faculty'].includes(res.data.user.role) ? '/app/academic/dashboard' : '/app');
             }
         } catch (err) {
-            setError(err.response?.data?.error || 'Authentication Failed.');
+            const errData = err.response?.data;
+            let errorMsg = 'Authentication Failed. Please try again.';
+            if (typeof errData?.error === 'string') {
+                errorMsg = errData.error;
+            } else if (errData?.error && typeof errData.error === 'object') {
+                errorMsg = errData.error.message || errData.error.code || JSON.stringify(errData.error);
+            } else if (typeof errData?.message === 'string') {
+                errorMsg = errData.message;
+            } else if (typeof err.message === 'string') {
+                errorMsg = err.message;
+            }
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -196,7 +207,7 @@ const LoginPage = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 style={{ color: '#EF4444', fontSize: '12px', fontWeight: '600', margin: '0' }}
                             >
-                                {error}
+                                {typeof error === 'object' ? (error.message || JSON.stringify(error)) : String(error)}
                             </motion.p>
                         )}
 

@@ -183,7 +183,7 @@ const TopNavbar = () => {
       {/* Mobile Menu */}
       <div className={`fixed inset-0 bg-white/95 backdrop-blur-xl z-40 transition-transform duration-500 ${mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'} md:hidden flex flex-col pt-24 pb-8 px-6 overflow-y-auto`}>
         <div className="flex flex-col space-y-4 text-xl font-semibold tracking-tight mt-8">
-          
+
           {/* Features Link */}
           <Link
             to="/#features"
@@ -203,7 +203,7 @@ const TopNavbar = () => {
               <span>About</span>
               <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${mobileAboutOpen ? 'rotate-180' : ''}`} />
             </button>
-            
+
             {/* About Sub-links Accordion Content */}
             <div className={`transition-all duration-300 overflow-hidden ${mobileAboutOpen ? 'max-h-[1000px] mt-3 opacity-100' : 'max-h-0 opacity-0'}`}>
               <div className="pl-4 space-y-2 border-l border-gray-100">

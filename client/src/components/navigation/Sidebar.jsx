@@ -558,8 +558,8 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               {filteredMenuItems.map((item) => {
                 const hasChildren = item.children && item.children.length > 0;
                 const hasActiveChild = hasChildren && item.children.some(child => location.pathname === child.path);
-                const isActive = (item.path && item.path.includes('?') 
-                  ? (location.pathname + location.search) === item.path 
+                const isActive = (item.path && item.path.includes('?')
+                  ? (location.pathname + location.search) === item.path
                   : location.pathname === item.path && !location.search) || hasActiveChild;
                 const isExpanded = expandedItem === item.name;
                 const Icon = item.icon;
